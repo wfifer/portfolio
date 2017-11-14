@@ -1,0 +1,21 @@
+/.env
+/.idea
+/vendor
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# Users Environment Variables
+.lock-wscript
+
+# OS generated files #
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Node Files #
+node_modules
+npm-debug.log

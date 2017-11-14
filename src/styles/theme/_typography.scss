@@ -1,0 +1,114 @@
+$rem-size: 4px;
+$font-size-small: 10px;
+
+@mixin font-size() {
+	@include font-size-other($font-size)
+}
+
+@mixin font-size-small() {
+	@include font-size-other($font-size-small)
+}
+
+@mixin font-size-other($fs) {
+	font-size: $fs;
+
+	// @for $i from 1 through 4 {
+	// 	@media all and (min-width: #{1200 + $i * 180)}px) {
+	// 		font-size: ($fs + $i * 1.5);
+	// 	}
+	// }
+}
+
+html {
+	font-size: $rem-size;
+
+	@media screen and (max-width: $bp-desktop) {
+		font-size: ($rem-size - 1);
+	}
+
+	// @for $i from 1 through 4 {
+	// 	@media all and (min-width: #{1200 + $i * 180)}px) {
+	// 		font-size: ($font-size / 3 + $i / 2);
+	// 	}
+	// }
+}
+
+body {
+	@include font-display-light();
+	font-size: 5rem;
+}
+
+// * {
+// 	line-height: 1.2em;
+
+// 	&::before, &::after {
+// 		line-height: 1em;
+// 	}
+// }
+
+p, h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4 {
+	@include font-display-bold;
+}
+
+h1 {
+	font-size: 3em;
+
+	& + * {
+		margin-top: 8rem;
+	}
+}
+
+h2 {
+	font-size: 2.5em;
+
+	& + * {
+		margin-top: 16rem;
+	}
+}
+
+h3 {
+	font-size: 8rem;
+
+	& + * {
+		margin-top: 4rem;
+	}
+}
+
+h4 {
+	font-size: 1.25em;
+
+	& + * {
+		margin-top: 4rem;
+	}
+}
+
+.body-large {
+	@include font-display-regular;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+
+p, .body {
+	@include font-display-light;
+	font-size: 1em;
+	line-height: 1.75em;
+}
+
+a {
+	text-decoration: inherit;
+	font-weight: inherit;
+}
+
+.link {
+	@include font-display-bold;
+	text-decoration: underline;
+}
+
+.-strike {
+	text-decoration: line-through; 
+}

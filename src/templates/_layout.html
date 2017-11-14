@@ -1,0 +1,17 @@
+{% include "snippets/head.html" %}
+
+<div class="site-container">
+	{% include "snippets/site-nav.html" %}
+
+	<main class="page-container">
+
+		{% include "snippets/page-header.html" %}
+
+		{% block content %}{% endblock %}
+
+	</main>
+
+	{% include "snippets/site-footer.html" %}
+
+	{% include "snippets/tail.html" %}
+</div>

@@ -1,0 +1,52 @@
+<div class="project-mask {% if loop.index == 1 %}-active{% endif %}">
+	<div class="inner">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+		 viewBox="0 0 800 800" style="enable-background:new 0 0 800 800;" xml:space="preserve">
+			<defs>
+				{# <filter id="opacity-mask-filter" filterUnits="userSpaceOnUse" x="-446" y="-61" width="1822.8" height="968">
+					<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+				</filter> #}
+
+				<linearGradient id="gradient-bg" x1="0%" y1="0%" x2="100%" y2="0%">
+					<stop offset="0%" stop-color="#72d4de"/>
+					<stop offset="100%" stop-color="#77f2c0"/>
+				</linearGradient>
+
+				<filter id="inset-shadow">
+					<feOffset dx="0" dy="0"/>
+					<feGaussianBlur stdDeviation="10"  result="offset-blur"/>
+					<feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+					<feFlood flood-color="black" flood-opacity="1" result="color"/>
+					<feComposite operator="in" in="color" in2="inverse" result="shadow"/>
+					<feComponentTransfer in="shadow" result="shadow">
+						<feFuncA type="linear" slope=".75"/>
+					</feComponentTransfer>
+				</filter>
+			</defs>
+
+			<mask maskUnits="userSpaceOnUse" x="-446" y="-61" width="1822.8" height="968" id="text-mask">
+				<text transform="matrix(1 0 0 1 400 758.3994)" text-anchor="middle">{{ project.title|replace('/the /i', '')|slice(0,1) }}</text>
+			</mask>
+
+			<g style="mask: url(#text-mask);">
+				<rect x="-446" y="-33" width="1728" height="940" style="fill: white" />
+
+				<rect x="-446" y="-33" width="1728" height="940" style="fill: url(#gradient-bg); " />
+
+				<g class="project-hero">
+					{% set image = project.heroImage.first %}
+					{% set transform = { width: 1600 } %}
+					<image style="overflow:visible;" width="{{ image.getWidth(transform) }}" height="{{ image.getHeight(transform) }}" xlink:href="{{ image.getUrl(transform) }}"  transform="matrix(1 0 0 1 -192 -61)"></image>
+				</g>
+
+				<rect x="-446" y="-33" width="1728" height="940" style="fill: url(#gradient-bg); mix-blend-mode: hue; opacity: 0.5 " />
+			</g>
+
+			<text class="text-shadow" transform="matrix(1 0 0 1 400 758.3994)" text-anchor="middle" filter="url(#inset-shadow)">{{ project.title|replace('/the /i', '')|slice(0,1) }}</text>
+		</svg>
+
+		<div class="project-info">
+			<h2 class="project-title">{{ project.title|replace('/(\\S+)/', '<span>$1</span>')|raw }}</h2>
+		</div>
+	</div>
+</div>

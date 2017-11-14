@@ -1,0 +1,33 @@
+form {
+	text-align: left;
+}
+
+.form-group {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-center;
+	margin-top: 4rem;
+
+	.btn-submit {
+		flex: 0 0 auto;
+		margin-left: 2rem;
+	}
+}
+
+label {
+	display: block;
+	padding: 0 5rem;
+
+	font-size: 0.75em;
+}
+
+input {
+	height: 12.5rem;
+	padding: 4rem 5rem;
+	flex: 1 1 auto;
+
+	border: 0;
+	outline: 0;
+
+	vertical-align: top;
+}

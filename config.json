@@ -1,0 +1,24 @@
+{
+	"paths": {
+		"base": {
+			"src": "src/",
+			"dist": "public_html/"
+		},
+		"scripts": {
+			"src": "src/scripts/",
+			"dist": "public_html/assets/js/"
+		},
+		"styles": {
+			"src": "src/styles/",
+			"dist": "public_html/assets/css/"
+		},
+		"templates": {
+			"src": "templates/",
+			"dist": "public_html/"
+		},
+		"images": {
+			"src": "src/images/",
+			"dist": "public_html/assets/img/"
+		}
+	}
+}

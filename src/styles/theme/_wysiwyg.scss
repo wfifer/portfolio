@@ -1,0 +1,10 @@
+/* specific cms wysiwyg styling */
+.wysiwyg {
+
+	p:empty {
+		margin: 0;
+		padding: 0;
+		height: 0;
+	}
+
+}

@@ -1,0 +1,15 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+<section class="site-header">
+	
+	{% for project in craft.entries.section('projects') %}
+	
+	{% include '_snippets/project-mask' %}
+
+	{% endfor %}
+
+</section>
+
+{% endblock %}
