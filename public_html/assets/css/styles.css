@@ -1080,9 +1080,9 @@ input {
             transform: translateY(-10vh);
     width: 50%;
     padding-right: 10rem;
-    color: #111; }
+    color: white; }
     .site-header .project-info .project-title {
-      text-shadow: 0 2px 4px rgba(222, 222, 222, 0.5);
+      text-shadow: 0 0.05em 0.25em rgba(0, 0, 0, 0.3);
       font-size: 19.5vh;
       text-transform: uppercase;
       letter-spacing: 0.01em; }
