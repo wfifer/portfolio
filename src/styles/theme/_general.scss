@@ -1,0 +1,41 @@
+html {
+	&.-about {
+		.project-mask {
+			&.-active {
+				&::before, &::after {
+					transform: scaleX(1);
+				}
+
+				.project-nav {
+					.nav-item {
+						height: calc(100% - 20rem);
+
+						&::after {
+							opacity: 0;
+						}
+					}
+				}
+			}
+		}
+
+		.section-about {
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+}
+
+.section {
+	position: relative;
+
+	width: 100%;
+
+	.inner {
+		position: relative;
+
+		width: 100%;
+		@include max-width;
+		margin: 0 auto;
+		padding: 0 5rem;
+	}
+}

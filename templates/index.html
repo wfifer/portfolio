@@ -3,13 +3,19 @@
 {% block content %}
 
 <section class="site-header">
-	
-	{% for project in craft.entries.section('projects') %}
-	
-	{% include '_snippets/project-mask' %}
+	<div class="inner">
+		{% for project in craft.entries.section('projects').all() %}
+		
+		{% include '_snippets/project-mask' %}
 
-	{% endfor %}
+		{% endfor %}
+	</div>
+</section>
 
+<section class="section-about">
+	<div class="inner">
+
+	</div>
 </section>
 
 {% endblock %}

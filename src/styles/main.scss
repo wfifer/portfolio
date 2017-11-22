@@ -2,6 +2,7 @@
 @import "framework/normalize";
 
 /* === Mixins & Helpers */
+@import "mixins/variables";
 @import "mixins/animation";
 
 /* === Theme Variables */
@@ -11,7 +12,7 @@
 @import "theme/typography";
 @import "theme/buttons";
 @import "theme/forms";
-@import "theme/page";
+@import "theme/general";
 
 /* === Components */
 @import "components/*";

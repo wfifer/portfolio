@@ -67,7 +67,7 @@ gulp.task('build-css', function () {
 		.pipe(sass())
 		.pipe(autoprefixer({ browsers: ['> 1%', 'ios_saf 6', 'ie >= 9'], map: true }))
 
-		// Minify if gulp runs with '--type prod'
+		// Minify if gulp runs with '--prod'
 		.pipe(gulpif(buildOptions.prod, cssnano({ autoprefixer: false })))
 		// .pipe(gulpif(!buildOptions.prod, sourcemaps.write()))
 
@@ -179,7 +179,6 @@ gulp.task('watch', function () {
 var defaultTasks = ['imagemin', 'svgstore', /*'templates',*/ 'build-css', 'build-js'];
 // Only watch when not using --prod
 if (!buildOptions.prod) defaultTasks.push('watch');
-if (buildOptions.prod) defaultTasks.push('html-hint');
 
 gulp.task('build-js', ['jshint', 'build-js-dependencies', 'build-js-components']);
 gulp.task('default', defaultTasks);

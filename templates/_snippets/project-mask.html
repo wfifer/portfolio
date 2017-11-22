@@ -1,52 +1,96 @@
 <div class="project-mask {% if loop.index == 1 %}-active{% endif %}">
-	<div class="inner">
-		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	<div class="mask-inner">
+		<div class="mask-svg">
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 		 viewBox="0 0 800 800" style="enable-background:new 0 0 800 800;" xml:space="preserve">
-			<defs>
-				{# <filter id="opacity-mask-filter" filterUnits="userSpaceOnUse" x="-446" y="-61" width="1822.8" height="968">
-					<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
-				</filter> #}
+		 		{#<style>
+					text {
+						fill: white;
 
-				<linearGradient id="gradient-bg" x1="0%" y1="0%" x2="100%" y2="0%">
-					<stop offset="0%" stop-color="#72d4de"/>
-					<stop offset="100%" stop-color="#77f2c0"/>
-				</linearGradient>
+						font-family: 'Barlow Condensed', 'Arial', sans-serif;
+						font-weight: 900;
+						font-size: 1040px;
+					}
 
-				<filter id="inset-shadow">
-					<feOffset dx="0" dy="0"/>
-					<feGaussianBlur stdDeviation="10"  result="offset-blur"/>
-					<feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
-					<feFlood flood-color="black" flood-opacity="1" result="color"/>
-					<feComposite operator="in" in="color" in2="inverse" result="shadow"/>
-					<feComponentTransfer in="shadow" result="shadow">
-						<feFuncA type="linear" slope=".75"/>
-					</feComponentTransfer>
-				</filter>
-			</defs>
+					.text-shadow {
+						opacity: 0.5;
+					}
 
-			<mask maskUnits="userSpaceOnUse" x="-446" y="-61" width="1822.8" height="968" id="text-mask">
-				<text transform="matrix(1 0 0 1 400 758.3994)" text-anchor="middle">{{ project.title|replace('/the /i', '')|slice(0,1) }}</text>
-			</mask>
+					.project-hero {
+						opacity: 0.35;
+						mix-blend-mode: multiply;
 
-			<g style="mask: url(#text-mask);">
-				<rect x="-446" y="-33" width="1728" height="940" style="fill: white" />
+						transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+					}
 
-				<rect x="-446" y="-33" width="1728" height="940" style="fill: url(#gradient-bg); " />
+					image {
+						transform: translate(-50%, 0);
+					}
+				</style>#}
 
-				<g class="project-hero">
-					{% set image = project.heroImage.first %}
-					{% set transform = { width: 1600 } %}
-					<image style="overflow:visible;" width="{{ image.getWidth(transform) }}" height="{{ image.getHeight(transform) }}" xlink:href="{{ image.getUrl(transform) }}"  transform="matrix(1 0 0 1 -192 -61)"></image>
+				<defs>
+					{# <filter id="opacity-mask-filter" filterUnits="userSpaceOnUse" x="-446" y="-61" width="1822.8" height="968">
+						<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+					</filter> #}
+
+					{% set projectIndex = loop.index %}
+					{% for background in project.heroBackground if background.type == 'background' %}
+					<linearGradient id="gradient-bg-{{ projectIndex }}" x1="0%" y1="0%" x2="100%" y2="0%">
+						{% for stop in background.stops %}
+							<stop offset="{{ stop.position }}%" stop-color="{{ stop.color }}"/>
+						{% endfor %}
+					</linearGradient>
+					{% endfor %}
+
+
+					{% set projectBg = project.heroBackground.type('background').first %}
+
+					<filter id="inset-shadow-{{ loop.index }}">
+						<feOffset dx="0" dy="0"/>
+						<feGaussianBlur stdDeviation="10"  result="offset-blur"/>
+						<feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+						<feFlood flood-color="black" flood-opacity="1" result="color"/>
+						<feComposite operator="in" in="color" in2="inverse" result="shadow"/>
+						<feComponentTransfer in="shadow" result="shadow">
+							<feFuncA type="linear" slope=".75"/>
+						</feComponentTransfer>
+					</filter>
+				</defs>
+
+				<mask maskUnits="userSpaceOnUse" x="-446" y="-61" width="1822.8" height="968" id="text-mask-{{ loop.index }}">
+					<text transform="matrix(1 0 0 1 400 758.3994)" text-anchor="middle">{{ project.title|replace('/the /i', '')|slice(0,1) }}</text>
+				</mask>
+
+				<g style="mask: url(#text-mask-{{ loop.index }});">
+					<rect x="-446" y="-33" width="1728" height="940" style="fill: white" />
+
+					<rect x="400" y="400" width="1500" height="1500" style="fill: url(#gradient-bg-{{ loop.index }}); transform:{% if projectBg.angle|length %} rotate({{ projectBg.angle }}){% endif %} translate(-50%, -50%)" />
+
+					<g class="project-hero">
+						{% set image = project.heroImage.one() %}
+						{% set transform = { width: 700, height: 700, mode: 'crop' } %}
+						<image style="overflow:visible;" width="{{ image.getWidth(transform) * 1.2 }}" height="{{ image.getHeight(transform) * 1.2 }}" xlink:href="{{ image.getUrl(transform) }}"  x="400" y="0"></image>
+					</g>
+
+					<rect x="400" y="400" width="1500" height="1500" style="fill: url(#gradient-bg-{{ loop.index }}); mix-blend-mode: hue; opacity: 0.5; transform:{% if projectBg.angle|length %} rotate({{ projectBg.angle }}){% endif %} translate(-50%, -50%)" />
 				</g>
 
-				<rect x="-446" y="-33" width="1728" height="940" style="fill: url(#gradient-bg); mix-blend-mode: hue; opacity: 0.5 " />
-			</g>
+				<text class="{{ loop.index == 1 ? 'js-about' : 'js-enter-project' }}" transform="matrix(1 0 0 1 400 758.3994)" text-anchor="middle" style="fill: transparent">{{ project.title|replace('/the /i', '')|slice(0,1) }}</text>
 
-			<text class="text-shadow" transform="matrix(1 0 0 1 400 758.3994)" text-anchor="middle" filter="url(#inset-shadow)">{{ project.title|replace('/the /i', '')|slice(0,1) }}</text>
-		</svg>
-
-		<div class="project-info">
-			<h2 class="project-title">{{ project.title|replace('/(\\S+)/', '<span>$1</span>')|raw }}</h2>
+				{# <text class="text-shadow" transform="matrix(1 0 0 1 400 758.3994)" text-anchor="middle" filter="url(#inset-shadow-{{ loop.index }})">{{ project.title|replace('/the /i', '')|slice(0,1) }}</text> #}
+			</svg>
 		</div>
+
+		{# <canvas class="mask-canvas"></canvas> #}
 	</div>
+
+	<div class="project-info">
+		{# <h2 class="project-title">{{ project.title|replace('/(\\S+)/', '<div><span>$1</span></div>')|raw }}</h2> #}
+		<h2 class="project-title {{ loop.index == 1 ? 'js-about' : 'js-enter-project' }}">{{ project.title|replace('/(\\S)/', '<span>$1</span>')|replace('/(\\S+)/','<div>$1</div>')|raw }}</h2>
+	</div>
+
+	<nav class="project-nav">
+		<button type="button" class="btn nav-item nav-prev"></button>
+		<button type="button" class="btn nav-item nav-next"></button>
+	</nav>
 </div>
