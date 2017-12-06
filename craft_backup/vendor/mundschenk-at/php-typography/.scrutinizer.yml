@@ -1,0 +1,28 @@
+filter:
+    paths:
+        - 'src/*'
+
+build:
+    cache:
+        directories:
+            - ~/.composer   # Composer home directory (avoid fetching already fetched packages)
+            # vendor is already included.
+
+    environment:
+        rabbitmq: false
+        mysql: false
+        postgresql: false
+        mongodb: false
+        elasticsearch: false
+        redis: false
+        memcached: false
+        neo4j: false
+        php:
+            version: 7.1
+    tests:
+        override:
+            - phpcs-run -p src/ tests/ --ignore=tests/perf.php,tests/coverage --extensions=php
+
+tools:
+    php_code_sniffer: false
+    php_cs_fixer: false

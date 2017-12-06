@@ -1,6 +1,3 @@
-$rem-size: 4px;
-$font-size-small: 10px;
-
 @mixin font-size() {
 	@include font-size-other($font-size)
 }

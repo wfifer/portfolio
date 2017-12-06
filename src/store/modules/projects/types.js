@@ -1,0 +1,5 @@
+'use strict';
+
+export const NAVIGATE_PROJECTS = 'NAVIGATE_PROJECTS';
+export const GET_PROJECTS = 'GET_PROJECTS';
+export const UPDATE_PROJECT_MOUSE = 'UPDATE_PROJECT_MOUSE';
