@@ -195,7 +195,8 @@ export default {
 	},
 	methods: {
 		enterAbout () {
-			window.open('/static/will-fifer_resume.pdf', '_blank');
+			// window.open('/static/will-fifer_resume.pdf', '_blank');
+			window.open('http://www.linkedin.com/in/will-fifer', '_blank');
 		},
 		enterProject (options) {
 			if (options.index === 0) {
