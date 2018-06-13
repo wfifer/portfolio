@@ -35,19 +35,71 @@ return [
 				'transformer' => function(Entry $entry) {
 
 					$heroImage = [];
-					$image = $entry->heroImage[0];
-					$heroImage = [
-						'url' => 'http://' . $_SERVER['SERVER_NAME'] . $image->getUrl('masked'),
-						'width' => $image->getWidth('masked'),
-						'height' => $image->getHeight('masked')
-					];
+					if (sizeof($entry->heroImage)) {
+						$image = $entry->heroImage[0];
+						$heroImage = [
+							'url' =>  $image->getUrl(),
+							'width' => $image->getWidth(),
+							'height' => $image->getHeight()
+						];
+					}
 
 					$heroBackground = [];
-					$block = $entry->heroBackground[0];
-					if ($block->type == 'background') {
-						$heroBackground = [
-							'stops' => $block->stops,
-							'angle' => $block->angle
+					if (sizeof($entry->heroBackground)) {
+						$block = $entry->heroBackground[0];
+						if ($block->type == 'background') {
+							$heroBackground = [
+								'stops' => $block->stops,
+								'angle' => $block->angle
+							];
+						}
+					}
+
+					$layers = [];
+					if (sizeof($entry->projectLayers)) {
+						foreach ($entry->projectLayers->all() as $block) {
+							if ($block->type == 'layer') {
+								if (sizeof($block->image)) {
+									$image = $block->image[0];
+									$layerImage = [
+										'url' =>  $image->getUrl(),
+										'width' => $image->getWidth(),
+										'height' => $image->getHeight()
+									];
+								}
+								$layer = [
+									'image' => $layerImage,
+									'depth' => $block->depth
+								];
+								$layers[] = $layer;
+							}
+						}
+					}
+
+					$categories = [];
+					foreach ($entry->projectCategory->all() as $category) {
+						$cat  = [
+							'slug' => $category->slug,
+							'title' => $category->title
+						];
+						if (sizeof($category->icon)) {
+							$cat['icon'] = $category->icon[0]->getUrl();
+						}
+						if (sizeof($category->fontIcon)) {
+							$fontIcon = [];
+							foreach ($category->fontIcon as $icon) {
+								$fontIcon[] = $icon['className'];
+							}
+							$cat['fontIcon'] = $fontIcon;
+						}
+						$categories[] = $cat;
+					}
+
+					$collaborators = [];
+					foreach ($entry->collaborator->all() as $collab) {
+						$collaborators[] = [
+							'title' => $collab->title,
+							'website' => $collab->website
 						];
 					}
 					
@@ -55,7 +107,51 @@ return [
 						'title' => $entry->title,
 						'url' => $entry->url,
 						'heroImage' => $heroImage,
-						'heroBackground' => $heroBackground
+						'heroBackground' => $heroBackground,
+						'entryId' => $entry->id,
+						'website' => $entry->website,
+						'categories' => $categories,
+						'collaborators' => $collaborators,
+						'layers' => $layers
+					];
+				}
+			];    
+		},
+		'project/<entryId:\d+>.json' => function ($entryId) {
+			\Craft::$app->response->headers->set('Access-Control-Allow-Origin', '*');
+			
+			return [
+				'elementType' => Entry::class,
+				'criteria' => ['id' => $entryId],
+				'one' => true,
+				'transformer' => function(Entry $entry) {
+					$pageContent = [];
+					foreach ($entry->pageContent->all() as $block) {
+						$blockContent = [
+							'type' => $block->type->handle
+						];
+						switch ($block->type->handle) {
+							case 'wysiwyg':
+								$blockContent['body'] = $block->body->getParsedContent();
+								break;
+						}
+						$pageContent[] = $blockContent;
+					}
+					$categories = [];
+					foreach ($entry->projectCategory->all() as $category) {
+						$cat  = [
+							'slug' => $category->slug,
+							'title' => $category->title
+						];
+						if (sizeof($category->icon)) {
+							$cat['icon'] = $category->icon[0]->getUrl();
+						}
+						$categories[] = $cat;
+					}
+					return [
+						'categories' => $categories,
+						'intro' => $entry->intro,
+						'pageContent' => $pageContent
 					];
 				}
 			];    

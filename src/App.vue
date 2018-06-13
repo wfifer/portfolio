@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div id="app" :class="appClass">
 		<router-view/>
 		<resize-observer @notify="resize"/>
 	</div>
@@ -17,6 +17,11 @@ export default {
 		...mapActions([
 			'resize'
 		])
+	},
+	computed: {
+		appClass () {
+			return !!window.chrome && !!window.chrome.webstore ? 'browser-chrome' : 'browser-other';
+		}
 	}
 };
 </script>

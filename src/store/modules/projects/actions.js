@@ -9,6 +9,21 @@ const actions = {
 			direction
 		});
 	},
+	enterProject ({ commit }, { index, entryId }) {
+		commit(type.ENTER_PROJECT, {
+			index
+		});
+
+		axios.get(`http://api.portfolio.local/project/${ entryId }.json`)
+			.then(response => {
+				console.log(response);
+
+				commit(type.SHOW_PROJECT, {
+					response
+				});
+			}
+		);
+	},
 	getProjects ({ commit }) {
 		axios.get('http://api.portfolio.local/projects.json')
 			.then(response => {

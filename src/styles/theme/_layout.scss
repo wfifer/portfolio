@@ -6,6 +6,10 @@
 	}
 }
 
+html {
+	overflow-y: scroll;
+}
+
 body, html {
 	min-width: 100%;
 	min-height: 100vh;

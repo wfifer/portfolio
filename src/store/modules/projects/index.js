@@ -6,8 +6,10 @@ import actions from './actions';
 const state = {
 	active: 0,
 	last: 0,
+	selected: -1,
 	direction: 0,
 	projects: [],
+	currentProject: {},
 	mouse: {}
 };
 
@@ -16,6 +18,13 @@ const mutations = {
 		state.last = state.active;
 		state.active = (state.active + action.direction + state.projects.length) % state.projects.length;
 		state.direction = action.direction;
+	},
+	[type.ENTER_PROJECT] (state, action) {
+		state.selected = action.index;
+	},
+	[type.SHOW_PROJECT] (state, action) {
+		state.currentProject = action.response.data;
+		console.log(state.currentProject);
 	},
 	[type.GET_PROJECTS] (state, action) {
 		state.projects = action.response.data.data;

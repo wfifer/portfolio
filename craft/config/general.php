@@ -23,12 +23,14 @@ return [
 
         // The secure key Craft will use for hashing and encrypting data
         'securityKey' => getenv('SECURITY_KEY'),
+
+        'siteUrl' => 'api.portfolio.local'
     ],
 
     // Dev environment settings
     'dev' => [
         // Base site URL
-        'siteUrl' => null,
+        'siteUrl' => 'api.portfolio.local',
 
         // Dev Mode (see https://craftcms.com/support/dev-mode)
         'devMode' => true,

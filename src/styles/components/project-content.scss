@@ -1,0 +1,19 @@
+@import '../mixins/variables';
+
+.project-content {
+	.inner {
+		max-width: 1024px;
+		padding: 0 10rem;
+		margin: 0 auto;
+	}
+
+	.project-intro {
+		padding: 10rem 0;
+
+		font-size: 7.5rem;
+	}
+
+	.project-body {
+		padding: 10rem 0;
+	}
+}

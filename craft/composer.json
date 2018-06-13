@@ -25,7 +25,8 @@
     "vlucas/phpdotenv": "^2.4.0",
     "roave/security-advisories": "dev-master",
     "superbig/craft3-imgix": "2.0.1",
-    "craftcms/element-api": "^2.5"
+    "craftcms/element-api": "^2.5",
+    "craftcms/redactor": "1.0.0.1"
   },
   "autoload": {
     "psr-4": {
