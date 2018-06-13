@@ -2,6 +2,7 @@
 
 import * as type from './types';
 import axios from 'axios';
+import helpers from '@/store/helpers';
 
 const actions = {
 	navigateProjects ({ commit }, direction) {
@@ -14,7 +15,7 @@ const actions = {
 			index
 		});
 
-		axios.get(`http://api.portfolio.local/project/${ entryId }.json`)
+		axios.get(helpers.getApiUrl(`project/${ entryId }.json`))
 			.then(response => {
 				console.log(response);
 
@@ -25,7 +26,7 @@ const actions = {
 		);
 	},
 	getProjects ({ commit }) {
-		axios.get('http://api.portfolio.local/projects.json')
+		axios.get(helpers.getApiUrl('projects.json'))
 			.then(response => {
 				commit(type.GET_PROJECTS, {
 					response
