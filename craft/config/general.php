@@ -46,5 +46,7 @@ return [
     'production' => [
         // Base site URL
         'siteUrl' => null,
+
+        'omitScriptNameInUrls' => false,
     ],
 ];

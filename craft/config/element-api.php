@@ -6,28 +6,29 @@ use craft\elements\Entry;
 return [
 	'endpoints' => [
 		'projects.json' => function () {
-			// $whitelist = [
-			// 	'*.local',
-			// 	'localhost:8081',
-			// 	preg_replace('/https?:\/\/w*.?/', '', $_SERVER['SERVER_NAME'])
-			// ];
-			// $request = $_SERVER['HTTP_REFERER'];
-			// $matches = 0;
-			// foreach($whitelist as $valid) {
-			// 	$matched = [];
-			// 	$valid = preg_replace('/\*/', '\w+', $valid);
-			// 	preg_match('/' . $valid . '(\/[^\.]*)?$/', $request, $matched);
-			// 	$matches += count($matched);
-			// }
+			$whitelist = [
+				'*.local',
+				'localhost:8080',
+				'portfolio.local',
+				'willfifer.com'
+			];
+			$request = $_SERVER['HTTP_REFERER'];
+			$matches = 0;
+			foreach($whitelist as $valid) {
+				$matched = [];
+				$valid = preg_replace('/\*/', '\w+', $valid);
+				preg_match('/' . $valid . '(\/[^\.]*)?$/', $request, $matched);
+				$matches += count($matched);
+			}
 
-			// if ($matches > 0) {
-			// 	\Craft::$app->response->headers->set('Access-Control-Allow-Origin', '*');
-			// }
-			// else {
-			// 	\Craft::$app->response->headers->set('Access-Control-Allow-Origin', null);
-			// }
+			if ($matches > 0) {
+				\Craft::$app->response->headers->set('Access-Control-Allow-Origin', '*');
+			}
+			else {
+				\Craft::$app->response->headers->set('Access-Control-Allow-Origin', null);
+			}
 
-			\Craft::$app->response->headers->set('Access-Control-Allow-Origin', '*');
+			// \Craft::$app->response->headers->set('Access-Control-Allow-Origin', '*');
 			
 			return [
 				'elementType' => Entry::class,
