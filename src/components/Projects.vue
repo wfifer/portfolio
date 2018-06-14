@@ -109,9 +109,7 @@
 							<li v-for="(cat, i) in project.categories" class="list-item" :key="i">
 								<a tabindex="-1" :title="cat.title">
 									<div v-if="cat.icon" class="item-icon" :aria-label="cat.title">
-										<svg class="svg-icon" viewBox="0 0 50 50">
-											<image :href="cat.icon" width="50" height="50"></image>
-										</svg>
+										<img class="icon" :src="cat.icon" />
 									</div>
 
 									<div v-else class="item-icon" :aria-label="cat.title">
