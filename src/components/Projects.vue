@@ -15,7 +15,11 @@
 								</div> -->
 
 								<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve">
-									<defs>
+							 		<defs>
+										<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="0%">
+											<stop v-for="(stop, stopIndex) in project.heroBackground.stops" :offset="`${ stop.position }%`" :key="stopIndex" :stop-color="stop.color"/>
+										</linearGradient>
+
 										<clipPath clipPathUnits="userSpaceOnUse" :id="`text-clip-${ index }`">
 											<text class="text-mask" :x="svg.width / 2" :y="svg.height / 2" text-anchor="middle" :style="`font-size: ${fontSize}px; dominant-baseline: central;`" fill="#FFFFFF">{{ projectInitial[index] }}</text>
 										</clipPath>
@@ -25,14 +29,6 @@
 												<text :transform="`matrix(1 0 0 1 ${ svg.width / 2 } ${ svg.height / 2 + fontSize / 2.8 })`" text-anchor="middle" :style="`font-size: ${fontSize}px`">{{ projectInitial[index] }}</text>
 											</g>
 										</mask>
-									</defs>
-								</svg>
-
-								<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve">
-							 		<defs>
-										<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="0%">
-											<stop v-for="(stop, stopIndex) in project.heroBackground.stops" :offset="`${ stop.position }%`" :key="stopIndex" :stop-color="stop.color"/>
-										</linearGradient>
 									</defs>
 
 									<g :style="`clip-path: url(#text-clip-${ index }); mask: url(#text-mask-${ index });`" class="svg-clipped">
@@ -48,8 +44,6 @@
 
 										<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" :r="svgImage(project.heroImage).width * 0.625" :style="`fill: url(#gradient-bg-${ index }); mix-blend-mode: hue; opacity: 0.5;`" />
 									</g>
-
-									<text @click="enterProject({ index, entryId: project.entryId })" :transform="`matrix(1 0 0 1 ${ svg.width / 2 } ${ svg.height / 2 })`" text-anchor="middle" class="btn-enter-project" :style="`font-size: ${fontSize}px`">{{ projectInitial[index] }}</text>
 								</svg>
 
 								<!-- <div class="project-layer" v-for="(layer, index) in project.layers" v-if="layer.depth > 0" :data-depth="layer.depth">
@@ -65,7 +59,7 @@
 				</div>
 
 				<div class="project-info">
-					<h2 class="project-title" @click="enterProject({ index, entryId: project.entryId })" v-html="titleHtml[index]"></h2>
+					<h2 class="project-title" v-html="titleHtml[index]"></h2>
 
 					<div class="project-tools">
 						<ul class="icon-list icon-list-website" v-if="project.website && project.website.length">
@@ -250,7 +244,7 @@ export default {
 			let portrait = this.viewport.width / this.viewport.height < this.svg.width / this.svg.height;
 
 			let width = this.viewport.width <= 1000
-				? BASE_WIDTH * 1.5 * (this.svg.height / this.viewport.height) * (this.viewport.width / this.svg.width)
+				? BASE_WIDTH * 1.5
 				: portrait
 				? BASE_WIDTH
 				: this.viewport.height >= 1000
@@ -378,7 +372,7 @@ export default {
 			let fontSize = 1350;
 
 			if (this.viewport.width <= 1000) {
-				fontSize = fontSize * 1.5 * (this.svg.height / this.viewport.height) * (this.viewport.width / this.svg.width);
+				fontSize = fontSize * 1.5;
 			} else if (this.viewport.width / this.viewport.height > this.svg.width / this.svg.height) {
 				if (this.viewport.height >= 1000) {
 					fontSize = fontSize * this.svg.width / this.svg.height * 1000 / this.viewport.width;
