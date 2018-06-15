@@ -1,6 +1,9 @@
 <template>
 	<section class="site-header" :class="selectedProject >= 0 ? '-banner' : ''" @mousemove="/*onMouseMove*/">
-		<div class="inner">
+		<transition name="fade">
+		<div class="inner" v-show="projectReady">
+			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
+
 			<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="index">
 				<div class="mask-inner">
 					<div class="svg-container">
@@ -135,6 +138,7 @@
 			</nav>
 
 		</div>
+		</transition>
 	</section>
 </template>
 
@@ -182,7 +186,8 @@ export default {
 			svg: { width: 2400, height: 1600 },
 			transitionClass: [ '-active' ],
 			bgCoords: { x: 0, y: 0 },
-			navActive: true
+			navActive: true,
+			projectReady: false
 		};
 	},
 	methods: {
@@ -275,6 +280,9 @@ export default {
 			let title = project ? project.title : '';
 
 			return title;
+		},
+		imageLoaded () {
+			this.projectReady = true;
 		},
 		...mapActions([
 			'navigateProjects',
@@ -399,3 +407,40 @@ export default {
 </script>
 
 <style src="../styles/components/projects.scss" lang="scss"></style>
+
+<style lang="scss" scoped>
+
+.fade-enter-active {
+	transition: opacity 1s;
+	will-change: opacity;
+
+	// .svg-inner, .project-info {
+	// 	transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+	// }
+}
+
+.fade-enter-to {
+	opacity: 1;
+
+	// .svg-inner {
+	// 	transform: translate3d(0, 0, 0);
+	// }
+
+	// .project-info {
+	// 	transform: translate3d(0, -50%, 0);
+	// }
+}
+
+.fade-enter {
+	opacity: 0;
+
+	// .svg-inner {
+	// 	transform: translate3d(0, 10vh, 0);
+	// }
+
+	// .project-info {
+	// 	transform: translate3d(0, -50%, 0) translateY(20vh);
+	// }
+}
+
+</style>

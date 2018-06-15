@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
 	name: 'app',
@@ -20,8 +20,11 @@ export default {
 	},
 	computed: {
 		appClass () {
-			return !!window.chrome && !!window.chrome.webstore ? 'browser-chrome' : 'browser-other';
-		}
+			return (!!window.chrome && !!window.chrome.webstore) ? 'animate-mask' : 'no-animate-mask';
+		},
+		...mapState({
+			viewport: state => state.app.window
+		})
 	}
 };
 </script>

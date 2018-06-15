@@ -102,7 +102,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				}
 			}
 
-			.browser-chrome & {
+			.animate-mask &, .low-res & {
 				.text-mask {
 					transform: scale(1) rotateZ(0);
 				}
@@ -149,13 +149,13 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				}
 			}
 
-			.browser-chrome & {
+			.animate-mask & {
 				.text-mask {
 					transform: scale(0.5) rotateZ(0);
 				}
 			}
 
-			.browser-other & {
+			.no-animate-mask & {
 				.mask-svg {
 					.svg {
 						transform: translate(-50%, -50%) scale(0.5) rotateZ(0);
@@ -259,7 +259,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				}
 			}
 
-			.browser-chrome & .text-mask, .project-layer svg {
+			.animate-mask & .text-mask, .project-layer svg {
 				transform: scale(1) rotateZ(0) !important;
 			}
 
@@ -334,7 +334,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				pointer-events: none;
 			}
 
-			.browser-other & {
+			.no-animate-mask & {
 				.svg {
 					transition: transform $transition-reveal;
 					will-change: transform;
@@ -345,7 +345,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				}
 			}
 
-			.browser-chrome & {
+			.animate-mask & {
 				.svg-clipped {
 					mask: none !important;
 				}
@@ -378,7 +378,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		}
 
 		.text-mask {
-			.browser-chrome & {
+			.animate-mask & {
 				transform: scale(0.1) rotateZ(0);
 				transform-origin: center;
 
