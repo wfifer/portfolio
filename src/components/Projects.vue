@@ -1,8 +1,11 @@
 <template>
 	<section class="site-header" :class="selectedProject >= 0 ? '-banner' : ''" @mousemove="/*onMouseMove*/">
+		<Spinner :class="projectReady ? '-loaded' : ''"/>
+
 		<transition name="fade">
 		<div class="inner" v-show="projectReady">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
+			<!-- <img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" /> -->
 
 			<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="index">
 				<div class="mask-inner">
@@ -147,6 +150,7 @@ import { mapState, mapActions } from 'vuex';
 // import TWEEN from '@tweenjs/tween.js';
 import 'vue-awesome/icons';
 import Icon from 'vue-awesome/components/Icon';
+import Spinner from '@/components/Spinner';
 
 Icon.register({
 	react: {
@@ -174,7 +178,8 @@ Icon.register({
 export default {
 	name: 'Projects',
 	components: {
-		Icon
+		Icon,
+		Spinner
 	},
 	created () {
 		this.getProjects();
@@ -282,7 +287,9 @@ export default {
 			return title;
 		},
 		imageLoaded () {
-			this.projectReady = true;
+			window.setTimeout(() => {
+				this.projectReady = true;
+			}, 5000);
 		},
 		...mapActions([
 			'navigateProjects',
