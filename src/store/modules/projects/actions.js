@@ -34,6 +34,11 @@ const actions = {
 			}
 		);
 	},
+	showCategory ({ commit }, category) {
+		commit(type.SHOW_CATEGORY, {
+			category
+		});
+	},
 	updateProjectMouse ({ commit }, mouse) {
 		commit(type.UPDATE_PROJECT_MOUSE, {
 			mouse

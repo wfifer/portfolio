@@ -1,21 +1,23 @@
 <template>
 	<div>
 		<!-- <SiteLogo class="site-logo"/> -->
-		<Projects/>
+		<Projects />
 
-		<ProjectContent/>
+		<CategoryThumbnails />
 	</div>
 </template>
 
 <script>
 import Projects from '../components/Projects';
-import ProjectContent from '../components/ProjectContent';
+import CategoryThumbnails from '../components/CategoryThumbnails';
+// import ProjectContent from '../components/ProjectContent';
 
 export default {
 	name: 'Home',
 	components: {
 		Projects,
-		ProjectContent
+		CategoryThumbnails
+		// ProjectContent
 	}
 };
 </script>

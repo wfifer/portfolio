@@ -5,7 +5,6 @@
 		<transition name="fade">
 		<div class="inner" v-show="projectReady">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
-			<!-- <img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" /> -->
 
 			<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="index">
 				<div class="mask-inner">
@@ -107,7 +106,7 @@
 
 						<ul class="icon-list icon-list-categories">
 							<li v-for="(cat, i) in project.categories" class="list-item" :key="i">
-								<a tabindex="-1" :title="cat.title">
+								<button class="btn" :title="cat.title" @click="showCategory(cat.slug)">
 									<div v-if="cat.icon" class="item-icon" :aria-label="cat.title">
 										<img class="icon" :src="cat.icon" />
 									</div>
@@ -115,7 +114,7 @@
 									<div v-else class="item-icon" :aria-label="cat.title">
 										<Icon :name="mapIcons(cat.fontIcon)" />
 									</div>
-								</a>
+								</button>
 							</li>
 						</ul>
 					</div>
@@ -289,12 +288,13 @@ export default {
 		imageLoaded () {
 			window.setTimeout(() => {
 				this.projectReady = true;
-			}, 5000);
+			}, 2000);
 		},
 		...mapActions([
 			'navigateProjects',
 			// 'enterProject',
 			'getProjects',
+			'showCategory',
 			'updateProjectMouse'
 		])
 	},

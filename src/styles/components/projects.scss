@@ -706,13 +706,13 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		.nav-prev {
 			transform: translate3d(-100%, 0, 0) translateX(-10rem);
 
-			background: linear-gradient(to right, transparent 80%, rgba(black, 0.15) 98%, rgba(black, 0.2) 100%);
+			background: linear-gradient(to right, transparent 0%, rgba(black, 0.4) 80%, rgba(black, 0.4) 100%);
 		}
 
 		.nav-next {
 			transform: translate3d(100%, 0, 0) translateX(10rem);
 
-			background: linear-gradient(to left, transparent 80%, rgba(black, 0.15) 98%, rgba(black, 0.2) 100%);
+			background: linear-gradient(to left, transparent 0%, rgba(black, 0.4) 80%, rgba(black, 0.4) 100%);
 		}
 	}
 
@@ -744,6 +744,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 					color: $color-bg;
 
 					@include font-icon;
+					font-size: 6rem;
 
 					transition: all $transition;
 				}
@@ -987,7 +988,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 			.nav-item {
 				overflow: visible;
 
-				&:focus {
+				&:focus, &:hover {
 					.nav-icon {
 						transform: scale(1.1);
 
