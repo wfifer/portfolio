@@ -6,19 +6,21 @@
 		<div class="inner" v-show="projectReady">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
+			<nav class="project-nav" :class="navActive ? null: '-disabled'">
+				<button @click="navActive ? navigateProjects(-1) : null" type="button" class="btn nav-item nav-prev" :aria-label="`Previous project: ${ projectTitle(activeProject - 1) }`">
+					<div class="nav-icon"></div>
+				</button>
+
+				<button @click="navActive ? navigateProjects(1) : null" type="button" class="btn nav-item nav-next" :aria-label="`Next project: ${ projectTitle(activeProject + 1) }`">
+					<div class="nav-icon"></div>
+				</button>
+			</nav>
+
 			<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="index">
 				<div class="mask-inner">
 					<div class="svg-container">
 						<div class="mask-svg">
 							<div class="svg-inner">
-								<!-- <div class="project-layer" v-for="(layer, index) in project.layers" v-if="layer.depth < 0" :data-depth="layer.depth">
-									<svg x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve">
-										<g>
-											<image :width="svg.width" :height="svg.height" style="overflow:visible;" :xlink:href="layer.image.url" :x="svg.width / 2" :y="svg.height / 2"></image>
-										</g>
-									</svg>
-								</div> -->
-
 								<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve">
 							 		<defs>
 										<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -50,14 +52,6 @@
 										<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" :r="svgImage(project.heroImage).width * 0.625" :style="`fill: url(#gradient-bg-${ index }); mix-blend-mode: hue; opacity: 0.5;`" />
 									</g>
 								</svg>
-
-								<!-- <div class="project-layer" v-for="(layer, index) in project.layers" v-if="layer.depth > 0" :data-depth="layer.depth">
-									<svg x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve">
-										<g>
-											<image :width="svg.width" :height="svg.height" style="overflow:visible;" :xlink:href="layer.image.url" :x="svg.width / 2" :y="svg.height / 2"></image>
-										</g>
-									</svg>
-								</div> -->
 							</div>
 						</div>
 					</div>
@@ -67,22 +61,9 @@
 					<h2 class="project-title" v-html="titleHtml[index]"></h2>
 
 					<div class="project-tools">
-						<ul class="icon-list icon-list-website" v-if="project.website && project.website.length">
-							<li class="list-item">
-
-								<a :href="project.website" target="_blank">
-									<div class="item-icon">
-										<Icon name="link" />
-
-										<span class="text">View website</span>
-									</div>
-								</a>
-							</li>
-						</ul>
-
 						<ul class="icon-list icon-list-website" v-if="index == 0">
 							<li class="list-item">
-								<button class="btn" @click="enterAbout">
+								<button class="btn" @click="enterAbout" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null">
 									<div class="item-icon">
 										<Icon name="hand-peace" />
 
@@ -92,9 +73,22 @@
 							</li>
 						</ul>
 
+						<ul class="icon-list icon-list-website" v-else-if="project.website && project.website.length">
+							<li class="list-item">
+
+								<a :href="project.website" target="_blank" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null">
+									<div class="item-icon">
+										<Icon name="link" />
+
+										<span class="text">View website</span>
+									</div>
+								</a>
+							</li>
+						</ul>
+
 						<ul class="icon-list icon-list-collab">
 							<li v-for="(collaborator, i) in project.collaborators" class="list-item" :key="i">
-								<a tabindex="-1" :title="collaborator.title" :href="collaborator.website" target="_blank">
+								<a tabindex="-1" :title="collaborator.title" :href="collaborator.website" target="_blank" :tabindex="index === activeProject ? 0 : -1">
 									<div class="item-icon" :aria-label="`Credit: ${collaborator.title}`">
 										<Icon name="heart" style="transform: translateY(6%)" />
 
@@ -106,7 +100,7 @@
 
 						<ul class="icon-list icon-list-categories">
 							<li v-for="(cat, i) in project.categories" class="list-item" :key="i">
-								<button class="btn" :title="cat.title" @click="showCategory(cat.slug)">
+								<button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="index === activeProject ? 0 : -1">
 									<div v-if="cat.icon" class="item-icon" :aria-label="cat.title">
 										<img class="icon" :src="cat.icon" />
 									</div>
@@ -128,17 +122,6 @@
 					</div>
 				</div>
 			</div>
-
-			<nav class="project-nav" :class="navActive ? null: '-disabled'">
-				<button @click="navActive ? navigateProjects(-1) : null" type="button" class="btn nav-item nav-prev" :aria-label="`Previous project: ${ projectTitle(activeProject - 1) }`">
-					<div class="nav-icon"></div>
-				</button>
-
-				<button @click="navActive ? navigateProjects(1) : null" type="button" class="btn nav-item nav-next" :aria-label="`Next project: ${ projectTitle(activeProject + 1) }`">
-					<div class="nav-icon"></div>
-				</button>
-			</nav>
-
 		</div>
 		</transition>
 	</section>
@@ -146,7 +129,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-// import TWEEN from '@tweenjs/tween.js';
 import 'vue-awesome/icons';
 import Icon from 'vue-awesome/components/Icon';
 import Spinner from '@/components/Spinner';
@@ -196,7 +178,6 @@ export default {
 	},
 	methods: {
 		enterAbout () {
-			// window.open('/static/will-fifer_resume.pdf', '_blank');
 			window.open('http://www.linkedin.com/in/will-fifer', '_blank');
 		},
 		enterProject (options) {
@@ -207,14 +188,6 @@ export default {
 				window.open(project.website);
 			}
 		},
-		// onMouseMove (e) {
-		// 	const mouse = {
-		// 		x: e.pageX,
-		// 		y: e.pageY
-		// 	};
-
-		// 	this.updateProjectMouse(mouse);
-		// },
 		layerPosition (depth) {
 			const x = this.bgCoords.x * (-depth / Math.abs(depth));
 			const y = this.bgCoords.y * (-depth / Math.abs(depth));
@@ -322,30 +295,14 @@ export default {
 				});
 
 				this.navActive = true;
+
+				if (!document.activeElement.classList.contains('nav-item')) {
+					console.log(this.$refs.activeButton);
+
+					this.$refs.activeButton[0].focus = true;
+				}
 			}, 2000);
 		}
-		// mouse: function (newMouse, oldMouse) {
-		// 	var vm = this;
-
-		// 	function animate () {
-		// 		if (TWEEN.update()) {
-		// 			requestAnimationFrame(animate);
-		// 		}
-		// 	};
-
-		// 	const x = (vm.window.width / 2 - newMouse.x) / vm.window.width * 30;
-		// 	const y = (vm.window.width / 2 - newMouse.y) / vm.window.width * 30;
-
-		// 	new TWEEN.Tween(vm.bgCoords)
-		// 		.easing(TWEEN.Easing.Quintic.Out)
-		// 		.to({ x: x, y: y }, 650)
-		// 		.onUpdate(function () {
-		// 			// console.log(vm.bgCoords);
-		// 		})
-		// 		.start();
-
-		// 	animate();
-		// }
 	},
 	computed: {
 		gradientTransform () {
@@ -369,9 +326,6 @@ export default {
 				return pClass;
 			});
 		},
-		// backgroundPosition () {
-		// 	return `transform: translate3d(${ this.bgCoords.x }px, ${ this.bgCoords.y }px, 0)`;
-		// },
 		projectInitial () {
 			return this.projects.map(function (project) {
 				return project.title.replace(/the /i, '').slice(0, 1);
@@ -383,7 +337,6 @@ export default {
 			});
 		},
 		fontSize () {
-			// let fontSize = 1300;
 			let fontSize = 1350;
 
 			if (this.viewport.width <= 1000) {
@@ -406,7 +359,6 @@ export default {
 			selectedProject: state => state.projects.selected,
 			direction: state => state.projects.direction,
 			projects: state => state.projects.projects,
-			// mouse: state => state.projects.mouse,
 			viewport: state => state.app.window
 		})
 	}
@@ -420,34 +372,14 @@ export default {
 .fade-enter-active {
 	transition: opacity 1s;
 	will-change: opacity;
-
-	// .svg-inner, .project-info {
-	// 	transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
-	// }
 }
 
 .fade-enter-to {
 	opacity: 1;
-
-	// .svg-inner {
-	// 	transform: translate3d(0, 0, 0);
-	// }
-
-	// .project-info {
-	// 	transform: translate3d(0, -50%, 0);
-	// }
 }
 
 .fade-enter {
 	opacity: 0;
-
-	// .svg-inner {
-	// 	transform: translate3d(0, 10vh, 0);
-	// }
-
-	// .project-info {
-	// 	transform: translate3d(0, -50%, 0) translateY(20vh);
-	// }
 }
 
 </style>
