@@ -10,8 +10,7 @@ const state = {
 	direction: 0,
 	projects: [],
 	currentProject: {},
-	currentCategory: null,
-	mouse: {}
+	currentCategory: null
 };
 
 const mutations = {
@@ -31,9 +30,6 @@ const mutations = {
 	},
 	[type.SHOW_CATEGORY] (state, action) {
 		state.currentCategory = action.category;
-	},
-	[type.UPDATE_PROJECT_MOUSE] (state, action) {
-		state.mouse = action.mouse;
 	}
 };
 

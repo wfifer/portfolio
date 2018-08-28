@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<!-- <SiteLogo class="site-logo"/> -->
 		<Projects />
 
 		<CategoryThumbnails />

@@ -100,7 +100,8 @@
 
 						<ul class="icon-list icon-list-categories">
 							<li v-for="(cat, i) in project.categories" class="list-item" :key="i">
-								<button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="index === activeProject ? 0 : -1">
+								<!-- <button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="index === activeProject ? 0 : -1"> -->
+								<button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="-1">
 									<div v-if="cat.icon" class="item-icon" :aria-label="cat.title">
 										<img class="icon" :src="cat.icon" />
 									</div>
@@ -267,8 +268,7 @@ export default {
 			'navigateProjects',
 			// 'enterProject',
 			'getProjects',
-			'showCategory',
-			'updateProjectMouse'
+			'showCategory'
 		])
 	},
 	watch: {
@@ -337,17 +337,19 @@ export default {
 			});
 		},
 		fontSize () {
-			let fontSize = 1350;
+			const BASE_SIZE = 1350;
+
+			let fontSize = BASE_SIZE;
 
 			if (this.viewport.width <= 1000) {
-				fontSize = fontSize * 1.5;
+				fontSize = BASE_SIZE * 1.5;
 			} else if (this.viewport.width / this.viewport.height > this.svg.width / this.svg.height) {
 				if (this.viewport.height >= 1000) {
-					fontSize = fontSize * this.svg.width / this.svg.height * 1000 / this.viewport.width;
+					fontSize = BASE_SIZE * this.svg.width / this.svg.height * 1000 / this.viewport.width;
 				} else if (this.viewport.height <= 500) {
-					fontSize = fontSize * this.svg.width / this.svg.height * 500 / this.viewport.width;
+					fontSize = BASE_SIZE * this.svg.width / this.svg.height * 500 / this.viewport.width;
 				} else {
-					fontSize = fontSize * this.svg.width / this.svg.height * this.viewport.height / this.viewport.width;
+					fontSize = BASE_SIZE * this.svg.width / this.svg.height * this.viewport.height / this.viewport.width;
 				}
 			}
 
