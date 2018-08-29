@@ -2,6 +2,10 @@
 	<div class="category-thumbnails">
 		<transition name="t-thumbnails">
 			<div class="thumbnails-view" v-if="currentCategory">
+				<div style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px">
+					<img v-for="project in projects" :src="project.thumbnail.url" :key="`thumbnail-${ project.id }`" :alt="project.title" />
+				</div>
+
 				<div class="thumbnails-inner">
 					<ul class="thumbnail-list list">
 						<li v-for="project in projects" class="thumbnail" v-if="isActive(project)" :key="`thumbnail-${ project.id }`">
