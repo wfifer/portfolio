@@ -489,7 +489,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 					pointer-events: auto;
 
-					&:hover {
+					&:hover, .-show-focus &:focus {
 						.item-icon {
 							&::after {
 								transform: translate3d(-50%, -100%, 0);
@@ -867,7 +867,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 							padding: 0;
 
 							border-radius: 5rem;
-							box-shadow: none;
+							border: none;
 							color: rgba($color-charcoal, 0.7);
 
 							&::after {

@@ -4,11 +4,20 @@
 
 	background: transparent;
 	border: 0;
-	outline: 0;
 	color: inherit;
 	border-radius: 0;
 
 	text-decoration: none;
 
 	transition: all $transition;
+
+	.-hide-focus & {
+		outline: 0;
+	}
+}
+
+a {
+	.-hide-focus & {
+		outline: 0;
+	}
 }

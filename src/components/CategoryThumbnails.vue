@@ -7,19 +7,21 @@
 				</div>
 
 				<div class="thumbnails-inner">
-					<ul class="thumbnail-list list">
-						<li v-for="project in projects" class="thumbnail" v-if="isActive(project)" :key="`thumbnail-${ project.id }`">
-							<div class="thumbnail-inner">
-								<div class="thumbnail-image">
-									<img :src="project.thumbnail.url" :alt="project.title" />
-								</div>
+					<div class="thumbnail-scroll">
+						<ul class="thumbnail-list list">
+							<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project) && index !== 0" :key="`thumbnail-${ project.id }`">
+								<a class="thumbnail-inner" :href="project.website" target="_blank" :title="`View ${ project.title } website`">
+									<div class="thumbnail-image">
+										<img :src="project.thumbnail.url" :alt="project.title" />
+									</div>
 
-								<div class="thumbnail-content">
-									{{ project.title }}
-								</div>
-							</div>
-						</li>
-					</ul>
+									<div class="thumbnail-content">
+										<span class="text">{{ project.title }}</span>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
 
 					<button @click="clearCategory" type="button" class="btn btn-exit" aria-label="Exit category thumbnail view"></button>
 				</div>

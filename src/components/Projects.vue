@@ -104,8 +104,7 @@
 
 							<ul class="icon-list icon-list-categories">
 								<li v-for="(cat, i) in project.categories" class="list-item" :key="i">
-									<!-- <button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="index === activeProject ? 0 : -1"> -->
-									<button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="-1">
+									<button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="index === activeProject ? 0 : -1">
 										<div v-if="cat.icon" class="item-icon" :aria-label="cat.title">
 											<img class="icon" :src="cat.icon" />
 										</div>

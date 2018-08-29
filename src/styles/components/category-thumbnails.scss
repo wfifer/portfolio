@@ -18,9 +18,10 @@
 
 		display: flex;
 		justify-content: center;
+		align-items: center;
+		height: 100%;
 		width: 100%;
 		padding: 10rem;
-		height: 100%;
 
 		background: rgba(white, 0.925);
 
@@ -43,7 +44,7 @@
 
 		transition: all $transition;
 
-		&:hover, &:focus {
+		&:hover, .-show-focus &:focus {
 			box-shadow: 0 0 0 2px $color-charcoal inset;
 			color: $color-charcoal;
 			background: rgba($color-charcoal, 0);
@@ -54,6 +55,11 @@
 
 			@include font-icon;
 		}
+	}
+
+	.thumbnail-scroll {
+		max-height: 100%;
+		overflow-y: auto;
 	}
 
 	.thumbnail-list {
@@ -71,26 +77,52 @@
 			position: relative;
 
 			width: 80rem;
-			height: 80rem;
 			padding: 5rem;
 
 			@for $i from 1 through 12 {
 				&:nth-child(#{ $i }) {
 					.thumbnail-inner {
-						transition-delay: #{ 0.75s + $i * 0.1s };
+						transition: all $transition, 
+							opacity $transition #{ 0.5s + $i * 0.0625s }, 
+							transform $transition #{ 0.5s + $i * 0.0625s };
 					}
 				}
 			}
 
 			.thumbnail-inner {
 				position: relative;
+				transform: rotateZ(0);
 
+				display: block;
 				width: 100%;
-				height: 100%;
+				padding-bottom: 100%;
 
 				background: #ccc;
 
-				transition: all 0.35s;
+				&:hover, .-show-focus &:focus {
+					.thumbnail-image {
+						img {
+							transform: scale(1.2) rotate(10deg) translateZ(0);
+
+							opacity: 0.35;
+						}
+					}
+
+					.thumbnail-content {
+						transform: translateY(0);
+
+						.text {
+							transform: scale(0.9);
+
+							opacity: 0.75;
+						}
+
+						&::after {
+							opacity: 1;
+							visibility: visible;
+						}
+					}
+				}
 
 				.thumbnail-image, .thumbnail-content {
 					position: absolute;
@@ -99,27 +131,63 @@
 
 					width: 100%;
 					height: 100%;
-					padding: 10rem;
 				}
 
 				.thumbnail-image {
-					background: {
-						size: cover;
-						position: center;
-					}
+					overflow: hidden;
+
+					background: $color-charcoal;
 
 					img {
+						transform: translateZ(0);
+
 						color: transparent;
+						opacity: 0.25;
+
+						transition: all $transition;
+
+						@supports (mix-blend-mode: screen) {
+							mix-blend-mode: screen;
+						}
 					}
 				}
 
 				.thumbnail-content {
+					transform: translateY(1em);
+
 					display: flex;
+					flex-direction: column;
 					align-items: center;
 					justify-content: center;
+					padding: 10rem;
+
+					color: white;
 
 					text-transform: uppercase;
 					@include font-body-bold;
+					text-align: center;
+					letter-spacing: 0.02em;
+
+					transition: transform $transition;
+
+					.text {
+						transition: all $transition;
+					}
+
+					&::after {
+						content: 'View website';
+
+						display: block;
+						margin-top: 5rem;
+
+						opacity: 0;
+						visibility: hidden;
+						color: white;
+
+						// font-size: 0.8em;
+
+						transition: all $transition;
+					}
 				}
 			}
 		}

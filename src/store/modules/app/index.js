@@ -8,7 +8,8 @@ const state = {
 	window: {
 		width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
 		height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-	}
+	},
+	userInteraction: 'tab'
 };
 
 const mutations = {
@@ -17,6 +18,19 @@ const mutations = {
 			width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
 			height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
 		};
+	},
+	[type.KEYUP] (state, action) {
+		if (action.event.which === 9) {
+			state.userInteraction = 'tab';
+		}
+	},
+	[type.CLICK] (state, action) {
+		state.userInteraction = state.userInteraction === 'touch'
+			? 'touch'
+			: 'click';
+	},
+	[type.TOUCH] (state, action) {
+		state.userInteraction = 'touch';
 	}
 };
 
