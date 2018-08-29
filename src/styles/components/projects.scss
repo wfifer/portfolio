@@ -3,60 +3,26 @@
 $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 .site-header {
+	transform: translateZ(-1px);
+
 	height: 100vh;
 
 	background: $color-bg;
 
 	@include font-display-black;
 
-	&.-banner {
-		transition: padding 0.35s, height 0.5s cubic-bezier(0.250,  0.460, 0.450, 0.940) #{$transition-enter-time + $transition-enter-delay + 0.15s};
-		
-		height: calc(100vw * 2 / 3 + 20vh);
+	transition: all $transition-thumbnails;
+	will-change: transform, filter;
 
-		@media screen and (min-aspect-ratio: 1/1) {
-			height: (100vh * 2 / 3 + 20vh);
-		}
+	&.-thumbnails-open {
+		transform: scale(0.9) translateZ(-1px);
 
-		.project-mask {
-			&:not(.-selected) {
-				opacity: 0;
-				visibility: hidden;
-			}
+		// filter: blur(5px);
 
-			&.-selected {
-				.mask-svg {
-					.svg-inner {
-						transform: translate3d(0, -10vh, 0);
+		.nav-animation {
+			opacity: 0 !important;
 
-						height: (100vw * 2 / 3);
-						overflow: visible;
-
-						transition: all 0.5s #{$transition-enter-time + $transition-enter-delay + 0.15s};
-
-						@media screen and (min-aspect-ratio: 1/1) {
-							height: (100vh * 2 / 3);
-						}
-					}
-				}
-
-				.text-mask {
-					transition: all $transition-enter $transition-enter-delay;
-
-					rect {
-						opacity: 1;
-						transition: all $transition-enter #{$transition-enter-delay + 0.2s};
-					}
-				}
-
-				.gradient-overlay {
-					transition: all $transition-enter $transition-enter-delay;
-				}
-
-				.project-hero {
-					transform: translate3d(0, 0, 0) !important;
-				}
-			}
+			transition: none !important;
 		}
 	}
 
@@ -638,7 +604,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 						background: transparent;
 						color: $color-charcoal;
 						border-radius: 5rem;
-						box-shadow: 0 0 0 2px $color-charcoal inset;
+						border: 2px solid $color-charcoal;
 
 						&::after {
 							content: none;
@@ -659,7 +625,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				.list-item {
 					.item-icon {
 						background: $color-bg;
-						box-shadow: 0 0 0 2px $color-charcoal inset;
+						border: 2px solid $color-charcoal;
 						color: $color-charcoal;
 					}
 
@@ -681,6 +647,8 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		opacity: 0;
 
 		pointer-events: none;
+
+		transition: all 0s 0.5s;
 
 		.nav-item {
 			position: absolute;

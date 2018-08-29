@@ -48,13 +48,6 @@ $font-size-small: 10px;
 
 // ANIMATION
 
-$transition: 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-$transition-reveal: 2s cubic-bezier(0.23, 1, 0.32, 1);
-$transition-reveal-delayed: 1.5s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
-$transition-enter-time: 1s;
-$transition-enter: $transition-enter-time cubic-bezier(0.23, 1, 0.32, 1);
-$transition-enter-delay: 0.35s;
-
 $ease: (
 	in-quad:      cubic-bezier(0.550,  0.085, 0.680, 0.530),
 	in-cubic:     cubic-bezier(0.550,  0.055, 0.675, 0.190),
@@ -81,3 +74,11 @@ $ease: (
 	in-out-circ:  cubic-bezier(0.785,  0.135, 0.150, 0.860),
 	in-out-back:  cubic-bezier(0.680, -0.550, 0.265, 1.550)
 );
+
+$transition: 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+$transition-reveal: 2s cubic-bezier(0.23, 1, 0.32, 1);
+$transition-reveal-delayed: 1.5s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
+$transition-enter-time: 1s;
+$transition-enter: $transition-enter-time cubic-bezier(0.23, 1, 0.32, 1);
+$transition-enter-delay: 0.35s;
+$transition-thumbnails: 0.5s map-get($ease, out-quad);

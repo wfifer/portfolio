@@ -43,9 +43,9 @@ return [
 					if (sizeof($entry->heroImage)) {
 						$image = $entry->heroImage[0];
 						$heroImage = [
-							'url' =>  $image->getUrl(),
-							'width' => $image->getWidth(),
-							'height' => $image->getHeight()
+							'url' =>  $image->getUrl('masked'),
+							'width' => $image->getWidth('masked'),
+							'height' => $image->getHeight('masked')
 						];
 					}
 
@@ -58,6 +58,16 @@ return [
 								'angle' => $block->angle
 							];
 						}
+					}
+
+					$thumbnail = [];
+					if (sizeof($entry->thumbnail)) {
+						$image = $entry->thumbnail[0];
+						$thumbnail = [
+							'url' =>  $image->getUrl('thumbnail'),
+							'width' => $image->getWidth('thumbnail'),
+							'height' => $image->getHeight('thumbnail')
+						];
 					}
 
 					$layers = [];
@@ -113,6 +123,7 @@ return [
 						'url' => $entry->url,
 						'heroImage' => $heroImage,
 						'heroBackground' => $heroBackground,
+						'thumbnail' => $thumbnail,
 						'entryId' => $entry->id,
 						'website' => $entry->website,
 						'categories' => $categories,

@@ -1,40 +1,49 @@
 <template>
-	<div class="category-thumbnails" :class="currentCategory ? '-active' : '-inactive'">
-		<div class="thumbnails-inner">
-			<ul class="thumbnail-list list">
-				<li v-for="project in categoryProjects" class="thumbnail">
-					<div class="thumbnail-inner">
-						<div class="thumbnail-image" :style="`background-image: url(${ project.heroImage.url })`">
-						</div>
+	<div class="category-thumbnails">
+		<transition name="t-thumbnails">
+			<div class="thumbnails-view" v-if="currentCategory">
+				<div class="thumbnails-inner">
+					<ul class="thumbnail-list list">
+						<li v-for="project in projects" class="thumbnail" v-if="isActive(project)" :key="`thumbnail-${ project.id }`">
+							<div class="thumbnail-inner">
+								<div class="thumbnail-image">
+									<img :src="project.thumbnail.url" :alt="project.title" />
+								</div>
 
-						<div class="thumbnail-content">
-							{{ project.title }}
-						</div>
-					</div>
-				</li>
-			</ul>
-		</div>
+								<div class="thumbnail-content">
+									{{ project.title }}
+								</div>
+							</div>
+						</li>
+					</ul>
+
+					<button @click="clearCategory" type="button" class="btn btn-exit" aria-label="Exit category thumbnail view"></button>
+				</div>
+			</div>
+		</transition>
 	</div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import filter from 'lodash/filter';
+import { mapState, mapActions } from 'vuex';
 
 export default {
 	name: 'CategoryThumbnails',
 	computed: {
-		categoryProjects () {
-			return filter(this.projects, (project, i) => {
-				let categories = project.categories.map((category) => category.slug);
-
-				return categories.indexOf(this.currentCategory) >= 0;
-			});
-		},
 		...mapState({
 			currentCategory: state => state.projects.currentCategory,
 			projects: state => state.projects.projects
 		})
+	},
+	methods: {
+		isActive (project) {
+			let categories = project.categories.map((category) => category.slug);
+
+			return categories.indexOf(this.currentCategory) >= 0;
+		},
+		...mapActions([
+			'clearCategory'
+		])
 	}
 };
 </script>

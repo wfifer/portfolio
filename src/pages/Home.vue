@@ -20,9 +20,3 @@ export default {
 	}
 };
 </script>
-
-<style scoped>
-.site-logo {
-	width: 300px;
-}
-</style>

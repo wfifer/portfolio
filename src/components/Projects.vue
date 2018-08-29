@@ -1,5 +1,6 @@
 <template>
-	<section class="site-header" :class="selectedProject >= 0 ? '-banner' : ''" @mousemove="/*onMouseMove*/">
+	<!-- <section class="site-header" :class="selectedProject >= 0 ? '-banner' : ''" @mousemove="/*onMouseMove*/"> -->
+	<section class="site-header" :class="currentCategory ? '-thumbnails-open' : ''" @mousemove="/*onMouseMove*/">
 		<Spinner :class="projectReady ? '-loaded' : ''"/>
 
 		<transition name="fade">
@@ -16,110 +17,114 @@
 				</button>
 			</nav>
 
-			<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="index">
-				<div class="mask-inner">
-					<div class="svg-container">
-						<div class="mask-svg">
-							<div class="svg-inner">
-								<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve">
-							 		<defs>
-										<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="0%">
-											<stop v-for="(stop, stopIndex) in project.heroBackground.stops" :offset="`${ stop.position }%`" :key="stopIndex" :stop-color="stop.color"/>
-										</linearGradient>
+			<div class="project-list">
+				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="index">
+					<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="project.heroImage.url" />
 
-										<clipPath clipPathUnits="userSpaceOnUse" :id="`text-clip-${ index }`">
-											<text class="text-mask" :x="svg.width / 2" :y="svg.height / 2" text-anchor="middle" :style="`font-size: ${fontSize}px; dominant-baseline: central;`" fill="#FFFFFF">{{ projectInitial[index] }}</text>
-										</clipPath>
+					<div class="mask-inner">
+						<div class="svg-container">
+							<div class="mask-svg">
+								<div class="svg-inner">
+									<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve">
+								 		<defs>
+											<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="0%">
+												<stop v-for="(stop, stopIndex) in project.heroBackground.stops" :offset="`${ stop.position }%`" :key="stopIndex" :stop-color="stop.color"/>
+											</linearGradient>
 
-										<mask maskUnits="userSpaceOnUse" x="0" y="0" :width="svg.width" :height="svg.height" :id="`text-mask-${ index }`">
-											<g class="text-mask">
-												<text :transform="`matrix(1 0 0 1 ${ svg.width / 2 } ${ svg.height / 2 + fontSize / 2.8 })`" text-anchor="middle" :style="`font-size: ${fontSize}px`">{{ projectInitial[index] }}</text>
+											<clipPath clipPathUnits="userSpaceOnUse" :id="`text-clip-${ index }`">
+												<text class="text-mask" :x="svg.width / 2" :y="svg.height / 2" text-anchor="middle" :style="`font-size: ${fontSize}px; dominant-baseline: central;`" fill="#FFFFFF">{{ projectInitial[index] }}</text>
+											</clipPath>
+
+											<mask maskUnits="userSpaceOnUse" x="0" y="0" :width="svg.width" :height="svg.height" :id="`text-mask-${ index }`">
+												<g class="text-mask">
+													<text :transform="`matrix(1 0 0 1 ${ svg.width / 2 } ${ svg.height / 2 + fontSize / 2.8 })`" text-anchor="middle" :style="`font-size: ${fontSize}px`">{{ projectInitial[index] }}</text>
+												</g>
+											</mask>
+										</defs>
+
+										<g :style="`clip-path: url(#text-clip-${ index }); mask: url(#text-mask-${ index });`" class="svg-clipped">
+											<rect x="0" y="0" :width="svg.width" :height="svg.height" style="fill: white" />
+
+											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" :r="svgImage(project.heroImage).width * 0.625" :style="`fill: url(#gradient-bg-${ index });`" />
+
+											<g>
+												<g class="project-hero">
+													<image :width="svgImage(project.heroImage).width" :height="svgImage(project.heroImage).height" style="overflow:visible;" :xlink:href="project.heroImage.url" :x="svgImage(project.heroImage).x" :y="svgImage(project.heroImage).y"></image>
+												</g>
 											</g>
-										</mask>
-									</defs>
 
-									<g :style="`clip-path: url(#text-clip-${ index }); mask: url(#text-mask-${ index });`" class="svg-clipped">
-										<rect x="0" y="0" :width="svg.width" :height="svg.height" style="fill: white" />
-
-										<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" :r="svgImage(project.heroImage).width * 0.625" :style="`fill: url(#gradient-bg-${ index });`" />
-
-										<g>
-											<g class="project-hero">
-												<image :width="svgImage(project.heroImage).width" :height="svgImage(project.heroImage).height" style="overflow:visible;" :xlink:href="project.heroImage.url" :x="svgImage(project.heroImage).x" :y="svgImage(project.heroImage).y"></image>
-											</g>
+											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" :r="svgImage(project.heroImage).width * 0.625" :style="`fill: url(#gradient-bg-${ index }); mix-blend-mode: hue; opacity: 0.5;`" />
 										</g>
-
-										<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" :r="svgImage(project.heroImage).width * 0.625" :style="`fill: url(#gradient-bg-${ index }); mix-blend-mode: hue; opacity: 0.5;`" />
-									</g>
-								</svg>
+									</svg>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="project-info">
-					<h2 class="project-title" v-html="titleHtml[index]"></h2>
+					<div class="project-info">
+						<h2 class="project-title" v-html="titleHtml[index]"></h2>
 
-					<div class="project-tools">
-						<ul class="icon-list icon-list-website" v-if="index == 0">
-							<li class="list-item">
-								<button class="btn" @click="enterAbout" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null">
-									<div class="item-icon">
-										<Icon name="hand-peace" />
+						<div class="project-tools">
+							<ul class="icon-list icon-list-website" v-if="index == 0">
+								<li class="list-item">
+									<button class="btn" @click="enterAbout" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null">
+										<div class="item-icon">
+											<Icon name="hand-peace" />
 
-										<span class="text">About</span>
-									</div>
-								</button>
-							</li>
-						</ul>
+											<span class="text">About</span>
+										</div>
+									</button>
+								</li>
+							</ul>
 
-						<ul class="icon-list icon-list-website" v-else-if="project.website && project.website.length">
-							<li class="list-item">
+							<ul class="icon-list icon-list-website" v-else-if="project.website && project.website.length">
+								<li class="list-item">
 
-								<a :href="project.website" target="_blank" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null">
-									<div class="item-icon">
-										<Icon name="link" />
+									<a :href="project.website" target="_blank" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null">
+										<div class="item-icon">
+											<Icon name="link" />
 
-										<span class="text">View website</span>
-									</div>
-								</a>
-							</li>
-						</ul>
+											<span class="text">View website</span>
+										</div>
+									</a>
+								</li>
+							</ul>
 
-						<ul class="icon-list icon-list-collab">
-							<li v-for="(collaborator, i) in project.collaborators" class="list-item" :key="i">
-								<a tabindex="-1" :title="collaborator.title" :href="collaborator.website" target="_blank" :tabindex="index === activeProject ? 0 : -1">
-									<div class="item-icon" :aria-label="`Credit: ${collaborator.title}`">
-										<Icon name="heart" style="transform: translateY(6%)" />
+							<ul class="icon-list icon-list-collab">
+								<li v-for="(collaborator, i) in project.collaborators" class="list-item" :key="i">
+									<a tabindex="-1" :title="collaborator.title" :href="collaborator.website" target="_blank" :tabindex="index === activeProject ? 0 : -1">
+										<div class="item-icon" :aria-label="`Credit: ${collaborator.title}`">
+											<Icon name="heart" style="transform: translateY(6%)" />
 
-										<span class="text">Credit: {{ collaborator.title }}</span>
-									</div>
-								</a>
-							</li>
-						</ul>
+											<span class="text">Credit: {{ collaborator.title }}</span>
+										</div>
+									</a>
+								</li>
+							</ul>
 
-						<ul class="icon-list icon-list-categories">
-							<li v-for="(cat, i) in project.categories" class="list-item" :key="i">
-								<!-- <button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="index === activeProject ? 0 : -1"> -->
-								<button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="-1">
-									<div v-if="cat.icon" class="item-icon" :aria-label="cat.title">
-										<img class="icon" :src="cat.icon" />
-									</div>
+							<ul class="icon-list icon-list-categories">
+								<li v-for="(cat, i) in project.categories" class="list-item" :key="i">
+									<!-- <button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="index === activeProject ? 0 : -1"> -->
+									<button class="btn" :title="cat.title" @click="showCategory(cat.slug)" :tabindex="-1">
+										<div v-if="cat.icon" class="item-icon" :aria-label="cat.title">
+											<img class="icon" :src="cat.icon" />
+										</div>
 
-									<div v-else class="item-icon" :aria-label="cat.title">
-										<Icon :name="mapIcons(cat.fontIcon)" />
-									</div>
-								</button>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-				<div class="nav-animation">
-					<div class="nav-item nav-prev">
+										<div v-else class="item-icon" :aria-label="cat.title">
+											<Icon :name="mapIcons(cat.fontIcon)" />
+										</div>
+									</button>
+								</li>
+							</ul>
+						</div>
 					</div>
 
-					<div class="nav-item nav-next">
+					<div class="nav-animation">
+						<div class="nav-item nav-prev">
+						</div>
+
+						<div class="nav-item nav-next">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -361,7 +366,8 @@ export default {
 			selectedProject: state => state.projects.selected,
 			direction: state => state.projects.direction,
 			projects: state => state.projects.projects,
-			viewport: state => state.app.window
+			viewport: state => state.app.window,
+			currentCategory: state => state.projects.currentCategory
 		})
 	}
 };

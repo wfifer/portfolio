@@ -29,7 +29,10 @@ const mutations = {
 		state.projects = action.response.data.data;
 	},
 	[type.SHOW_CATEGORY] (state, action) {
-		state.currentCategory = action.category;
+		// state.currentCategory = action.category;
+	},
+	[type.CLEAR_CATEGORY] (state, action) {
+		// state.currentCategory = null;
 	}
 };
 

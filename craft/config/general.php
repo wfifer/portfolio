@@ -30,7 +30,7 @@ return [
     // Dev environment settings
     'dev' => [
         // Base site URL
-        'siteUrl' => 'api.portfolio.local',
+        'siteUrl' => 'http://api.portfolio.local',
 
         // Dev Mode (see https://craftcms.com/support/dev-mode)
         'devMode' => true,

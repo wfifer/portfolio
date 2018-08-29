@@ -35,9 +35,12 @@ const actions = {
 		);
 	},
 	showCategory ({ commit }, category) {
-		// commit(type.SHOW_CATEGORY, {
-		// 	category
-		// });
+		commit(type.SHOW_CATEGORY, {
+			category
+		});
+	},
+	clearCategory ({ commit }) {
+		commit(type.CLEAR_CATEGORY);
 	}
 };
 
