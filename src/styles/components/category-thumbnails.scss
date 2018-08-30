@@ -104,15 +104,16 @@
 			width: 80rem;
 			padding: 5rem;
 
-			@for $i from 1 through 12 {
-				&:nth-child(#{ $i }) {
-					.thumbnail-inner {
-						transition: all $transition;
-							// opacity $transition #{ 0.5s + $i * 0.0625s }, 
-							// transform $transition #{ 0.5s + $i * 0.0625s };
-					}
-				}
-			}
+			// transition: all $transition;
+
+			// @for $i from 1 through 12 {
+			// 	&:nth-child(#{ $i }) {
+			// 		.thumbnail-inner {
+			// 				opacity $transition #{ 0.5s + $i * 0.0625s }, 
+			// 				transform $transition #{ 0.5s + $i * 0.0625s };
+			// 		}
+			// 	}
+			// }
 
 			.thumbnail-inner {
 				position: relative;
@@ -274,4 +275,22 @@
 			}
 		}
 	}
+}
+
+.t-thumbnail-item-enter-active, .t-thumbnail-item-leave-active, .t-thumbnail-item-move {
+	transition: all $transition;
+}
+
+.t-thumbnail-item-enter {
+	opacity: 0;
+
+	transform: translateY(50%);
+}
+
+.t-thumbnail-item-leave-to {
+	opacity: 0;
+}
+
+.t-thumbnail-item-leave-active {
+	position: absolute !important;
 }

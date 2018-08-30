@@ -9,7 +9,7 @@
 				<div class="thumbnails-inner">
 					<div class="thumbnail-scroll">
 						<transition-group name="t-thumbnail-item" class="thumbnail-list list" tag="ul">
-							<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project) && index !== 0" :key="`thumbnail-${ project.id }`">
+							<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project) && index !== 0" :key="`thumbnail-${ project.entryId }`">
 								<a class="thumbnail-inner" :href="project.website" target="_blank" :title="`View ${ project.title } website`" :style="`background: ${ getThumbnailBackground(project) }`">
 									<div class="thumbnail-image" :style="`background: linear-gradient(${ getGradient(project) })`">
 										<img :src="project.thumbnail.url" :alt="project.title" />
