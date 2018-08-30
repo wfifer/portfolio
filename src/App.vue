@@ -37,7 +37,7 @@ export default {
 		},
 		...mapState({
 			viewport: state => state.app.window,
-			userInteraction: state => state.app.userInteraction,
+			userInteraction: state => state.app.userInteraction
 		})
 	}
 };

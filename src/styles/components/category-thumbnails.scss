@@ -82,9 +82,9 @@
 			@for $i from 1 through 12 {
 				&:nth-child(#{ $i }) {
 					.thumbnail-inner {
-						transition: all $transition, 
-							opacity $transition #{ 0.5s + $i * 0.0625s }, 
-							transform $transition #{ 0.5s + $i * 0.0625s };
+						transition: all $transition;
+							// opacity $transition #{ 0.5s + $i * 0.0625s }, 
+							// transform $transition #{ 0.5s + $i * 0.0625s };
 					}
 				}
 			}
@@ -97,14 +97,12 @@
 				width: 100%;
 				padding-bottom: 100%;
 
-				background: #ccc;
-
 				&:hover, .-show-focus &:focus {
 					.thumbnail-image {
 						img {
 							transform: scale(1.2) rotate(10deg) translateZ(0);
 
-							opacity: 0.35;
+							opacity: 0.45;
 						}
 					}
 
@@ -114,7 +112,7 @@
 						.text {
 							transform: scale(0.9);
 
-							opacity: 0.75;
+							// opacity: 0.75;
 						}
 
 						&::after {
@@ -136,19 +134,24 @@
 				.thumbnail-image {
 					overflow: hidden;
 
-					background: $color-charcoal;
+					opacity: 0.4;
+
+					@supports (filter: brightness(110%)) {
+						filter: brightness(110%);
+						// opacity: 0.9;
+					}
 
 					img {
 						transform: translateZ(0);
 
 						color: transparent;
-						opacity: 0.25;
+						opacity: 0.3;
 
 						transition: all $transition;
 
-						@supports (mix-blend-mode: screen) {
-							mix-blend-mode: screen;
-						}
+						// @supports (mix-blend-mode: screen) {
+						// 	mix-blend-mode: screen;
+						// }
 					}
 				}
 
@@ -161,12 +164,12 @@
 					justify-content: center;
 					padding: 10rem;
 
-					color: white;
+					color: $color-charcoal;
 
 					text-transform: uppercase;
 					@include font-body-bold;
 					text-align: center;
-					letter-spacing: 0.02em;
+					letter-spacing: 0.04em;
 
 					transition: transform $transition;
 
@@ -177,14 +180,20 @@
 					&::after {
 						content: 'View website';
 
-						display: block;
+						display: flex;
+						align-items: center;
+						height: 10rem;
+						padding: 0 4rem;
 						margin-top: 5rem;
 
 						opacity: 0;
 						visibility: hidden;
-						color: white;
+						background: white;
+						border-radius: 5rem;
+						color: $color-charcoal;
 
 						// font-size: 0.8em;
+						font-size: 4rem;
 
 						transition: all $transition;
 					}
@@ -234,7 +243,7 @@
 	.thumbnail-list {
 		.thumbnail {
 			.thumbnail-inner {
-				transform: translateY(50%);
+				// transform: translateY(50%);
 
 				opacity: 0;
 			}
