@@ -8,7 +8,7 @@
 
 				<div class="thumbnails-inner">
 					<div class="thumbnail-scroll">
-						<ul class="thumbnail-list list">
+						<transition-group name="t-thumbnail-item" class="thumbnail-list list" tag="ul">
 							<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project) && index !== 0" :key="`thumbnail-${ project.id }`">
 								<a class="thumbnail-inner" :href="project.website" target="_blank" :title="`View ${ project.title } website`" :style="`background: ${ getThumbnailBackground(project) }`">
 									<div class="thumbnail-image" :style="`background: linear-gradient(${ getGradient(project) })`">
@@ -17,35 +17,22 @@
 
 									<div class="thumbnail-content">
 										<span class="text">{{ project.title }}</span>
-										<!-- <span class="text" :style="`text-shadow: 0 0 8px ${ project.heroBackground.stops[0].color };`">{{ project.title }}</span> -->
 									</div>
 								</a>
 							</li>
-						</ul>
+						</transition-group>
 					</div>
 
 					<!-- tools -->
 
 					<h2 class="category-heading">
 						<span class="label">Projects in:</span>
-						<span class="title">{{ currentCategory.replace('-', ' ') }}</span>
+						<span class="title">{{ currentCategory.title }}</span>
 					</h2>
 
 					<button @click="clearCategory" type="button" class="btn btn-exit" aria-label="Exit category thumbnail view"></button>
 
-					<<!-- ul class="icon-list icon-list-categories">
-						<li v-for="(cat, i) in categories" class="list-item" :key="i">
-							<button class="btn" :title="cat.title" @click="showCategory(cat.slug)">
-								<div v-if="cat.icon" class="item-icon" :aria-label="cat.title">
-									<img class="icon" :src="cat.icon" />
-								</div>
-
-								<div v-else class="item-icon" :aria-label="cat.title">
-									<Icon :name="mapIcons(cat.fontIcon)" />
-								</div>
-							</button>
-						</li>
-					</ul> -->
+					<CategoryButtons :categories="categories" class="category-nav icon-list icon-list-categories" />
 				</div>
 			</div>
 		</transition>
@@ -54,9 +41,13 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import CategoryButtons from '@/components/CategoryButtons';
 
 export default {
 	name: 'CategoryThumbnails',
+	components: {
+		CategoryButtons
+	},
 	computed: {
 		...mapState({
 			currentCategory: state => state.projects.currentCategory,
@@ -66,9 +57,9 @@ export default {
 	},
 	methods: {
 		isActive (project) {
-			let categories = project.categories.map((category) => category.slug);
+			let categories = project.categories.map((category) => category.id);
 
-			return categories.indexOf(this.currentCategory) >= 0;
+			return categories.indexOf(this.currentCategory.id) >= 0;
 		},
 		getGradient (project) {
 			// let angle = project.heroBackground.angle;
@@ -101,4 +92,5 @@ export default {
 };
 </script>
 
+<style src="../styles/components/icon-list.scss" lang="scss"></style>
 <style src="@/styles/components/category-thumbnails.scss" lang="scss" scoped></style>

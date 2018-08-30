@@ -23,7 +23,7 @@
 		width: 100%;
 		padding: 10rem;
 
-		background: rgba(white, 0.925);
+		background: rgba($color-bg, 0.925);
 
 		transition: all $transition-thumbnails;
 		will-change: transform, opacity, visibility;
@@ -73,6 +73,13 @@
 		.label {
 			opacity: 0.6;
 		}
+	}
+
+	.category-nav {
+		position: absolute;
+		bottom: 2rem;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 
 	.thumbnail-scroll {

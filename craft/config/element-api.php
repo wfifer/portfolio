@@ -93,19 +93,16 @@ return [
 
 					$categories = [];
 					foreach ($entry->projectCategory->all() as $category) {
-						$cat  = [
+						$cat = [
 							'slug' => $category->slug,
-							'title' => $category->title
+							'title' => $category->title,
+							'id' => $category->id
 						];
 						if (sizeof($category->icon)) {
 							$cat['icon'] = $category->icon[0]->getUrl();
 						}
 						if (sizeof($category->fontIcon)) {
-							$fontIcon = [];
-							foreach ($category->fontIcon as $icon) {
-								$fontIcon[] = $icon['className'];
-							}
-							$cat['fontIcon'] = $fontIcon;
+							$cat['fontIcon'] = $category->fontIcon;
 						}
 						$categories[] = $cat;
 					}
@@ -166,12 +163,21 @@ return [
 				'elementType' => craft\elements\Category::class,
 				'criteria' => ['group' => 'projectCategory'],
 				'transformer' => function(craft\elements\Category $category) {
-					
-					return [
-						'title' => $category->title,
+
+					$cat = [
 						'slug' => $category->slug,
+						'title' => $category->title,
 						'id' => $category->id
 					];
+
+					if (sizeof($category->icon)) {
+						$cat['icon'] = $category->icon[0]->getUrl();
+					}
+					if (sizeof($category->fontIcon)) {
+						$cat['fontIcon'] = $category->fontIcon;
+					}
+					
+					return $cat;
 				}
 			];    
 		},
