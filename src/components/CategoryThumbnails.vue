@@ -24,6 +24,11 @@
 						</ul>
 					</div>
 
+					<h2 class="category-heading">
+						<span class="label">Projects in:</span>
+						<span class="title">{{ currentCategory.replace('-', ' ') }}</span>
+					</h2>
+
 					<button @click="clearCategory" type="button" class="btn btn-exit" aria-label="Exit category thumbnail view"></button>
 				</div>
 			</div>
@@ -58,7 +63,7 @@ export default {
 				: 'to right';
 
 			stops.forEach((stop, i) => {
-				gradient += `, ${ stop.color } ${ stop.position }%`;
+				gradient += `, ${ stop.color } ${ 20 + i * 60 }%`;
 			});
 
 			return gradient;

@@ -68,7 +68,7 @@
 							<ul class="icon-list icon-list-website" v-if="index == 0">
 								<li class="list-item">
 									<button class="btn" @click="enterAbout" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null">
-										<div class="item-icon">
+										<div class="item-icon" :style="`background: ${ getIconBackground(project) }`">
 											<Icon name="hand-peace" />
 
 											<span class="text">About</span>
@@ -81,7 +81,7 @@
 								<li class="list-item">
 
 									<a :href="project.website" target="_blank" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null">
-										<div class="item-icon">
+										<div class="item-icon" :style="`background: ${ getIconBackground(project) }`">
 											<Icon name="link" />
 
 											<span class="text">View website</span>
@@ -93,7 +93,7 @@
 							<ul class="icon-list icon-list-collab">
 								<li v-for="(collaborator, i) in project.collaborators" class="list-item" :key="i">
 									<a tabindex="-1" :title="collaborator.title" :href="collaborator.website" target="_blank" :tabindex="index === activeProject ? 0 : -1">
-										<div class="item-icon" :aria-label="`Credit: ${collaborator.title}`">
+										<div class="item-icon" :aria-label="`Credit: ${collaborator.title}`" :style="`background: ${ getIconBackground(project) }`">
 											<Icon name="heart" style="transform: translateY(6%)" />
 
 											<span class="text">Credit: {{ collaborator.title }}</span>
@@ -267,6 +267,30 @@ export default {
 			window.setTimeout(() => {
 				this.projectReady = true;
 			}, 2000);
+		},
+		getIconBackground (project) {
+			// let angle = '37deg';
+			// let stops = project.heroBackground.stops.slice(0, 2);
+
+			// let gradient = angle && angle.length
+			// 	? angle
+			// 	: 'to right';
+
+			// stops.forEach((stop, i) => {
+			// 	gradient += `, ${ stop.color } ${ stop.position }%`;
+			// });
+
+			// let color = parseInt(project.heroBackground.stops[1].color.replace('#', ''), 16);
+
+			// let r = color >> 16 & 255;
+			// let g = color >> 8 & 255;
+			// let b = color & 255;
+
+			// let rgba = `rgba(${ [r, g, b].join(',') }, 0.8 )`;
+
+			// return `linear-gradient(0deg, ${ rgba } 0%, ${ rgba } 100%), linear-gradient(${ gradient })`;
+
+			return null;
 		},
 		...mapActions([
 			'navigateProjects',
