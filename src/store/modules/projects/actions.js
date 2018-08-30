@@ -34,6 +34,15 @@ const actions = {
 			}
 		);
 	},
+	getCategories ({ commit }) {
+		axios.get(helpers.getApiUrl('categories.json'))
+			.then(response => {
+				commit(type.GET_CATEGORIES, {
+					response
+				});
+			}
+		);
+	},
 	showCategory ({ commit }, category) {
 		commit(type.SHOW_CATEGORY, {
 			category

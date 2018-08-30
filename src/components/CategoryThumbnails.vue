@@ -3,7 +3,7 @@
 		<transition name="t-thumbnails">
 			<div class="thumbnails-view" v-if="currentCategory">
 				<div style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px">
-					<img v-for="project in projects" :src="project.thumbnail.url" :key="`thumbnail-${ project.id }`" :alt="project.title" />
+					<img v-for="project in projects" :src="project.thumbnail.url" :key="`thumbnail-${ project.entryId }`" :alt="project.title" />
 				</div>
 
 				<div class="thumbnails-inner">
@@ -24,12 +24,28 @@
 						</ul>
 					</div>
 
+					<!-- tools -->
+
 					<h2 class="category-heading">
 						<span class="label">Projects in:</span>
 						<span class="title">{{ currentCategory.replace('-', ' ') }}</span>
 					</h2>
 
 					<button @click="clearCategory" type="button" class="btn btn-exit" aria-label="Exit category thumbnail view"></button>
+
+					<<!-- ul class="icon-list icon-list-categories">
+						<li v-for="(cat, i) in categories" class="list-item" :key="i">
+							<button class="btn" :title="cat.title" @click="showCategory(cat.slug)">
+								<div v-if="cat.icon" class="item-icon" :aria-label="cat.title">
+									<img class="icon" :src="cat.icon" />
+								</div>
+
+								<div v-else class="item-icon" :aria-label="cat.title">
+									<Icon :name="mapIcons(cat.fontIcon)" />
+								</div>
+							</button>
+						</li>
+					</ul> -->
 				</div>
 			</div>
 		</transition>
@@ -44,7 +60,8 @@ export default {
 	computed: {
 		...mapState({
 			currentCategory: state => state.projects.currentCategory,
-			projects: state => state.projects.projects
+			projects: state => state.projects.projects,
+			categories: state => state.projects.categories
 		})
 	},
 	methods: {

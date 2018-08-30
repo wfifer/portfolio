@@ -35,9 +35,9 @@ return [
 			}
 			
 			return [
-				'elementType' => Entry::class,
+				'elementType' => craft\elements\Entry::class,
 				'criteria' => ['section' => 'projects'],
-				'transformer' => function(Entry $entry) {
+				'transformer' => function(craft\elements\Entry $entry) {
 
 					$heroImage = [];
 					if (sizeof($entry->heroImage)) {
@@ -133,14 +133,56 @@ return [
 				}
 			];    
 		},
+		'categories.json' => function () {
+			if(isset($_SERVER['HTTP_REFERER'])) {
+				$whitelist = [
+					'*.local',
+					'localhost:8080',
+					'portfolio.local',
+					'willfifer.com',
+					'api.willfifer.com'
+				];
+				$request = $_SERVER['HTTP_REFERER'];
+				$matches = 0;
+				foreach($whitelist as $valid) {
+					$matched = [];
+					$valid = preg_replace('/\*/', '\w+', $valid);
+					preg_match('/' . $valid . '(\/[^\.]*)?$/', $request, $matched);
+					$matches += count($matched);
+				}
+
+				if ($matches > 0) {
+					\Craft::$app->response->headers->set('Access-Control-Allow-Origin', '*');
+				}
+				else {
+					\Craft::$app->response->headers->set('Access-Control-Allow-Origin', null);
+				}
+			}
+			else {
+				// \Craft::$app->response->headers->set('Access-Control-Allow-Origin', '*');
+			}
+			
+			return [
+				'elementType' => craft\elements\Category::class,
+				'criteria' => ['group' => 'projectCategory'],
+				'transformer' => function(craft\elements\Category $category) {
+					
+					return [
+						'title' => $category->title,
+						'slug' => $category->slug,
+						'id' => $category->id
+					];
+				}
+			];    
+		},
 		'project/<entryId:\d+>.json' => function ($entryId) {
 			\Craft::$app->response->headers->set('Access-Control-Allow-Origin', '*');
 			
 			return [
-				'elementType' => Entry::class,
+				'elementType' => craft\elements\Entry::class,
 				'criteria' => ['id' => $entryId],
 				'one' => true,
-				'transformer' => function(Entry $entry) {
+				'transformer' => function(craft\elements\Entry $entry) {
 					$pageContent = [];
 					foreach ($entry->pageContent->all() as $block) {
 						$blockContent = [

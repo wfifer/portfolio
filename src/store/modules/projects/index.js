@@ -28,6 +28,9 @@ const mutations = {
 	[type.GET_PROJECTS] (state, action) {
 		state.projects = action.response.data.data;
 	},
+	[type.GET_CATEGORIES] (state, action) {
+		state.categories = action.response.data.data;
+	},
 	[type.SHOW_CATEGORY] (state, action) {
 		state.currentCategory = action.category;
 	},

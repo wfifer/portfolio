@@ -14,13 +14,16 @@ export default {
 		window.addEventListener('touchstart', () => {
 			this.touchHandler();
 		});
+
+		this.getCategories();
 	},
 	methods: {
 		...mapActions([
 			'clickHandler',
 			'touchHandler',
 			'keyupHandler',
-			'resize'
+			'resize',
+			'getCategories'
 		])
 	},
 	computed: {
