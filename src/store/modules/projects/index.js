@@ -9,6 +9,7 @@ const state = {
 	selected: -1,
 	direction: 0,
 	projects: [],
+	featuredProjects: [],
 	currentProject: {},
 	currentCategory: null
 };
@@ -16,7 +17,7 @@ const state = {
 const mutations = {
 	[type.NAVIGATE_PROJECTS] (state, action) {
 		state.last = state.active;
-		state.active = (state.active + action.direction + state.projects.length) % state.projects.length;
+		state.active = (state.active + action.direction + state.featuredProjects.length) % state.featuredProjects.length;
 		state.direction = action.direction;
 	},
 	[type.ENTER_PROJECT] (state, action) {
@@ -26,7 +27,13 @@ const mutations = {
 		state.currentProject = action.response.data;
 	},
 	[type.GET_PROJECTS] (state, action) {
-		state.projects = action.response.data.data;
+		let projects = action.response.data.data;
+
+		state.projects = projects;
+
+		state.featuredProjects = projects.filter((project) => {
+			return project.featured;
+		});
 	},
 	[type.GET_CATEGORIES] (state, action) {
 		state.categories = action.response.data.data;

@@ -204,7 +204,7 @@
 					}
 
 					&::after {
-						content: 'View website';
+						content: attr(data-label);
 
 						display: flex;
 						align-items: center;
@@ -277,8 +277,13 @@
 	}
 }
 
-.t-thumbnail-item-enter-active, .t-thumbnail-item-leave-active, .t-thumbnail-item-move {
-	transition: all $transition;
+.t-thumbnail-item-enter-active, .t-thumbnail-item-move {
+	transition: all 0.35s map-get($ease, out-quad);
+}
+
+.t-thumbnail-item-leave-active {
+	transition: all 0.35s map-get($ease, out-quad),
+		opacity 0.2s;
 }
 
 .t-thumbnail-item-enter {
@@ -293,4 +298,5 @@
 
 .t-thumbnail-item-leave-active {
 	position: absolute !important;
+	z-index: -1;
 }

@@ -318,7 +318,7 @@ export default {
 			lastProject: state => state.projects.last,
 			selectedProject: state => state.projects.selected,
 			direction: state => state.projects.direction,
-			projects: state => state.projects.projects,
+			projects: state => state.projects.featuredProjects,
 			viewport: state => state.app.window,
 			currentCategory: state => state.projects.currentCategory
 		})

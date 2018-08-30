@@ -125,7 +125,8 @@ return [
 						'website' => $entry->website,
 						'categories' => $categories,
 						'collaborators' => $collaborators,
-						'layers' => $layers
+						'layers' => $layers,
+						'featured' => $entry->featured
 					];
 				}
 			];    

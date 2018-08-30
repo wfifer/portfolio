@@ -10,12 +10,12 @@
 					<div class="thumbnail-scroll">
 						<transition-group name="t-thumbnail-item" class="thumbnail-list list" tag="ul">
 							<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project) && index !== 0" :key="`thumbnail-${ project.entryId }`">
-								<a class="thumbnail-inner" :href="project.website" target="_blank" :title="`View ${ project.title } website`" :style="`background: ${ getThumbnailBackground(project) }`">
+								<a class="thumbnail-inner" :href="project.website && project.website.length > 0 ? project.website : null" target="_blank" :title="`View ${ project.title } website`" :style="`background: ${ getThumbnailBackground(project) }`">
 									<div class="thumbnail-image" :style="`background: linear-gradient(${ getGradient(project) })`">
 										<img :src="project.thumbnail.url" :alt="project.title" />
 									</div>
 
-									<div class="thumbnail-content">
+									<div class="thumbnail-content" :data-label="project.website && project.website.length > 0 ? 'View website' : 'Coming soon'">
 										<span class="text">{{ project.title }}</span>
 									</div>
 								</a>
