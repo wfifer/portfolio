@@ -58,6 +58,7 @@
 		position: absolute;
 		top: 2rem;
 		right: 2rem;
+		z-index: 10;
 
 		height: 10rem;
 		width: 10rem;
@@ -87,6 +88,7 @@
 		top: 7rem;
 		width: 100%;
 		transform: translateY(-50%);
+		z-index: 10;
 
 		text-align: center;
 		text-transform: uppercase;
@@ -109,6 +111,7 @@
 		bottom: 2rem;
 		left: 50%;
 		transform: translateX(-50%);
+		z-index: 10;
 
 		width: 100%;
 		display: flex;
