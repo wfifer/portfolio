@@ -405,9 +405,11 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 			display: flex;
 			margin-top: 2vh;
 
-			.icon-list {
-				&:not(:first-child) {
-					margin-left: 3rem;
+			@media screen and (min-width: 577px) {
+				.icon-list {
+					&:not(:first-child) {
+						margin-left: 3rem;
+					}
 				}
 			}
 		}
