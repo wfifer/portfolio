@@ -88,6 +88,8 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		&.-animate-out {
 			overflow: hidden;
 
+			pointer-events: none;
+
 			.nav-animation {
 				.nav-item {
 					opacity: 0;

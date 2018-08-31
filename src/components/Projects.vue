@@ -67,13 +67,7 @@
 						<div class="project-tools">
 							<ul class="icon-list icon-list-website" v-if="index == 0">
 								<li class="list-item">
-									<button class="btn" @click="enterAbout" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null">
-										<div class="item-icon">
-											<Icon name="hand-peace" />
-
-											<span class="text">About</span>
-										</div>
-									</button>
+									<ButtonDefault :tabindex="index === activeProject ? 0 : -1" button-color="reverse" title="Check me out on LinkedIn" font-icon="hand-peace" @click.native="enterAbout" text="About" />
 								</li>
 							</ul>
 
@@ -109,24 +103,13 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import 'vue-awesome/icons';
-import Icon from 'vue-awesome/components/Icon';
 import Spinner from '@/components/Spinner';
 import CategoryButtons from '@/components/CategoryButtons';
 import ButtonDefault from '@/components/ButtonDefault';
 
-Icon.register({
-	'hand-peace': {
-		width: 448,
-		height: 512,
-		d: 'M408 216c-22.092 0-40 17.909-40 40h-8v-32c0-22.091-17.908-40-40-40s-40 17.909-40 40v32h-8V48c0-26.51-21.49-48-48-48s-48 21.49-48 48v208h-13.572L92.688 78.449C82.994 53.774 55.134 41.63 30.461 51.324 5.787 61.017-6.356 88.877 3.337 113.551l74.765 190.342-31.09 24.872c-15.381 12.306-19.515 33.978-9.741 51.081l64 112A39.998 39.998 0 0 0 136 512h240c18.562 0 34.686-12.77 38.937-30.838l32-136A39.97 39.97 0 0 0 448 336v-80c0-22.091-17.908-40-40-40z'
-	}
-});
-
 export default {
 	name: 'Projects',
 	components: {
-		Icon,
 		Spinner,
 		CategoryButtons,
 		ButtonDefault

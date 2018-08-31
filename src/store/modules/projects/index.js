@@ -36,7 +36,15 @@ const mutations = {
 		});
 	},
 	[type.GET_CATEGORIES] (state, action) {
-		state.categories = action.response.data.data;
+		let all = {
+			title: 'All projects',
+			slug: 'all',
+			id: 99999,
+			icon: null,
+			fontIcon: 'globe-americas'
+		};
+
+		state.categories = [ all, ...action.response.data.data ];
 	},
 	[type.SHOW_CATEGORY] (state, action) {
 		state.currentCategory = action.category;

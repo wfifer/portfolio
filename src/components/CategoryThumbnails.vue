@@ -32,7 +32,9 @@
 
 					<button @click="clearCategory" type="button" class="btn btn-exit" aria-label="Exit category thumbnail view"></button>
 
-					<CategoryButtons :categories="categories" class="category-nav icon-list icon-list-categories" />
+					<div class="category-nav">
+						<CategoryButtons :categories="categories" class="icon-list icon-list-categories" />
+					</div>
 				</div>
 			</div>
 		</transition>
@@ -59,7 +61,7 @@ export default {
 		isActive (project) {
 			let categories = project.categories.map((category) => category.id);
 
-			return categories.indexOf(this.currentCategory.id) >= 0;
+			return categories.indexOf(this.currentCategory.id) >= 0 || this.currentCategory.slug === 'all';
 		},
 		getGradient (project) {
 			// let angle = project.heroBackground.angle;
