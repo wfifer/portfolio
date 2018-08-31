@@ -71,6 +71,10 @@
 			width: auto;
 			padding: 0 4rem;
 		}
+
+		.text {
+			margin-left: 2rem;
+		}
 	}
 
 	&::before {
@@ -120,7 +124,7 @@
 
 	&.-color-reverse {
 		.button-icon {
-			background: transparent;
+			background: $color-bg;
 			color: $color-charcoal;
 			border: 2px solid $color-charcoal;
 		}

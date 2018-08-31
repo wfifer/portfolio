@@ -537,18 +537,19 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 	@media screen and (max-width: 576px) {
 		.svg-inner {
-			transform: translateY(-20%);
+			transform: translateY(-25%);
 		}
 		
 		.svg {
+			min-width: 120vh !important;
 			opacity: 0.9;
 		}
 
 		.project-info {
-			padding: 10rem;
+			padding-bottom: 5rem;
 
 			.project-title {
-				font-size: 16vw;
+				font-size: 14vw;
 				text-align: center;
 			}
 
