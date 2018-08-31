@@ -41,7 +41,7 @@ const mutations = {
 			slug: 'all',
 			id: 99999,
 			icon: null,
-			fontIcon: 'globe-americas'
+			fontIcon: 'grid'
 		};
 
 		state.categories = [ all, ...action.response.data.data ];

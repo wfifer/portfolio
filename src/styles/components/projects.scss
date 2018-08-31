@@ -455,6 +455,13 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 			}
 		}
 
+		.btn-thumbnails {
+			position: fixed;
+			top: 2rem;
+			right: 2rem;
+			z-index: 100;
+		}
+
 		.nav-item {
 			position: fixed;
 			top: 50vh;

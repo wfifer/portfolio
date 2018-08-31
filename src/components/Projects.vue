@@ -15,6 +15,8 @@
 				<button @click="navActive ? navigateProjects(1) : null" type="button" class="btn nav-item nav-next" :aria-label="`Next project: ${ projectTitle(activeProject + 1) }`">
 					<div class="nav-icon"></div>
 				</button>
+				
+				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="grid" @click.native="showCategory('all')" />
 			</nav>
 
 			<div class="project-list">
@@ -209,7 +211,8 @@ export default {
 		...mapActions([
 			'navigateProjects',
 			// 'enterProject',
-			'getProjects'
+			'getProjects',
+			'showCategory'
 		])
 	},
 	watch: {

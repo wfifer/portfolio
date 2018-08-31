@@ -59,7 +59,9 @@
 	&:not(.-with-label) {
 		&:hover, .-show-focus &:focus {
 			.button-icon {
-				transform: translate3d(0, -1rem, 0);
+				border: 2px solid $color-charcoal;
+				background: transparent;
+				color: $color-charcoal;
 			}
 		}
 	}
@@ -121,6 +123,15 @@
 			background: transparent;
 			color: $color-charcoal;
 			border: 2px solid $color-charcoal;
+		}
+
+		&:not(.-with-label) {
+			&:hover, .-show-focus &:focus {
+				.button-icon {
+					background: $color-charcoal;
+					color: $color-bg;
+				}
+			}
 		}
 	}
 }
