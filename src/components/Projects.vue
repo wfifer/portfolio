@@ -8,13 +8,9 @@
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
-				<button @click="navActive ? navigateProjects(-1) : null" type="button" class="btn nav-item nav-prev" :aria-label="`Previous project: ${ projectTitle(activeProject - 1) }`">
-					<div class="nav-icon"></div>
-				</button>
-
-				<button @click="navActive ? navigateProjects(1) : null" type="button" class="btn nav-item nav-next" :aria-label="`Next project: ${ projectTitle(activeProject + 1) }`">
-					<div class="nav-icon"></div>
-				</button>
+				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-left" @click.native="navActive ? navigateProjects(-1) : null" />
+				
+				<ButtonDefault class="btn nav-item nav-next" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-right" @click.native="navActive ? navigateProjects(-1) : null" />
 				
 				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="grid" @click.native="showCategory(categoryAll)" />
 			</nav>
@@ -79,7 +75,7 @@
 								</li>
 							</ul>
 
-							<ul class="icon-list icon-list-collab">
+							<ul class="icon-list icon-list-collab" v-if="project.collaborators.length > 0">
 								<li v-for="(collaborator, i) in project.collaborators" class="list-item" :key="i">
 									<ButtonDefault tag="a":title="`View website for ${ collaborator.title }`" :href="collaborator.website" :newTab="true" :tabindex="index === activeProject ? 0 : -1" :label="`Credit: ${ collaborator.title }`" font-icon="heart" :icon-transform="{ x: 0, y: '5%' }" button-color="reverse" />
 								</li>

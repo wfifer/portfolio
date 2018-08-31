@@ -138,4 +138,13 @@
 			}
 		}
 	}
+
+	@media screen and (max-width: 375px) {
+		.button-icon {
+			width: 8rem;
+			height: 8rem;
+
+			font-size: 4rem;
+		}
+	}
 }

@@ -30,7 +30,7 @@
 						<span class="title">{{ currentCategory.title }}</span>
 					</h2>
 
-					<button @click="clearCategory" type="button" class="btn btn-exit" aria-label="Exit category thumbnail view"></button>
+					<ButtonDefault class="btn btn-exit" title="Exit category thumbnail view" font-icon="times" @click.native="clearCategory" />
 
 					<div class="category-nav">
 						<CategoryButtons :categories="categories" class="icon-list icon-list-categories" />
@@ -44,11 +44,13 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import CategoryButtons from '@/components/CategoryButtons';
+import ButtonDefault from '@/components/ButtonDefault';
 
 export default {
 	name: 'CategoryThumbnails',
 	components: {
-		CategoryButtons
+		CategoryButtons,
+		ButtonDefault
 	},
 	computed: {
 		...mapState({

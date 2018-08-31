@@ -26,10 +26,14 @@
 		width: 100%;
 		padding: 15rem;
 
-		background: rgba($color-bg, 0.925);
+		background: $color-bg;
 
 		transition: all $transition-thumbnails;
 		will-change: transform, opacity, visibility;
+
+		@media screen and (min-width: #{ 120px + $thumbnail-width * 2 + $thumbnail-gutter * 2 }) {
+			background: rgba($color-bg, 0.925);
+		}
 
 		&::before, &::after {
 			content: '';
@@ -102,12 +106,16 @@
 
 				display: block;
 				width: $thumbnail-width;
-				padding-bottom: 100%;
+				padding-bottom: 75%;
 				overflow: hidden;
 
 				border-radius: 5px;
 
-				&:hover, .-show-focus &:focus {
+				@media screen and (min-width: #{ 120px + $thumbnail-width * 2 + $thumbnail-gutter * 2 }) {
+					padding-bottom: 100%;
+				}
+
+				.portfolio:not(.-hide-hover) &:hover, .-show-focus &:focus {
 					.thumbnail-image {
 						img {
 							transform: scale(1.2) rotate(10deg) translateZ(0);
@@ -121,8 +129,6 @@
 
 						.text {
 							transform: scale(0.9);
-
-							// opacity: 0.75;
 						}
 
 						&::after {
@@ -157,13 +163,11 @@
 				}
 
 				.thumbnail-content {
-					transform: translateY(1em);
-
 					display: flex;
 					flex-direction: column;
 					align-items: center;
 					justify-content: center;
-					padding: 10rem;
+					padding: 4rem;
 
 					color: $color-charcoal;
 
@@ -187,8 +191,6 @@
 						padding: 0 4rem;
 						margin-top: 5rem;
 
-						opacity: 0;
-						visibility: hidden;
 						background: white;
 						border-radius: 5rem;
 						color: $color-charcoal;
@@ -196,6 +198,19 @@
 						font-size: 4rem;
 
 						transition: all $transition;
+					}
+
+					@media screen and (min-width: #{ 120px + $thumbnail-width * 2 + $thumbnail-gutter * 2 }) {
+						padding: 10rem;
+					}
+
+					.portfolio:not(.-hide-hover) {
+						transform: translateY(1em);
+
+						&::after {
+							opacity: 0;
+							visibility: hidden;
+						}
 					}
 				}
 			}
@@ -207,33 +222,11 @@
 		top: 2rem;
 		right: 2rem;
 		z-index: 10;
-
-		height: 10rem;
-		width: 10rem;
-
-		background: $color-charcoal;
-		border-radius: 50%;
-		box-shadow: 0 0 0 2px rgba($color-charcoal, 0) inset;
-		color: $color-bg;
-
-		transition: all $transition;
-
-		&:hover, .-show-focus &:focus {
-			box-shadow: 0 0 0 2px $color-charcoal inset;
-			color: $color-charcoal;
-			background: rgba($color-charcoal, 0);
-		}
-
-		&::after {
-			content: '\f00d';
-
-			@include font-icon;
-		}
 	}
 
 	.category-heading {
 		position: absolute;
-		top: 7rem;
+		top: 6rem;
 		width: 100%;
 		transform: translateY(-50%);
 		z-index: 10;
@@ -241,9 +234,15 @@
 		text-align: center;
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		font-size: 6rem;
+		font-size: 5rem;
 
 		transition: all $transition;
+
+		@media screen and (min-width: #{ 120px + $thumbnail-width * 2 + $thumbnail-gutter * 2 }) {
+			top: 7rem;
+
+			font-size: 6rem;
+		}
 
 		* {
 			position: relative;
@@ -264,10 +263,6 @@
 		width: 100%;
 		display: flex;
 		justify-content: center;
-
-		.icon-list {
-			position: relative;
-		}
 	}
 }
 

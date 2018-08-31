@@ -13,8 +13,10 @@
 	.list-item {
 		position: relative;
 
-		margin-left: 3rem;
-
 		pointer-events: auto;
+
+		&:not(:first-child) {
+			margin-left: 3rem;
+		}
 	}
 }
