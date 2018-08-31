@@ -105,13 +105,17 @@
 
 			padding: #{ $thumbnail-gutter / 2 };
 
+			@media screen and (max-width: #{ 120px + $thumbnail-width * 2 + $thumbnail-gutter * 2 - 1px }) {
+				padding: 10px #{ $thumbnail-gutter / 2 };
+			}
+
 			.thumbnail-inner {
 				position: relative;
 				transform: rotateZ(0);
 
 				display: block;
 				width: $thumbnail-width;
-				padding-bottom: 75%;
+				padding-bottom: 62.5%;
 				overflow: hidden;
 
 				border-radius: 5px;
