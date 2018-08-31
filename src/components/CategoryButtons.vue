@@ -1,7 +1,7 @@
 <template>
 	<ul class="category-buttons">
 		<li v-for="(cat, i) in categories" class="list-item" :key="i">
-			<ButtonDefault :tabindex="tabindex" :label="cat.title" :title="`View projects in ${ cat.title }`" :icon="cat.icon" :font-icon="cat.fontIcon" @click.native="showCategory(cat)" />
+			<ButtonDefault :tabindex="tabindex" :label="cat.title" :title="`View projects in ${ cat.title }`" :icon="cat.icon" :font-icon="cat.fontIcon" @click.native="showCategory(cat)" :active="activeCategory && activeCategory === cat.id" />
 		</li>
 	</ul>
 </template>
@@ -23,6 +23,10 @@ export default {
 		tabindex: {
 			type: Number,
 			default: 0
+		},
+		activeCategory: {
+			type: Number,
+			default: null
 		}
 	},
 	methods: {

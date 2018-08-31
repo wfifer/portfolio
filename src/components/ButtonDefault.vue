@@ -75,7 +75,11 @@ export default {
 			type: Number,
 			default: 0
 		},
-		iconTransform: Object
+		iconTransform: Object,
+		active: {
+			type: Boolean,
+			default: false
+		}
 	},
 	methods: {
 		mapIcons (icon) {
@@ -96,6 +100,10 @@ export default {
 
 			classString += this.text && this.text.length > 0
 				? ' -with-text'
+				: '';
+
+			classString += this.active
+				? ' -active'
 				: '';
 
 			classString += ` -color-${ this.buttonColor }`;

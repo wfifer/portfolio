@@ -33,7 +33,7 @@
 					<ButtonDefault class="btn btn-exit" title="Exit category thumbnail view" font-icon="times" @click.native="clearCategory" />
 
 					<div class="category-nav">
-						<CategoryButtons :categories="categories" class="icon-list icon-list-categories" />
+						<CategoryButtons :categories="categories" class="icon-list icon-list-categories" :active-category="currentCategory.id" />
 					</div>
 				</div>
 			</div>

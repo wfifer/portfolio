@@ -10,13 +10,13 @@
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
 				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-left" @click.native="navActive ? navigateProjects(-1) : null" />
 				
-				<ButtonDefault class="btn nav-item nav-next" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-right" @click.native="navActive ? navigateProjects(-1) : null" />
+				<ButtonDefault class="btn nav-item nav-next" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-right" @click.native="navActive ? navigateProjects(1) : null" />
 				
 				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="grid" @click.native="showCategory(categoryAll)" />
 			</nav>
 
 			<div class="project-list">
-				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="index">
+				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="project.entryId" v-if="showProject(index)">
 					<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="project.heroImage.url" />
 
 					<div class="mask-inner">
@@ -193,6 +193,13 @@ export default {
 			window.setTimeout(() => {
 				this.projectReady = true;
 			}, 2000);
+		},
+		showProject (index) {
+			let total = this.projects.length;
+			let ap = this.activeProject;
+			let range = 1;
+
+			return (index >= (ap - range) && index <= (ap + range)) || (index >= (ap - range + total) && index <= (ap + range + total)) || (index >= (ap - range - total) && index <= (ap + range - total));
 		},
 		...mapActions([
 			'navigateProjects',

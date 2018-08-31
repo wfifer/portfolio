@@ -56,6 +56,14 @@
 		}
 	}
 
+	&.-active {
+		.button-icon {
+			background: #666;
+			box-shadow: 0 0 0 2px $color-bg, 
+				0 0 0 4px $color-charcoal;
+		}
+	}
+
 	&:not(.-with-label) {
 		&:hover, .-show-focus &:focus {
 			.button-icon {
@@ -109,6 +117,8 @@
 		background: $color-charcoal;
 		color: $color-bg;
 		border-radius: 5rem;
+		box-shadow: 0 0 0 2px rgba($color-bg, 0), 
+				0 0 0 4px rgba($color-charcoal, 0);
 
 		transition: all $transition;
 
