@@ -199,7 +199,8 @@ export default {
 			let ap = this.activeProject;
 			let range = 2;
 
-			return (index >= (ap - range) && index <= (ap + range)) || (index >= (ap - range + total) && index <= (ap + range + total)) || (index >= (ap - range - total) && index <= (ap + range - total));
+			// return (index >= (ap - range) && index <= (ap + range)) || (index >= (ap - range + total) && index <= (ap + range + total)) || (index >= (ap - range - total) && index <= (ap + range - total));
+			return true;
 		},
 		...mapActions([
 			'navigateProjects',
