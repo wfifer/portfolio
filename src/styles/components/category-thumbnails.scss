@@ -71,7 +71,7 @@
 		}
 
 		@for $i from 2 through 5 {
-			@media screen and (min-width: #{ 120px + $thumbnail-width * $i + $thumbnail-gutter * $i }) {
+			@media screen and (min-width: #{ 200px + $thumbnail-width * $i + $thumbnail-gutter * $i }) {
 				&::before, &::after {
 					max-width: #{ $thumbnail-width * $i + $thumbnail-gutter * ($i - 1) };
 				}
@@ -204,7 +204,7 @@
 						padding: 10rem;
 					}
 
-					.portfolio:not(.-hide-hover) {
+					.portfolio:not(.-hide-hover) & {
 						transform: translateY(1em);
 
 						&::after {
