@@ -3,9 +3,11 @@
 $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 .site-header {
+	position: fixed;
 	transform: translateZ(-1px);
 
-	height: 100vh;
+	height: 100%;
+	width: 100%;
 
 	background: $color-bg;
 
@@ -238,7 +240,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				width: 100vw;
 				height: (100vw * 2 / 3);
 				min-height: 72vh;
-				max-height: 100vh;
+				max-height: 100%;
 			}
 
 			.svg, .project-layer {
@@ -249,6 +251,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 				width: 100%;
 				min-width: 150vh;
+				max-width: 1600px;
 			}
 
 			.project-layer {
@@ -360,7 +363,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		max-width: 1024px;
 		height: 100%;
 		// max-height: 72vh;
-		max-height: 920px;
+		max-height: 1024px;
 		flex-direction: column;
 		justify-content: flex-end;
 		align-items: flex-end;
