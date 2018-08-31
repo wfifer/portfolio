@@ -197,7 +197,7 @@ export default {
 		showProject (index) {
 			let total = this.projects.length;
 			let ap = this.activeProject;
-			let range = 1;
+			let range = 2;
 
 			return (index >= (ap - range) && index <= (ap + range)) || (index >= (ap - range + total) && index <= (ap + range + total)) || (index >= (ap - range - total) && index <= (ap + range - total));
 		},
