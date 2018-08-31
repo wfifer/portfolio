@@ -64,7 +64,7 @@
 					</div>
 
 					<div class="project-info">
-						<h2 class="project-title" v-html="titleHtml[index]"></h2>
+						<h2 class="project-title">{{ project.title }}</h2>
 
 						<div class="project-tools">
 							<ul class="icon-list icon-list-website" v-if="index == 0">
@@ -89,11 +89,11 @@
 						</div>
 					</div>
 
-					<div class="nav-animation">
-						<div class="nav-item nav-prev">
+					<div class="project-shadow">
+						<div class="shadow shadow-left">
 						</div>
 
-						<div class="nav-item nav-next">
+						<div class="shadow shadow-right">
 						</div>
 					</div>
 				</div>
@@ -168,17 +168,7 @@ export default {
 
 			let aspectRatio = image.width / image.height;
 
-			let portrait = this.viewport.width / this.viewport.height < this.svg.width / this.svg.height;
-
-			let width = this.viewport.width <= 1000
-				? BASE_WIDTH * 1.5
-				: portrait
-				? BASE_WIDTH
-				: this.viewport.height >= 1000
-				? BASE_WIDTH * this.svg.width / this.svg.height * 1000 / this.viewport.width
-				: this.viewport.height <= 500
-				? BASE_WIDTH * this.svg.width / this.svg.height * 500 / this.viewport.width
-				: BASE_WIDTH * this.svg.width / this.svg.height * this.viewport.height / this.viewport.width;
+			let width = BASE_WIDTH;
 
 			let height = width / aspectRatio;
 
@@ -210,7 +200,6 @@ export default {
 		},
 		...mapActions([
 			'navigateProjects',
-			// 'enterProject',
 			'getProjects',
 			'showCategory'
 		])
@@ -241,8 +230,6 @@ export default {
 				this.navActive = true;
 
 				if (!document.activeElement.classList.contains('nav-item')) {
-					console.log(this.$refs.activeButton);
-
 					this.$refs.activeButton[0].focus = true;
 				}
 			}, 2000);
@@ -275,27 +262,10 @@ export default {
 				return project.title.replace(/the /i, '').slice(0, 1);
 			});
 		},
-		titleHtml () {
-			return this.projects.map(function (project) {
-				return project.title.replace(/(\S)/g, '<span>$1</span>').replace(/(\S+)/g, '<div>$1</div>');
-			});
-		},
 		fontSize () {
 			const BASE_SIZE = 1350;
 
 			let fontSize = BASE_SIZE;
-
-			if (this.viewport.width <= 1000) {
-				fontSize = BASE_SIZE * 1.5;
-			} else if (this.viewport.width / this.viewport.height > this.svg.width / this.svg.height) {
-				if (this.viewport.height >= 1000) {
-					fontSize = BASE_SIZE * this.svg.width / this.svg.height * 1000 / this.viewport.width;
-				} else if (this.viewport.height <= 500) {
-					fontSize = BASE_SIZE * this.svg.width / this.svg.height * 500 / this.viewport.width;
-				} else {
-					fontSize = BASE_SIZE * this.svg.width / this.svg.height * this.viewport.height / this.viewport.width;
-				}
-			}
 
 			return fontSize;
 		},

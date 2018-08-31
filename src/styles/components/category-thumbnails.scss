@@ -142,6 +142,7 @@
 
 		.thumbnail {
 			position: relative;
+			transform: translateZ(0);
 
 			width: 80rem;
 			padding: 5rem;
@@ -331,7 +332,7 @@
 .t-thumbnail-item-enter {
 	opacity: 0;
 
-	transform: translateY(50%);
+	transform: translateY(50%) translateZ(0) !important;
 }
 
 .t-thumbnail-item-leave-to {
