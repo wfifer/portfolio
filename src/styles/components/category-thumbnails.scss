@@ -68,6 +68,11 @@
 			max-width: #{ $thumbnail-width + 40px };
 			flex: 0 0 auto;
 			overflow-y: auto;
+
+			@supports (-webkit-overflow-scrolling: touch) {
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+			}
 		}
 
 		@for $i from 2 through 5 {
@@ -126,7 +131,6 @@
 
 					.thumbnail-content {
 						transform: translateY(0);
-
 						.text {
 							transform: scale(0.9);
 						}
@@ -148,6 +152,8 @@
 				}
 
 				.thumbnail-image {
+					transform: translateZ(0);
+
 					overflow: hidden;
 
 					opacity: 0.4;
