@@ -16,7 +16,7 @@
 					<div class="nav-icon"></div>
 				</button>
 				
-				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="grid" @click.native="showCategory('all')" />
+				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="grid" @click.native="showCategory(categoryAll)" />
 			</nav>
 
 			<div class="project-list">
@@ -69,7 +69,7 @@
 						<div class="project-tools">
 							<ul class="icon-list icon-list-website" v-if="index == 0">
 								<li class="list-item">
-									<ButtonDefault :tabindex="index === activeProject ? 0 : -1" button-color="reverse" title="Check me out on LinkedIn" font-icon="hand-peace" @click.native="enterAbout" text="About" />
+									<ButtonDefault :tabindex="index === activeProject ? 0 : -1" button-color="reverse" title="Check me out on LinkedIn" font-icon="hand-peace" @click.native="enterAbout" text="About" :ref="index === activeProject ? 'activeButton' : null"/>
 								</li>
 							</ul>
 
@@ -299,6 +299,11 @@ export default {
 
 			return fontSize;
 		},
+		categoryAll () {
+			return this.categories.filter((cat, i) => {
+				return cat.slug === 'all';
+			})[0];
+		},
 		...mapState({
 			activeProject: state => state.projects.active,
 			lastProject: state => state.projects.last,
@@ -306,7 +311,8 @@ export default {
 			direction: state => state.projects.direction,
 			projects: state => state.projects.featuredProjects,
 			viewport: state => state.app.window,
-			currentCategory: state => state.projects.currentCategory
+			currentCategory: state => state.projects.currentCategory,
+			categories: state => state.projects.categories
 		})
 	}
 };
