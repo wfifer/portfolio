@@ -1,12 +1,10 @@
 <template>
-	<v-touch @swipeleft="navActive ? navigateProjects(-1) : null" @swiperight="navActive ? navigateProjects(1) : null">
 	<!-- <section class="site-header" :class="selectedProject >= 0 ? '-banner' : ''" @mousemove="/*onMouseMove*/"> -->
-	
 	<section class="site-header" :class="currentCategory ? '-thumbnails-open' : ''" @mousemove="/*onMouseMove*/">
 		<Spinner :class="projectReady ? '-loaded' : ''"/>
 
 		<transition name="fade">
-		<div class="inner" v-show="projectReady">
+		<v-touch @swipeleft="navActive ? navigateProjects(-1) : null" @swiperight="navActive ? navigateProjects(1) : null" class="inner" v-show="projectReady">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
@@ -96,11 +94,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</v-touch>
 		</transition>
 	</section>
-	
-	</v-touch>
 </template>
 
 <script>
