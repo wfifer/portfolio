@@ -1,5 +1,7 @@
 <template>
+	<v-touch @swipeleft="navActive ? navigateProjects(-1) : null" @swiperight="navActive ? navigateProjects(1) : null">
 	<!-- <section class="site-header" :class="selectedProject >= 0 ? '-banner' : ''" @mousemove="/*onMouseMove*/"> -->
+	
 	<section class="site-header" :class="currentCategory ? '-thumbnails-open' : ''" @mousemove="/*onMouseMove*/">
 		<Spinner :class="projectReady ? '-loaded' : ''"/>
 
@@ -12,7 +14,7 @@
 				
 				<ButtonDefault class="btn nav-item nav-next" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-right" @click.native="navActive ? navigateProjects(1) : null" />
 				
-				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="grid" @click.native="showCategory(categoryAll)" />
+				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="grid" @click.native="navActive ? showCategory(categoryAll) : null" />
 			</nav>
 
 			<div class="project-list">
@@ -97,6 +99,8 @@
 		</div>
 		</transition>
 	</section>
+	
+	</v-touch>
 </template>
 
 <script>

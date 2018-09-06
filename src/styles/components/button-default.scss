@@ -68,7 +68,7 @@
 		&:hover, .-show-focus &:focus {
 			.button-icon {
 				border: 2px solid $color-charcoal;
-				background: transparent;
+				background: $color-bg;
 				color: $color-charcoal;
 			}
 		}

@@ -455,7 +455,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 	.project-nav {
 		&.-disabled {
-			.nav-item {
+			.nav-item, .btn-thumbnails {
 				opacity: 0.5;
 			}
 		}
