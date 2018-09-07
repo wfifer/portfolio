@@ -190,9 +190,7 @@ export default {
 			return title;
 		},
 		imageLoaded () {
-			window.setTimeout(() => {
-				this.projectReady = true;
-			}, 2000);
+			this.projectReady = true;
 		},
 		showProject (index) {
 			// let total = this.projects.length;
