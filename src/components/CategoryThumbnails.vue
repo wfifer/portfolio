@@ -52,6 +52,13 @@ export default {
 		CategoryButtons,
 		ButtonDefault
 	},
+	mounted () {
+		document.addEventListener('keyup', (e) => {
+			if (e.which === 27) {
+				this.clearCategory();
+			}
+		});
+	},
 	computed: {
 		...mapState({
 			currentCategory: state => state.projects.currentCategory,

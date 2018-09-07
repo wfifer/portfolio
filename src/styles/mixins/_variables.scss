@@ -87,3 +87,12 @@ $transition-enter-time: 1s;
 $transition-enter: $transition-enter-time cubic-bezier(0.23, 1, 0.32, 1);
 $transition-enter-delay: 0.35s;
 $transition-thumbnails: 0.5s map-get($ease, out-quad);
+
+
+// hover/focus/active
+
+@mixin hover () {
+	.portfolio:not(.-hide-hover) &:hover, .-show-focus &:focus, .-hide-hover &:active {
+		@content;
+	}
+}

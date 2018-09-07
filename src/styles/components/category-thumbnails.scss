@@ -124,7 +124,7 @@
 					padding-bottom: 100%;
 				}
 
-				.portfolio:not(.-hide-hover) &:hover, .-show-focus &:focus {
+				@include hover {
 					.thumbnail-image {
 						img {
 							transform: scale(1.2) rotate(10deg) translateZ(0);

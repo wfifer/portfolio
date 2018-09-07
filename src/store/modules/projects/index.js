@@ -39,7 +39,7 @@ const mutations = {
 		let all = {
 			title: 'All projects',
 			slug: 'all',
-			id: 99999,
+			id: '99999',
 			icon: null,
 			fontIcon: 'grid'
 		};

@@ -22,7 +22,7 @@
 	}
 
 	&.-with-label {
-		&:hover, .-show-focus &:focus {
+		@include hover {
 			.button-icon {
 				&::after {
 					transform: translate3d(-50%, -100%, 0);
@@ -65,7 +65,7 @@
 	}
 
 	&:not(.-with-label) {
-		&:hover, .-show-focus &:focus {
+		@include hover {
 			.button-icon {
 				border: 2px solid $color-charcoal;
 				background: $color-bg;
@@ -140,7 +140,7 @@
 		}
 
 		&:not(.-with-label) {
-			&:hover, .-show-focus &:focus {
+			@include hover {
 				.button-icon {
 					background: $color-charcoal;
 					color: $color-bg;

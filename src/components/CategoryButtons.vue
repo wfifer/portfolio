@@ -25,7 +25,7 @@ export default {
 			default: 0
 		},
 		activeCategory: {
-			type: Number,
+			type: String,
 			default: null
 		}
 	},
