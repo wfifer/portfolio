@@ -4,7 +4,7 @@
 		<Spinner :class="projectReady ? '-loaded' : ''"/>
 
 		<transition name="fade">
-		<v-touch @swipeleft="navActive ? navigateProjects(-1) : null" @swiperight="navActive ? navigateProjects(1) : null" class="inner" v-show="projectReady">
+		<v-touch @swipeleft="navActive ? navigateProjects(1) : null" @swiperight="navActive ? navigateProjects(-1) : null" class="inner" v-show="projectReady">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
@@ -43,7 +43,7 @@
 										<g :style="`clip-path: url(#text-clip-${ index }); mask: url(#text-mask-${ index });`" class="svg-clipped">
 											<rect x="0" y="0" :width="svg.width" :height="svg.height" style="fill: white" />
 
-											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" :r="svgImage(project.heroImage).width * 0.625" :style="`fill: url(#gradient-bg-${ index });`" />
+											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" r="800" :style="`fill: url(#gradient-bg-${ index });`" />
 
 											<g>
 												<g class="project-hero">
@@ -51,7 +51,7 @@
 												</g>
 											</g>
 
-											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" :r="svgImage(project.heroImage).width * 0.625" :style="`fill: url(#gradient-bg-${ index }); mix-blend-mode: hue; opacity: 0.5;`" />
+											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" r="800" :style="`fill: url(#gradient-bg-${ index }); mix-blend-mode: hue; opacity: 0.5;`" />
 										</g>
 									</svg>
 								</div>
