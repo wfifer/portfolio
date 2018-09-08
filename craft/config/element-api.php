@@ -98,9 +98,6 @@ return [
 							'title' => $category->title,
 							'id' => $category->id
 						];
-						if (sizeof($category->icon)) {
-							$cat['icon'] = $category->icon[0]->getUrl();
-						}
 						if (sizeof($category->fontIcon)) {
 							$cat['fontIcon'] = $category->fontIcon;
 						}
@@ -171,9 +168,6 @@ return [
 						'id' => $category->id
 					];
 
-					if (sizeof($category->icon)) {
-						$cat['icon'] = $category->icon[0]->getUrl();
-					}
 					if (sizeof($category->fontIcon)) {
 						$cat['fontIcon'] = $category->fontIcon;
 					}
@@ -208,9 +202,11 @@ return [
 							'slug' => $category->slug,
 							'title' => $category->title
 						];
-						if (sizeof($category->icon)) {
-							$cat['icon'] = $category->icon[0]->getUrl();
+
+						if (sizeof($category->fontIcon)) {
+							$cat['fontIcon'] = $category->fontIcon;
 						}
+						
 						$categories[] = $cat;
 					}
 					return [

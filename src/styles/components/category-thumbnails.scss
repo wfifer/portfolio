@@ -135,7 +135,8 @@
 
 					.thumbnail-content {
 						transform: translateY(0);
-						.text {
+
+						.content {
 							transform: scale(0.9);
 						}
 
@@ -188,8 +189,10 @@
 
 					transition: transform $transition;
 
-					.text {
+					.content {
 						transition: all $transition;
+
+						text-align: center;
 					}
 
 					&::after {
@@ -220,6 +223,36 @@
 						&::after {
 							opacity: 0;
 							visibility: hidden;
+						}
+					}
+				}
+
+				.category-list {
+					position: absolute;
+					bottom: 6rem;
+					left: 50%;
+					transform: translateX(-50%);
+
+					display: inline-flex;
+					margin: 0 auto;
+					margin-top: 2rem;
+
+					.list-item {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						margin: 0 2rem;
+						width: 6rem;
+						height: 6rem;
+
+						border-radius: 50%;
+						background: white;
+
+						.category-icon {
+							position: relative;
+
+							height: 4rem;
+							width: auto;
 						}
 					}
 				}

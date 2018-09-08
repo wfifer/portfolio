@@ -22,7 +22,7 @@
 	}
 
 	&.-with-label {
-		@include hover {
+		&:hover, .-show-focus &:focus {
 			.button-icon {
 				&::after {
 					transform: translate3d(-50%, -100%, 0);

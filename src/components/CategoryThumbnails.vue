@@ -16,8 +16,16 @@
 									</div>
 
 									<div class="thumbnail-content" :data-label="project.website && project.website.length > 0 ? 'View website' : 'Coming soon'">
-										<span class="text">{{ project.title }}</span>
+										<div class="content">
+											<div class="text">{{ project.title }}</div>
+										</div>
 									</div>
+
+									<!-- <ul class="category-list">
+										<li v-for="(cat, i) in project.categories" class="list-item" :key="i">
+											<CategoryIcon class="category-icon" :font-icon="cat.fontIcon" :title="cat.title" />
+										</li>
+									</ul> -->
 								</a>
 							</li>
 						</transition-group>
@@ -44,12 +52,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import CategoryButtons from '@/components/CategoryButtons';
+import CategoryIcon from '@/components/CategoryIcon';
 import ButtonDefault from '@/components/ButtonDefault';
 
 export default {
 	name: 'CategoryThumbnails',
 	components: {
 		CategoryButtons,
+		CategoryIcon,
 		ButtonDefault
 	},
 	mounted () {
