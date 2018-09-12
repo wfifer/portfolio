@@ -1,6 +1,5 @@
 <template>
-	<!-- <section class="site-header" :class="selectedProject >= 0 ? '-banner' : ''" @mousemove="/*onMouseMove*/"> -->
-	<section class="site-header" :class="currentCategory ? '-thumbnails-open' : ''" @mousemove="/*onMouseMove*/">
+	<section class="site-header" :class="headerClass" @mousemove="/*onMouseMove*/">
 		<Spinner :class="projectReady ? '-loaded' : ''"/>
 
 		<transition name="fade">
@@ -16,8 +15,10 @@
 			</nav>
 
 			<div class="project-list">
-				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="project.entryId" v-if="showProject(index)">
+				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="project.entryId" v-if="showProject(index)" @click="projectClickHandler({ index, entryId: project.entryId })" role="button">
 					<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="project.heroImage.url" />
+
+					<div class="banner-background" :style="`background: linear-gradient(${ getGradient(project) })`"></div>
 
 					<div class="mask-inner">
 						<div class="svg-container">
@@ -63,9 +64,9 @@
 						<h2 class="project-title">{{ project.title }}</h2>
 
 						<div class="project-tools">
-							<ul class="icon-list icon-list-website" v-if="index == 0">
+							<!-- <ul class="icon-list icon-list-website" v-if="index == 0">
 								<li class="list-item">
-									<ButtonDefault :tabindex="index === activeProject ? 0 : -1" button-color="reverse" title="Check me out on LinkedIn" font-icon="hand-peace" @click.native="enterAbout" text="About" :ref="index === activeProject ? 'activeButton' : null"/>
+									<ButtonDefault :tabindex="index === activeProject ? 0 : -1" button-color="reverse" title="Check me out on LinkedIn" font-icon="hand-peace" @click.native="enterProject({ index, project.id })" text="About" :ref="index === activeProject ? 'activeButton' : null"/>
 								</li>
 							</ul>
 
@@ -74,7 +75,7 @@
 									<ButtonDefault tag="a" :title="`View website for ${ project.title }`" :href="project.website" :newTab="true" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null" text="View website" font-icon="link" button-color="reverse" />
 								</li>
 							</ul>
-
+ -->
 							<ul class="icon-list icon-list-collab" v-if="project.collaborators.length > 0">
 								<li v-for="(collaborator, i) in project.collaborators" class="list-item" :key="i">
 									<ButtonDefault tag="a":title="`View website for ${ collaborator.title }`" :href="collaborator.website" :newTab="true" :tabindex="index === activeProject ? 0 : -1" :label="`Credit: ${ collaborator.title }`" font-icon="heart" :icon-transform="{ x: 0, y: '5%' }" button-color="reverse" />
@@ -127,17 +128,6 @@ export default {
 		};
 	},
 	methods: {
-		enterAbout () {
-			window.open('http://www.linkedin.com/in/will-fifer', '_blank');
-		},
-		enterProject (options) {
-			if (options.index === 0) {
-				this.enterAbout();
-			} else {
-				const project = this.projects[options.index];
-				window.open(project.website);
-			}
-		},
 		layerPosition (depth) {
 			const x = this.bgCoords.x * (-depth / Math.abs(depth));
 			const y = this.bgCoords.y * (-depth / Math.abs(depth));
@@ -200,10 +190,36 @@ export default {
 			// return (index >= (ap - range) && index <= (ap + range)) || (index >= (ap - range + total) && index <= (ap + range + total)) || (index >= (ap - range - total) && index <= (ap + range - total));
 			return true;
 		},
+		projectClickHandler (options) {
+			console.log(this.selectedProject);
+
+			if (this.selectedProject > -1) {
+				this.exitProject();
+			} else {
+				this.enterProject(options);
+			}
+		},
+		getGradient (project) {
+			// let angle = project.heroBackground.angle;
+			let angle = '37deg';
+			let stops = project.heroBackground.stops.slice(0, 2);
+
+			let gradient = angle && angle.length
+				? angle
+				: 'to right';
+
+			stops.forEach((stop, i) => {
+				gradient += `, ${ stop.color } ${ 20 + i * 60 }%`;
+			});
+
+			return gradient;
+		},
 		...mapActions([
 			'navigateProjects',
 			'getProjects',
-			'showCategory'
+			'showCategory',
+			'enterProject',
+			'exitProject'
 		])
 	},
 	watch: {
@@ -275,6 +291,13 @@ export default {
 			return this.categories.filter((cat, i) => {
 				return cat.slug === 'all';
 			})[0];
+		},
+		headerClass () {
+			return this.selectedProject >= 0
+				? '-banner'
+				: this.currentCategory
+					? '-thumbnails-open'
+					: null;
 		},
 		...mapState({
 			activeProject: state => state.projects.active,

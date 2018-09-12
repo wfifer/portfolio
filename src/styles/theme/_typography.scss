@@ -3,7 +3,7 @@ html {
 }
 
 body {
-	@include font-body-light();
+	@include font-body-regular();
 	font-size: 5rem;
 }
 
@@ -49,7 +49,7 @@ h4 {
 }
 
 p, .body {
-	@include font-body-light;
+	@include font-body-regular;
 	line-height: 1.75em;
 }
 

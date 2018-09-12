@@ -23,6 +23,9 @@ const mutations = {
 	[type.ENTER_PROJECT] (state, action) {
 		state.selected = action.index;
 	},
+	[type.EXIT_PROJECT] (state, action) {
+		state.selected = -1;
+	},
 	[type.SHOW_PROJECT] (state, action) {
 		state.currentProject = action.response.data;
 	},

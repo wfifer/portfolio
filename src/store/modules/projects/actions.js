@@ -25,6 +25,9 @@ const actions = {
 			}
 		);
 	},
+	exitProject ({ commit }) {
+		commit(type.EXIT_PROJECT);
+	},
 	getProjects ({ commit }) {
 		axios.get(helpers.getApiUrl('projects.json'))
 			.then(response => {

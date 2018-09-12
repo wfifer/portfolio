@@ -7,7 +7,7 @@ $color-bg: #E9E9E9;
 
 $font-display: 'korolev-condensed', 'Arial', sans-serif;
 $font-mask: 'korolev', 'Arial', sans-serif;
-$font-body: 'korolev', 'Arial', sans-serif;
+$font-body: 'Open Sans', 'Arial', sans-serif;
 $font-icon: 'FontAwesome', 'Arial', sans-serif;
 
 @mixin font-display-black() {
@@ -25,9 +25,9 @@ $font-icon: 'FontAwesome', 'Arial', sans-serif;
 	font-weight: 900;
 }
 
-@mixin font-body-light() {
+@mixin font-body-regular() {
 	font-family: $font-body;
-	font-weight: 300;
+	font-weight: 400;
 }
 
 @mixin font-body-bold() {
