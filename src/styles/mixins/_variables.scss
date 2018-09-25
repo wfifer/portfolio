@@ -20,6 +20,11 @@ $font-icon: 'FontAwesome', 'Arial', sans-serif;
 	font-weight: 600;
 }
 
+@mixin font-headline-bold() {
+	font-family: $font-mask;
+	font-weight: 700;
+}
+
 @mixin font-mask() {
 	font-family: $font-mask;
 	font-weight: 900;
@@ -45,6 +50,8 @@ $font-icon: 'FontAwesome', 'Arial', sans-serif;
 $bp-desktop: 1200px;
 
 $table-gutter: 3rem;
+
+$body-padding-top: 100rem;
 
 // TYPOGRAPHY 
 
@@ -87,6 +94,8 @@ $transition-enter-time: 1s;
 $transition-enter: $transition-enter-time cubic-bezier(0.23, 1, 0.32, 1);
 $transition-enter-delay: 0.35s;
 $transition-thumbnails: 0.5s map-get($ease, out-quad);
+$transition-spinner-delay: 1s;
+$transition-spinner: 0.625s map-get($ease, out-quad);
 
 
 // hover/focus/active

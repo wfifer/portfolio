@@ -20,6 +20,10 @@ const mutations = {
 		state.active = (state.active + action.direction + state.featuredProjects.length) % state.featuredProjects.length;
 		state.direction = action.direction;
 	},
+	[type.GO_TO_PROJECT] (state, action) {
+		state.last = state.active;
+		state.active = action.index;
+	},
 	[type.ENTER_PROJECT] (state, action) {
 		state.selected = action.index;
 	},

@@ -1,6 +1,15 @@
 @import '../mixins/variables';
 
 .project-content {
+	position: relative;
+	transform: translateZ(0);
+	z-index: 1;
+
+	padding-top: 20rem;
+	min-height: 100vh;
+
+	background: $color-bg;
+
 	.inner {
 		max-width: 1024px;
 		padding: 0 10rem;
@@ -16,4 +25,12 @@
 	.project-body {
 		padding: 10rem 0;
 	}
+}
+
+.t-project-content-enter-active, .t-project-content-leave-active, .t-project-content-move {
+	transition: all $transition-enter;
+}
+
+.t-project-content-enter, .t-project-content-leave-to {
+	transform: translateY(100vh) translateY(#{ - $body-padding-top }) translateZ(0) !important;
 }

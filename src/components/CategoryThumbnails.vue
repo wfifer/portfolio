@@ -10,7 +10,7 @@
 					<div class="thumbnail-scroll">
 						<transition-group name="t-thumbnail-item" class="thumbnail-list list" tag="ul">
 							<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project) && index !== 0" :key="`thumbnail-${ project.entryId }`">
-								<a class="thumbnail-inner" :href="project.website && project.website.length > 0 ? project.website : null" target="_blank" :title="`View ${ project.title } website`" :style="`background: ${ getThumbnailBackground(project) }`">
+								<button class="btn thumbnail-inner" type="button" :aria-label="`View ${ project.title }`" :style="`background: ${ getThumbnailBackground(project) }`" @click="thumbnailClickHandler({ index, entryId: project.entryId })">
 									<div class="thumbnail-image" :style="`background: linear-gradient(${ getGradient(project) })`">
 										<img :src="project.thumbnail.url" :alt="project.title" />
 									</div>
@@ -26,7 +26,7 @@
 											<CategoryIcon class="category-icon" :font-icon="cat.fontIcon" :title="cat.title" />
 										</li>
 									</ul> -->
-								</a>
+								</button>
 							</li>
 						</transition-group>
 					</div>
@@ -73,6 +73,7 @@ export default {
 		...mapState({
 			currentCategory: state => state.projects.currentCategory,
 			projects: state => state.projects.projects,
+			activeProject: state => state.projects.active,
 			categories: state => state.projects.categories
 		})
 	},
@@ -106,8 +107,24 @@ export default {
 
 			return `rgba(${ [r, g, b].join(',') }, 0.9 )`;
 		},
+		thumbnailClickHandler (options) {
+			this.clearCategory();
+
+			let delay = 350;
+			delay += options.index === this.activeProject
+				? 350
+				: 2000;
+
+			window.setTimeout(() => {
+				this.goToProject(options.index);
+			}, 350);
+
+			this.enterProject({ ...options, delay });
+		},
 		...mapActions([
-			'clearCategory'
+			'clearCategory',
+			'goToProject',
+			'enterProject'
 		])
 	}
 };

@@ -46,8 +46,4 @@ export default {
 };
 </script>
 
-<style>
-	#app {
-		position: relative;
-	}
-</style>
+<style src="@/styles/components/portfolio.scss" lang="scss"></style>

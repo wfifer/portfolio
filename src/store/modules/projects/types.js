@@ -1,6 +1,7 @@
 'use strict';
 
 export const NAVIGATE_PROJECTS = 'NAVIGATE_PROJECTS';
+export const GO_TO_PROJECT = 'GO_TO_PROJECT';
 export const ENTER_PROJECT = 'ENTER_PROJECT';
 export const EXIT_PROJECT = 'EXIT_PROJECT';
 export const SHOW_PROJECT = 'SHOW_PROJECT';

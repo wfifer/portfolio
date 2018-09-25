@@ -18,6 +18,7 @@
 
 	.thumbnails-inner {
 		position: relative;
+		transform: translateZ(0);
 
 		display: flex;
 		justify-content: center;
@@ -137,13 +138,13 @@
 						transform: translateY(0);
 
 						.content {
-							transform: scale(0.9);
+							transform: scale(1.1) rotateZ(0);
 						}
 
-						&::after {
-							opacity: 1;
-							visibility: visible;
-						}
+						// &::after {
+						// 	opacity: 1;
+						// 	visibility: visible;
+						// }
 					}
 				}
 
@@ -183,47 +184,49 @@
 					color: $color-charcoal;
 
 					text-transform: uppercase;
-					@include font-body-bold;
+					@include font-headline-bold;
 					text-align: center;
 					letter-spacing: 0.04em;
 
 					transition: transform $transition;
 
 					.content {
+						transform: rotateZ(0);
+
 						transition: all $transition;
 
 						text-align: center;
 					}
 
-					&::after {
-						content: attr(data-label);
+					// &::after {
+					// 	content: attr(data-label);
 
-						display: flex;
-						align-items: center;
-						height: 10rem;
-						padding: 0 4rem;
-						margin-top: 5rem;
+					// 	display: flex;
+					// 	align-items: center;
+					// 	height: 10rem;
+					// 	padding: 0 4rem;
+					// 	margin-top: 5rem;
 
-						background: white;
-						border-radius: 5rem;
-						color: $color-charcoal;
+					// 	background: white;
+					// 	border-radius: 5rem;
+					// 	color: $color-charcoal;
 
-						font-size: 4rem;
+					// 	font-size: 4rem;
 
-						transition: all $transition;
-					}
+					// 	transition: all $transition;
+					// }
 
 					@media screen and (min-width: #{ 120px + $thumbnail-width * 2 + $thumbnail-gutter * 2 }) {
 						padding: 10rem;
 					}
 
 					.portfolio:not(.-hide-hover) & {
-						transform: translateY(1em);
+						// transform: translateY(1em);
 
-						&::after {
-							opacity: 0;
-							visibility: hidden;
-						}
+						// &::after {
+						// 	opacity: 0;
+						// 	visibility: hidden;
+						// }
 					}
 				}
 

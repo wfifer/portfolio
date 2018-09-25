@@ -1,9 +1,11 @@
 @import '../mixins/variables';
 
-$bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
+$project-scale: 0.625;
 
 .site-header {
 	position: fixed;
+	top: 0;
+	left: 0;
 	transform: translateZ(-1px);
 
 	height: 100%;
@@ -37,25 +39,43 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 			}
 
 			&.-selected {
-				transform: translateY(-50%) translateZ(0);
+				transform: translateY(-100%) translateY(#{ $body-padding-top + 12rem }) translateZ(0);
 
 				.banner-background {
 					opacity: 1;
 					visibility: visible;
 				}
 
-				.mask-inner {
-					background: rgba($color-bg, 0);
+				.mask-svg {
+					transform: translate3d(-50%, -50%, 0) translateY(25vh);
+
+					opacity: 0.75;
 				}
 
-				.mask-svg {
-					transform: translate(-50%, -25%);
+				.gradient-overlay, .gradient-backdrop {
+					// opacity: 0.5;
+				}
+
+				.project-hero {
+					// opacity: 0.1 !important;
+				}
+
+				.project-info {
+					// transform: translateY(-50%) translateY(12rem) translateZ(0);
+
+					// opacity: 0.5;
+					// mix-blend-mode: overlay;
+
+					.project-tools {
+						opacity: 0;
+						visibility: hidden;
+					}
 				}
 			}
 		}
 
 		.project-nav {
-			transform: scale(1.1);
+			transform: scale(1.1) rotateZ(0);
 
 			opacity: 0;
 		}
@@ -137,14 +157,14 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 			.animate-mask & {
 				.text-mask {
-					transform: scale(0.5) rotateZ(0);
+					transform: scale($project-scale) rotateZ(0);
 				}
 			}
 
 			.no-animate-mask & {
 				.mask-svg {
 					.svg {
-						transform: translate(-50%, -50%) scale(0.5) rotateZ(0);
+						transform: translate(-50%, -50%) scale($project-scale) rotateZ(0);
 					}
 				}
 			}
@@ -258,8 +278,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 			background: $color-bg;
 
-			transition: all $transition-reveal-delayed,
-				background $transition-enter;
+			transition: all $transition-reveal-delayed;
 			will-change: transform;
 		}
 
@@ -275,7 +294,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 			position: absolute;
 			left: 50%;
 			top: 50%;
-			transform: translate(-50%, -50%);
+			transform: translate3d(-50%, -50%, 0);
 
 			transition: all $transition-enter;
 
@@ -346,12 +365,18 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 			.project-hero, .gradient-overlay {
 				pointer-events: none;
+
+				will-change: opacity;
+			}
+
+			.gradient-overlay, .gradient-backdrop {
+				transition: all $transition-enter;
 			}
 		}
 
 		.text-mask {
 			.animate-mask & {
-				transform: scale(0.1) rotateZ(0);
+				transform: scale($project-scale) rotateZ(0);
 				transform-origin: center;
 
 				transition: all $transition-reveal;
@@ -423,6 +448,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		pointer-events: none;
 
 		transition: opacity 1s;
+		will-change: opacity;
 
 		.project-title {
 			width: 5.5em;
@@ -434,7 +460,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 			line-height: 0.875em;
 			text-align: right;
 
-			pointer-events: auto;
+			pointer-events: none;
 
 			div {
 				overflow: hidden;
@@ -451,12 +477,33 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 		.project-tools {
 			display: flex;
-			margin-top: 2vh;
+			margin-top: 2rem;
+
+			transition: all $transition-enter;
+			will-change: opacity; 
+
+			.icon-list-collab {
+				display: flex;
+				align-items: center;
+
+				font-size: 5rem;
+				@include font-display-black;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+
+				a {
+					color: inherit;
+
+					.text {
+						border-bottom: 2px solid currentColor;
+					}
+				}
+			}
 
 			@media screen and (min-width: 577px) {
 				.icon-list {
 					&:not(:first-child) {
-						margin-left: 3rem;
+						margin-left: 7.5rem;
 					}
 				}
 			}
@@ -506,6 +553,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		top: 0;
 		left: 0;
 		z-index: 100;
+		transform: rotateZ(0);
 
 		width: 100%;
 		height: 100vh;
@@ -589,38 +637,20 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				> * {
 					margin-top: 3rem;
 				}
-
-				.icon-list-collab {
-					.button-icon {
-						width: auto;
-
-						border: 0;
-						border-radius: 0;
-
-						&::after {
-							position: relative;
-							left: auto;
-							bottom: auto;
-							top: auto;
-							transform: none !important;
-
-							padding: 0;
-
-							background: transparent;
-							color: $color-charcoal;
-							border-bottom: 2px solid $color-charcoal;
-							opacity: 1;
-							border-radius: 0;
-							visibility: visible;
-							box-shadow: none;
-						}
-
-						.fa-icon {
-							display: none;
-						}
-					}
-				}
 			}
 		}
 	}
+}
+
+.fade-enter-active {
+	transition: opacity 1s $transition-spinner-delay;
+	will-change: opacity;
+}
+
+.fade-enter-to {
+	opacity: 1;
+}
+
+.fade-enter {
+	opacity: 0;
 }

@@ -1,6 +1,15 @@
 <template>
+	<transition name="t-project-content">
 	<section v-if="selected > -1" class="project-content">
-		<div class="project-intro" v-if="currentProject.intro">
+		<div class="project-header">
+			<div class="inner">
+				<div class="categories">
+					<span v-for="(cat, index) in project.categories">{{ cat.title }}  </span>
+				</div>
+			</div>
+		</div>
+
+		<div class="project-intro" v-if="project.intro">
 			<div class="inner">
 				<div v-html="currentProject.intro"></div>
 			</div>
@@ -15,6 +24,7 @@
 			</div>
 		</div>
 	</section>
+	</transition>
 </template>
 
 <script>
@@ -27,14 +37,14 @@ export default {
 	},
 	computed: {
 		pageContent () {
-			return this.currentProject.pageContent;
+			return this.project.pageContent;
 		},
 		...mapState({
 			selected: state => state.projects.selected,
-			currentProject: state => state.projects.currentProject
+			project: state => state.projects.currentProject
 		})
 	}
 };
 </script>
 
-<style src="../styles/components/project-content.scss" lang="scss"></style>
+<style src="@/styles/components/project-content.scss" lang="scss"></style>

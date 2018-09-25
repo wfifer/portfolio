@@ -10,10 +10,19 @@ const actions = {
 			direction
 		});
 	},
-	enterProject ({ commit }, { index, entryId }) {
-		commit(type.ENTER_PROJECT, {
+	goToProject ({ commit }, index) {
+		commit(type.GO_TO_PROJECT, {
 			index
 		});
+	},
+	enterProject ({ commit }, { index, entryId, delay }) {
+		delay = delay || 0;
+
+		window.setTimeout(() => {
+			commit(type.ENTER_PROJECT, {
+				index
+			});
+		}, delay);
 
 		axios.get(helpers.getApiUrl(`project/${ entryId }.json`))
 			.then(response => {
