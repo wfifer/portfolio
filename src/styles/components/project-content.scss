@@ -93,7 +93,7 @@
 		}
 
 		.project-spec {
-			&:nth-child(2) {
+			&:nth-child(2):not(:last-child), &:first-child:last-child {
 				text-align: center;
 			}
 
