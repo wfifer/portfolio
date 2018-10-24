@@ -276,8 +276,23 @@
 			margin: 8rem 0;
 		}
 
-		img {
+		img, figure {
 			margin: 12rem 0;
+		}
+
+		figure {
+			img {
+				margin: 0;
+			}
+
+			figcaption {
+				margin-top: 3rem;
+
+				color: rgba($color-text, 0.6);
+
+				text-align: center;
+				font-size: 4rem;
+			}
 		}
 	}
 }
