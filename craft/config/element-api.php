@@ -96,11 +96,9 @@ return [
 						$cat = [
 							'slug' => $category->slug,
 							'title' => $category->title,
-							'id' => $category->id
+							'id' => $category->id,
+							'fontIcon' => $category->fontIcon
 						];
-						if (sizeof($category->fontIcon)) {
-							$cat['fontIcon'] = $category->fontIcon;
-						}
 						$categories[] = $cat;
 					}
 
@@ -165,12 +163,9 @@ return [
 					$cat = [
 						'slug' => $category->slug,
 						'title' => $category->title,
-						'id' => $category->id
+						'id' => $category->id,
+						'fontIcon' => $category->fontIcon
 					];
-
-					if (sizeof($category->fontIcon)) {
-						$cat['fontIcon'] = $category->fontIcon;
-					}
 					
 					return $cat;
 				}

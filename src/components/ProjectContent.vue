@@ -56,8 +56,18 @@
 				</div>
 
 				<footer class="project-footer">
-					<ul class="social-links">
-						<ButtonDefault :reverse="true" class="btn" font-icon="linkedin" />
+					<ul class="social-list list">
+						<li class="list-item">
+							<ButtonDefault tag="a" href="https://www.linkedin.com/in/will-fifer/" :reverse="true" class="btn" font-icon="linkedin" />
+						</li>
+
+						<li class="list-item">
+							<ButtonDefault tag="a" href="https://www.behance.net/wfifer" :reverse="true" class="btn" font-icon="behance" />
+						</li>
+
+						<li class="list-item">
+							<ButtonDefault tag="a" href="mailto:wfifer@gmail.com" :reverse="true" class="btn" font-icon="envelope" />
+						</li>
 					</ul>
 				</footer>
 			</div>
