@@ -1,5 +1,5 @@
 html {
-	background: #E9E9E9;
+	background: $color-body-bg;
 	color: $color-charcoal;
 	
 	&.-about {
@@ -28,17 +28,6 @@ html {
 	}
 }
 
-.section {
-	position: relative;
-
-	width: 100%;
-
-	.inner {
-		position: relative;
-
-		width: 100%;
-		@include max-width;
-		margin: 0 auto;
-		padding: 0 5rem;
-	}
+.resize-observer {
+	visibility: hidden;
 }

@@ -14,38 +14,27 @@ p, h1, h2, h3, h4, h5, h6 {
 
 h1, h2, h3, h4 {
 	@include font-display-black;
+	text-transform: uppercase;
 }
 
 h1 {
-	font-size: 3em;
+	font-size: 16rem;
 
-	& + * {
-		margin-top: 8rem;
-	}
 }
 
 h2 {
-	font-size: 2.5em;
+	font-size: 10rem;
 
-	& + * {
-		margin-top: 16rem;
-	}
 }
 
 h3 {
 	font-size: 8rem;
 
-	& + * {
-		margin-top: 4rem;
-	}
 }
 
 h4 {
-	font-size: 1.25em;
+	font-size: 6rem;
 
-	& + * {
-		margin-top: 4rem;
-	}
 }
 
 p, .body {

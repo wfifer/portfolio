@@ -1,7 +1,16 @@
 // COLORS
 
-$color-charcoal: #1A1A1A;
-$color-bg: #E9E9E9;
+// $color-charcoal: #1A1A1A;
+// $color-bg: #E9E9E9;
+
+$color-bg: #757575;
+$color-bg--darker: darken($color-bg, 10);
+$color-charcoal: #F2F2F2;
+
+$color-text: #555;
+$color-content-bg: $color-charcoal;
+
+$color-body-bg: lighten($color-bg, 10);
 
 // FONTS
 
@@ -17,7 +26,13 @@ $font-icon: 'FontAwesome', 'Arial', sans-serif;
 
 @mixin font-display-semibold() {
 	font-family: $font-display;
-	font-weight: 600;
+	font-weight: 500;
+	letter-spacing: 0.035em;
+}
+
+@mixin font-display-light() {
+	font-family: $font-display;
+	font-weight: 300;
 }
 
 @mixin font-headline-bold() {
@@ -40,18 +55,55 @@ $font-icon: 'FontAwesome', 'Arial', sans-serif;
 	font-weight: 700;
 }
 
-@mixin font-icon() {
+@mixin font-icon($style: regular) {
 	font-family: $font-icon;
+
+	@if ($style == solid) {
+		font-weight: 900;
+	}
+	@else if ($style == brands) {
+		font-weight: 700;
+	}
+	@else {
+		font-weight: 400;
+	}
 }
 
 
 // LAYOUT
 
-$bp-desktop: 1200px;
+$max-width: 1440px;
 
-$table-gutter: 3rem;
+$table-gutter: 7.5rem;
 
-$body-padding-top: 100rem;
+$body-padding-top: 113rem;
+$control-padding: 15rem;
+
+$bp: (
+	zero: 0px,
+	min: 375px,
+	mobile: 640px,
+	tablet: 768px,
+	desktop: 1024px
+);
+
+@mixin bp($point) {
+	@if map-has-key($bp, $point) {
+		@media screen and (max-width: map-get($bp, $point)) { @content; }
+	}
+	@else {
+		@media screen and (max-width: $point) { @content; }
+	}
+}
+
+@mixin bp-min($point) {
+	@if map-has-key($bp, $point) {
+		@media screen and (min-width: #{map-get($bp, $point) + 1px}) { @content; }
+	}
+	@else {
+		@media screen and (min-width: $point) { @content; }
+	}
+}
 
 // TYPOGRAPHY 
 
@@ -90,7 +142,7 @@ $ease: (
 $transition: 0.35s cubic-bezier(0.23, 1, 0.32, 1);
 $transition-reveal: 2s cubic-bezier(0.23, 1, 0.32, 1);
 $transition-reveal-delayed: 1.5s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
-$transition-enter-time: 1s;
+$transition-enter-time: 0.9s;
 $transition-enter: $transition-enter-time cubic-bezier(0.23, 1, 0.32, 1);
 $transition-enter-delay: 0.35s;
 $transition-thumbnails: 0.5s map-get($ease, out-quad);

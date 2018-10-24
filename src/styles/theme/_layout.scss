@@ -1,11 +1,3 @@
-@mixin max-width() {
-	max-width: 300rem;
-
-	@media screen and (max-width: $bp-desktop) {
-		max-width: 100%;
-	}
-}
-
 html {
 	overflow-y: scroll;
 }

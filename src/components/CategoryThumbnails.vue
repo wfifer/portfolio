@@ -2,41 +2,35 @@
 	<div class="category-thumbnails">
 		<transition name="t-thumbnails">
 			<div class="thumbnails-view" v-if="currentCategory">
-				<div style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px">
+				<!-- <div style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px">
 					<img v-for="project in projects" :src="project.thumbnail.url" :key="`thumbnail-${ project.entryId }`" :alt="project.title" />
-				</div>
+				</div> -->
 
 				<div class="thumbnails-inner">
 					<div class="thumbnail-scroll">
-						<transition-group name="t-thumbnail-item" class="thumbnail-list list" tag="ul">
-							<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project) && index !== 0" :key="`thumbnail-${ project.entryId }`">
-								<button class="btn thumbnail-inner" type="button" :aria-label="`View ${ project.title }`" :style="`background: ${ getThumbnailBackground(project) }`" @click="thumbnailClickHandler({ index, entryId: project.entryId })">
-									<div class="thumbnail-image" :style="`background: linear-gradient(${ getGradient(project) })`">
-										<img :src="project.thumbnail.url" :alt="project.title" />
-									</div>
+						<div class="scroll-inner">
+							<button type="button" class="btn btn-close-thumbnails" title="Close project list" tabindex="-1" @click="clearCategory"></button>
 
-									<div class="thumbnail-content" :data-label="project.website && project.website.length > 0 ? 'View website' : 'Coming soon'">
-										<div class="content">
-											<div class="text">{{ project.title }}</div>
+							<transition-group name="t-thumbnail-item" class="thumbnail-list list" tag="ul">
+								<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project)" :key="`thumbnail-${ project.entryId }`">
+									<button class="btn thumbnail-inner" type="button" :aria-label="`View ${ project.title }`" @click="thumbnailClickHandler({ index, entryId: project.entryId })">
+										<div class="thumbnail-text">{{ project.title }}</div>
+
+										<div class="thumbnail-background" :style="`background-image: linear-gradient(${ getGradient(project) });`">
+											<span class="text">{{ project.title }}</span>
 										</div>
-									</div>
-
-									<!-- <ul class="category-list">
-										<li v-for="(cat, i) in project.categories" class="list-item" :key="i">
-											<CategoryIcon class="category-icon" :font-icon="cat.fontIcon" :title="cat.title" />
-										</li>
-									</ul> -->
-								</button>
-							</li>
-						</transition-group>
+									</button>
+								</li>
+							</transition-group>
+						</div>
 					</div>
 
 					<!-- tools -->
 
-					<h2 class="category-heading">
+					<!-- <h2 class="category-heading">
 						<span class="label">Projects in:</span>
 						<span class="title">{{ currentCategory.title }}</span>
-					</h2>
+					</h2> -->
 
 					<ButtonDefault class="btn btn-exit" title="Exit category thumbnail view" font-icon="times" @click.native="clearCategory" />
 
@@ -113,7 +107,7 @@ export default {
 			let delay = 350;
 			delay += options.index === this.activeProject
 				? 350
-				: 2000;
+				: 1500;
 
 			window.setTimeout(() => {
 				this.goToProject(options.index);

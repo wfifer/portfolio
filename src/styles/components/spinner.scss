@@ -6,11 +6,9 @@
 		stroke-dasharray: 1px;
 	}
 
-	40% {
-		stroke-dasharray: 940px;
+	99% {
+		stroke-dasharray: 7000px;
 		stroke-dashoffset: 470px;
-		// stroke-dashoffset: 470px;
-		// opacity: 0;
 	}
 
 	100% {
@@ -39,6 +37,18 @@
 	}
 }
 
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	100% {		
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
 .spinner {
 	position: fixed;
 	top: 50%;
@@ -51,8 +61,6 @@
 	min-height: 72vh;
 	max-height: 100%;
 
-	// opacity: 0;
-
 	transition: all 1s $transition-spinner-delay, transform $transition-spinner;
 	will-change: opacity, transform;
 
@@ -61,8 +69,7 @@
 	&.-loaded {
 		transform: translate3d(-50%, -50%, 0) scale(1);
 
-		opacity: 0;
-		visibility: hidden;
+		animation: fade-out 0.5s $transition-spinner-delay forwards;
 
 		.text-stroke {
 			stroke-width: 4px;
@@ -90,17 +97,12 @@
 		dominant-baseline: central;
 	}
 
-	.text-fill {
-		opacity: 0;
-
-		animation: fade-in 20s 1s forwards;
-	}
-
 	.text-stroke {
 		fill: rgba(black, 0);
 		stroke-width: 16px;
+		stroke: $color-charcoal !important;
 
-		animation: outline 4s 1s infinite;
+		animation: outline 2s 1s infinite;
 		transition: stroke-width $transition-spinner;
 	}
 }

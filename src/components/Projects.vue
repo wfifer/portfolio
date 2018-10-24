@@ -7,24 +7,28 @@
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
+				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
+
 				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-left" @click.native="navActive ? navigateProjects(-1) : null" />
 				
 				<ButtonDefault class="btn nav-item nav-next" :title="`Next project: ${ projectTitle(activeProject + 1) }`" font-icon="arrow-right" @click.native="navActive ? navigateProjects(1) : null" />
-				
-				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="grid" @click.native="navActive ? showCategory(categoryAll) : null" />
 			</nav>
 
 			<div class="project-list">
 				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="project.entryId" v-if="showProject(index)">
 					<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="project.heroImage.url" />
 
-					<div class="mask-inner" @click="projectClickHandler({ index, entryId: project.entryId })" role="button">
-						<div class="banner-background" :style="`background: linear-gradient(${ getGradient(project) })`"></div>
-
+					<button type="button" class="btn btn-enter-project" @click="projectClickHandler({ index, entryId: project.entryId })" :title="`View project '${ project.title }'`" tabindex="-1">
+						<div class="button-inner">
+							<div class="text">Enter project</div>
+						</div>
+					</button>
+					
+					<div class="mask-inner">
 						<div class="svg-container">
 							<div class="mask-svg">
-								<div class="svg-inner">
-									<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve">
+								<div class="svg-inner" :style="selectedProject >= 0 ? `transform: translateY(${ bannerTranslateY }%) translateZ(0);` : null">
+									<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve" tabindex="-1">
 								 		<defs>
 											<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="0%">
 												<stop v-for="(stop, stopIndex) in project.heroBackground.stops" :offset="`${ stop.position }%`" :key="stopIndex" :stop-color="stop.color"/>
@@ -64,7 +68,15 @@
 						<h2 class="project-title">{{ project.title }}</h2>
 
 						<div class="project-tools">
-							<CategoryButtons :categories="project.categories" class="icon-list icon-list-categories" :tabindex="index === activeProject ? 0 : -1" />
+							<div class="tool-label">{{ index === 0 ? 'Such as' : 'Tags' }}</div>
+
+							<CategoryButtons :categories="project.categories" class="icon-list icon-list-categories" :tabindex="tabindex(index)" />
+
+							<div class="project-buttons">
+								<ButtonDefault class="btn btn-enter" :tabindex="tabindex(index)" font-icon="eye" @click.native="projectClickHandler({ index, entryId: project.entryId })">{{ index === 0 ? 'Learn more' : 'View project' }}</ButtonDefault>
+
+								<ButtonDefault class="btn btn-exit" :tabindex="tabindex(index)" font-icon="grid" @click.native="projectClickHandler({ index, entryId: project.entryId })">All projects</ButtonDefault>
+							</div>
 						</div>
 					</div>
 
@@ -95,19 +107,40 @@ export default {
 		CategoryButtons,
 		ButtonDefault
 	},
-	created () {
-		this.getProjects();
-
-		window.addEventListener('keyup', this.keyupHandler);
-	},
 	data: function () {
 		return {
 			svg: { width: 2400, height: 1600 },
 			transitionClass: [ [ '-active' ] ],
 			bgCoords: { x: 0, y: 0 },
 			navActive: true,
-			projectReady: false
+			projectReady: false,
+			bannerTranslateY: 0
 		};
+	},
+	created () {
+		this.getProjects();
+
+		window.addEventListener('keyup', this.keyupHandler);
+	},
+	mounted () {
+		let ticking = false;
+
+		const scrollListener = () => {
+			ticking = false;
+
+			const BANNER_HEIGHT = 400;
+			const MAX_PERCENTAGE = 8;
+			this.bannerTranslateY = window.scrollY / BANNER_HEIGHT * MAX_PERCENTAGE;
+		};
+
+		window.addEventListener('scroll', (e) => {
+			this.scrollY = window.scrollY;
+
+			if (!ticking) {
+				requestAnimationFrame(scrollListener);
+			}
+			ticking = true;
+		});
 	},
 	methods: {
 		layerPosition (depth) {
@@ -172,8 +205,13 @@ export default {
 			// return (index >= (ap - range) && index <= (ap + range)) || (index >= (ap - range + total) && index <= (ap + range + total)) || (index >= (ap - range - total) && index <= (ap + range - total));
 			return true;
 		},
+		tabindex (index) {
+			return index === this.activeProject ? 0 : -1;
+		},
 		projectClickHandler (options) {
 			if (this.selectedProject > -1) {
+				window.scrollTo(0, 0);
+
 				this.exitProject();
 			} else {
 				this.enterProject(options);
