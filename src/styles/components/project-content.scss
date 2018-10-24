@@ -21,6 +21,8 @@
 }
 
 .project-content {
+	$content-width: 1024px;
+
 	position: relative;
 	transform: translateZ(0);
 	z-index: 1;
@@ -76,14 +78,11 @@
 	.inner {
 		padding: 0 10rem;
 		margin: 0 auto;
+		max-width: $content-width;
 	}
 
 	.project-header {
 		position: relative;
-
-		.inner {
-			max-width: $max-width;
-		}
 
 		.project-title {
 			position: absolute;
@@ -94,7 +93,13 @@
 		}
 
 		.project-spec {
-			text-align: center;
+			&:nth-child(2) {
+				text-align: center;
+			}
+
+			&:nth-child(3) {
+				text-align: right;
+			}
 
 			p {
 				position: relative;
@@ -104,6 +109,8 @@
 			}
 
 			a {
+				position: relative;
+
 				&:not(:hover):not(:focus) {
 					&::after {
 						color: inherit;
@@ -112,7 +119,7 @@
 
 				@include hover {
 					&::after {
-						transform: translate(100%, -50%);
+						transform: translate(100%, 0);
 
 						opacity: 1;
 					}
@@ -122,9 +129,9 @@
 					content: '\f35d';
 
 					position: absolute;
-					top: 4.5rem;
+					bottom: -1.5rem;
 					right: -3rem;
-					transform: translate(100%, -50%) translate(-2rem, 2rem);
+					transform: translate(100%, 0) translate(-2rem, 2rem);
 
 					opacity: 0;
 
@@ -178,45 +185,38 @@
 	}
 
 	.project-intro, .project-body, .project-footer {
-		position: relative;
+		&:not(:first-child) {
+			position: relative;
 
-		margin-top: 12rem;
-		padding-top: 12rem;
+			margin-top: 12rem;
+			padding-top: 12rem;
 
-		&::before {
-			content: '';
+			&::before {
+				content: '';
 
-			position: absolute;
-			top: 0;
-			left: 50%;
-			transform: translateX(-50%);
+				position: absolute;
+				top: 0;
+				left: 50%;
+				transform: translateX(-50%);
 
-			width: 125px;
-			height: 8px;
+				width: 125px;
+				height: 8px;
 
-			background: {
-				image: url('~/assets/img/divider-dots.png');
-				size: 125px auto;
-				position: center;
-				repeat: no-repeat;
+				background: {
+					image: url('~/assets/img/divider-dots.png');
+					size: 125px auto;
+					position: center;
+					repeat: no-repeat;
+				}
+
+				@include font-icon;
 			}
-
-			@include font-icon;
-		}
-
-		.inner {
-			max-width: 1024px;
 		}
 	}
 
 	.project-intro {
-		padding: 10rem 0;
-
-		font-size: 7.5rem;
-	}
-
-	.project-body {
-		padding: 10rem 0;
+		font-size: 6.5rem;
+		hyphens: auto;
 	}
 
 	.project-footer {
@@ -260,6 +260,12 @@
 	}
 
 	.project-body {
+		.block {
+			> :first-child {
+				margin-top: 0 !important;
+			}
+		}
+
 		p, ul, ol {
 			margin: 4rem 0;
 
@@ -292,6 +298,21 @@
 
 				text-align: center;
 				font-size: 4rem;
+			}
+		}
+
+		.video-container {
+			position: relative;
+
+			padding-bottom: 67%;
+
+			iframe {
+				position: absolute;
+				top: 0;
+				left: 0;
+
+				width: 100%;
+				height: 100%;
 			}
 		}
 	}

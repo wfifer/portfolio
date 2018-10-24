@@ -49,7 +49,7 @@
 				<div class="project-body" v-if="project.pageContent && project.pageContent.length > 0">
 					<div class="inner">
 						<div v-for="(block, index) in project.pageContent" class="content-block" :key="index">
-							<div v-if="block.type === 'wysiwyg'" v-html="block.body">
+							<div v-if="block.type === 'wysiwyg'" v-html="block.body" class="block">
 							</div>
 						</div>
 					</div>
