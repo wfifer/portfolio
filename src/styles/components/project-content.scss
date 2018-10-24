@@ -185,6 +185,10 @@
 	}
 
 	.project-intro, .project-body, .project-footer {
+		&:first-child {
+			padding-top: 8rem;
+		}
+
 		&:not(:first-child) {
 			position: relative;
 
@@ -222,6 +226,10 @@
 	.project-footer {
 		justify-content: center;
 		display: flex;
+
+		&:not(:first-child) {
+			margin-top: 20rem;
+		}
 
 		.social-list {
 			display: flex;
