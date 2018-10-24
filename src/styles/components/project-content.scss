@@ -1,10 +1,212 @@
 @import '../mixins/variables';
 
+@keyframes loading {
+	0% {
+		transform: scaleX(0.001);
+	}
+
+	100% {
+		transform: scaleX(0.5);
+	}
+}
+
+@keyframes loaded {
+	0% {
+		transform: scaleX(0.5);
+	}
+
+	100% {
+		transform: scaleX(1);
+	}
+}
+
 .project-content {
+	position: relative;
+	transform: translateZ(0);
+	z-index: 1;
+
+	padding: 12rem 0 16rem;
+	min-height: calc(100vh - #{ $body-padding-top });
+
+	background: $color-content-bg;
+	color: $color-bg;
+
+	&.-loading {
+		&::before {
+			opacity: 1;
+			visibility: visible;
+
+			animation: loading 2s;
+			transition: all $transition;
+		}
+
+		.content-inner {
+			transform: translateY(20rem);
+
+			opacity: 0;
+
+			transition: all $transition $transition-enter-time;
+		}
+	}
+
+	&::before {
+		content: '';
+
+		position: absolute;
+		top: -5px;
+		left: 0;
+		transform-origin: left top;
+		transform: scaleX(1);
+
+		width: 100%;
+		height: 5px;
+
+		background: linear-gradient(37deg, rgb(152, 34, 255) 20%, rgb(0, 101, 255) 80%);
+		opacity: 0;
+		visibility: hidden;
+
+		transition: all $transition 0.7s;
+		animation: loaded $transition-enter;
+	}
+
+	.content-inner {
+		transition: all $transition;
+	}
+
 	.inner {
-		max-width: 1024px;
 		padding: 0 10rem;
 		margin: 0 auto;
+	}
+
+	.project-header {
+		position: relative;
+
+		.inner {
+			max-width: $max-width;
+		}
+
+		.project-title {
+			position: absolute;
+			opacity: 0;
+			z-index: -1;
+
+			pointer-events: none;
+		}
+
+		.project-spec {
+			text-align: center;
+
+			p {
+				position: relative;
+				max-width: 100%;
+
+				display: inline-block;
+			}
+
+			a {
+				&:not(:hover):not(:focus) {
+					&::after {
+						color: inherit;
+					}
+				}
+
+				@include hover {
+					&::after {
+						transform: translate(100%, -50%);
+
+						opacity: 1;
+					}
+				}
+
+				&::after {
+					content: '\f35d';
+
+					position: absolute;
+					top: 4.5rem;
+					right: -3rem;
+					transform: translate(100%, -50%) translate(-2rem, 2rem);
+
+					opacity: 0;
+
+					@include font-icon;
+					font-size: 1.2em;
+					font-weight: 900;
+
+					transition: all $transition;
+
+					pointer-events: none;
+				}
+
+				&.-overflow-ellipsis {
+					display: inline-block;
+					height: 1.65em;
+					max-width: 100%;
+
+					.text {
+						display: inline-block;
+						overflow-x: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						max-width: 100%;
+					}
+				}
+			}
+		}
+
+		@include bp-min(tablet) {
+			.project-specs {
+				display: flex;
+				width: calc(100% + #{ 2 * $table-gutter });
+				margin-left: #{ - $table-gutter };
+				justify-content: center;
+			}
+
+			.project-spec {
+				width: (100% / 3);
+				flex: 0 0 auto;
+				padding: $table-gutter;
+			}
+		}
+
+		@include bp(tablet) {
+			.project-spec {
+				&:not(:first-child) {
+					margin-top: 10rem;
+				}
+			}
+		}
+	}
+
+	.project-intro, .project-body, .project-footer {
+		position: relative;
+
+		margin-top: 12rem;
+		padding-top: 12rem;
+
+		&::before {
+			content: '';
+
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+
+			width: 125px;
+			height: 8px;
+
+			background: {
+				image: url('~/assets/img/divider-dots.png');
+				size: 125px auto;
+				position: center;
+				repeat: no-repeat;
+			}
+
+			@include font-icon;
+		}
+
+		.inner {
+			max-width: 1024px;
+		}
 	}
 
 	.project-intro {
@@ -16,4 +218,92 @@
 	.project-body {
 		padding: 10rem 0;
 	}
+
+	.project-footer {
+		justify-content: center;
+		display: flex;
+	}
+
+	a {
+		border-bottom: {
+			width: 2px;
+			style: solid;
+			color: #ccc;
+		}
+		color: inherit;
+
+		text-decoration: none;
+
+		transition: all $transition;
+
+		@include hover {
+			color: $color-text;
+		}
+	}
+
+	h2, h3, h4, h5, h6 {
+		color: $color-text;
+	}
+
+	.project-intro {
+		:not(:first-child) {
+			margin-top: 8rem;
+		}
+	}
+
+	.project-body {
+		p, ul, ol {
+			margin: 4rem 0;
+
+			img {
+				margin: 0;
+			}
+		}
+
+		h2, h3 {
+			margin: 12rem 0;
+		}
+
+		h4, h5 {
+			margin: 8rem 0;
+		}
+
+		img {
+			margin: 12rem 0;
+		}
+	}
+}
+
+.t-project-enter-active, .t-project-leave-active, .t-project-move {
+	transition: all $transition-enter;
+}
+
+.t-project-enter, .t-project-leave-to {
+	transform: translateY(100vh) translateY(#{ - $body-padding-top }) translateZ(0) !important;
+}
+
+.t-project-content-leave-active, .t-projct-content-move {
+	transition: all $transition-enter;
+}
+
+.t-project-content-enter-active {
+	transition: all $transition-enter 0.9s;
+}
+
+.t-project-content-leave-active {
+	position: absolute;
+
+	width: 100%;
+}
+
+.t-project-content-enter {
+	transform: translateY(20rem) translateZ(0);
+
+	opacity: 0;
+}
+
+.t-project-content-leave-to {
+	transform: translateY(20rem) translateZ(0);
+
+	opacity: 0;
 }

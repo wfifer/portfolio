@@ -1,13 +1,13 @@
 {
     "buttons": [
+        "html",
         "formatting",
         "bold",
         "italic",
         "unorderedlist",
         "orderedlist",
         "link",
-        "image",
-        "video"
+        "image"
     ],
     "plugins": [
         "fullscreen",

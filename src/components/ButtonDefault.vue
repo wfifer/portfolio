@@ -3,7 +3,7 @@
 		<div class="button-icon" :data-label="label">
 			<CategoryIcon :fontIcon="fontIcon" :style="getIconTransform" />
 
-			<span v-if="text && text.length > 0" class="text">{{ text }}</span>
+			<div class="text"><slot></slot></div>
 		</div>
 	</component>
 </template>
@@ -17,7 +17,6 @@ export default {
 		CategoryIcon
 	},
 	props: {
-		text: String,
 		label: String,
 		title: String,
 		href: String,
@@ -42,6 +41,10 @@ export default {
 		active: {
 			type: Boolean,
 			default: false
+		},
+		reverse: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {
@@ -50,12 +53,16 @@ export default {
 				? '-with-label'
 				: '';
 
-			classString += this.text && this.text.length > 0
+			classString += this.$slots.default && this.$slots.default.length > 0
 				? ' -with-text'
 				: '';
 
 			classString += this.active
 				? ' -active'
+				: '';
+
+			classString += this.reverse
+				? ' -reverse'
 				: '';
 
 			classString += ` -color-${ this.buttonColor }`;

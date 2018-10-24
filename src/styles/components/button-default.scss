@@ -1,6 +1,8 @@
 @import '../mixins/variables';
 
 .button-default {
+	position: relative;
+
 	padding: 0;
 	margin: 0;
 
@@ -42,14 +44,19 @@
 				left: 50%;
 				transform: translate3d(-50%, -80%, 0);
 
-				padding: 1.5rem 2.5rem;
+				padding: 2rem 2.5rem;
 
-				background: #EEE;
-				border-radius: 3px;
+				background: darken($color-content-bg, 15);
+				border-radius: 2px;
 				box-shadow: 0 2px 10px rgba(black, 0.2);
-				color: $color-charcoal;
+				color: darken($color-text, 15);
 				opacity: 0;
 				visibility: hidden;
+
+				font-size: 4rem;
+				@include font-display-semibold;
+
+				pointer-events: none;
 
 				transition: all $transition;
 			}
@@ -58,16 +65,15 @@
 
 	&.-active {
 		.button-icon {
-			background: #666;
-			box-shadow: 0 0 0 2px $color-bg, 
-				0 0 0 4px $color-charcoal;
+			background: linear-gradient(37deg, rgb(152, 34, 255) 20%, rgb(0, 101, 255) 80%);
+			color: $color-charcoal;
 		}
 	}
 
 	&:not(.-with-label) {
 		@include hover {
 			.button-icon {
-				border: 2px solid $color-charcoal;
+				box-shadow: 0 0 0 2px $color-charcoal inset;
 				background: $color-bg;
 				color: $color-charcoal;
 			}
@@ -104,6 +110,21 @@
 		transition: all $transition;
 	}
 
+	&.-reverse {
+		.button-icon {
+			background: $color-bg;
+			color: $color-charcoal;
+		}
+
+		@include hover {
+			.button-icon {
+				box-shadow: 0 0 0 2px $color-bg inset;
+				background: transparent;
+				color: $color-bg;
+			}
+		}
+	}
+
 	.button-icon {
 		position: relative;
 		transform: translate3d(0, 0, 0);
@@ -116,9 +137,9 @@
 
 		background: $color-charcoal;
 		color: $color-bg;
-		border-radius: 5rem;
-		box-shadow: 0 0 0 2px rgba($color-bg, 0), 
-				0 0 0 4px rgba($color-charcoal, 0);
+		// border-radius: 5rem;
+		border-radius: 2px;
+		box-shadow: 0 0 0 2px rgba($color-bg, 0) inset;
 
 		transition: all $transition;
 

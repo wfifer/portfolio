@@ -6,11 +6,9 @@
 		stroke-dasharray: 1px;
 	}
 
-	40% {
-		stroke-dasharray: 940px;
+	99% {
+		stroke-dasharray: 7000px;
 		stroke-dashoffset: 470px;
-		// stroke-dashoffset: 470px;
-		// opacity: 0;
 	}
 
 	100% {
@@ -31,55 +29,80 @@
 
 @keyframes fade-in {
 	0% {
-		transform: translate3d(-50%, -50%, 0) scale(0.8);
-
 		opacity: 0;
 	}
 
-	100% {
-		transform: translate3d(-50%, -50%, 0) scale(1);
-		
+	100% {		
 		opacity: 1;
 	}
 }
 
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	100% {		
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
 .spinner {
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
-	transform: translate3d(-50%, -50%, 0);
+	transform: translate3d(-50%, -50%, 0) scale(0.25);
+	z-index: 1000;
 
-	opacity: 0;
+	width: 100vw;
+	height: (100vw * 2 / 3);
+	min-height: 72vh;
+	max-height: 100%;
 
-	transition: all 1.5s;
+	transition: all 1s $transition-spinner-delay, transform $transition-spinner;
 	will-change: opacity, transform;
 
 	animation: fade-in 0.5s 1s forwards;
 
 	&.-loaded {
-		// transform: translate3d(-50%, -50%, 0) scale(3);
+		transform: translate3d(-50%, -50%, 0) scale(1);
 
-		opacity: 0;
-		visibility: hidden;
+		animation: fade-out 0.5s $transition-spinner-delay forwards;
+
+		.text-stroke {
+			stroke-width: 4px;
+
+			animation: outline 0.35s reverse !important;
+		}
 	}
 
 	.spinner-icon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate3d(-50%, -50%, 0);
+
 		display: block;
-		width: 100rem;
-		height: 100rem;
+		width: 100%;
+		min-width: 150vh;
+		max-width: 1600px;
 	}
 
 	.text {
-		fill: rgba(black, 0);
-		stroke-width: 1px;
-		// stroke-dashoffset: 1px;
-		// stroke-dasharray: 1px;
-
-		font-size: 100px;
-		text-anchor: middle;
+		transform: rotateZ(0);
 
 		@include font-mask;
+		dominant-baseline: central;
+	}
 
-		animation: outline 4s 1s infinite;
+	.text-stroke {
+		fill: rgba(black, 0);
+		stroke-width: 16px;
+		stroke: $color-charcoal !important;
+
+		animation: outline 2s 1s infinite;
+		transition: stroke-width $transition-spinner;
 	}
 }

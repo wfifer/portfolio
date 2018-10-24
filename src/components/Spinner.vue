@@ -1,21 +1,39 @@
 <template>
 	<div class="spinner">
-		<svg class="spinner-icon" x="0px" y="0px" viewBox="0 0 200 200" style="enable-background: new 0 0 100 100" xml:space="preserve">
+		<svg class="spinner-icon" x="0px" y="0px" :viewBox="`0 0 ${ width } ${ height }`" :style="`enable-background: new 0 0 ${ width } ${ height }`" xml:space="preserve">
 			<defs>
 				<linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
 					<stop data-v-1d558ce8="" offset="10%" stop-color="#9822ff"></stop>
 					<stop data-v-1d558ce8="" offset="80%" stop-color="#0065ff"></stop>
 				</linearGradient>
+
+				<clipPath clipPathUnits="userSpaceOnUse" id="spinner-clip">
+					<text class="text" x="50%" y="65%" :x="width / 2" :y="height / 2" :style="`font-size: ${ fontSize }px;`" text-anchor="middle">W</text>
+				</clipPath>
 			</defs>
 
-			<text x="50%" y="65%" class="text" style="stroke: url('#spinner-gradient')">W</text>
+			<text class="text text-stroke" x="50%" y="65%" :x="width / 2" :y="height / 2" style="stroke: url('#spinner-gradient'); clip-path: url(#spinner-clip)" :style="`font-size: ${ fontSize }px;`" text-anchor="middle">W</text>
 		</svg>
 	</div>
 </template>
 
 <script>
 	export default {
-		name: 'Spinner'
+		name: 'Spinner',
+		props: {
+			width: {
+				default: 200,
+				type: Number
+			},
+			height: {
+				default: 200,
+				type: Number
+			},
+			fontSize: {
+				default: 100,
+				type: Number
+			}
+		}
 	};
 </script>
 

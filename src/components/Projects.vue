@@ -1,29 +1,34 @@
 <template>
-	<!-- <section class="site-header" :class="selectedProject >= 0 ? '-banner' : ''" @mousemove="/*onMouseMove*/"> -->
-	<section class="site-header" :class="currentCategory ? '-thumbnails-open' : ''" @mousemove="/*onMouseMove*/">
-		<Spinner :class="projectReady ? '-loaded' : ''"/>
+	<section class="site-header" :class="headerClass" @mousemove="/*onMouseMove*/">
+		<Spinner :class="projectReady ? '-loaded' : ''" :width="svg.width" :height="svg.height" :font-size="fontSize" />
 
 		<transition name="fade">
 		<v-touch @swipeleft="navActive ? navigateProjects(1) : null" @swiperight="navActive ? navigateProjects(-1) : null" class="inner" v-show="projectReady">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
+				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
+
 				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-left" @click.native="navActive ? navigateProjects(-1) : null" />
 				
-				<ButtonDefault class="btn nav-item nav-next" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-right" @click.native="navActive ? navigateProjects(1) : null" />
-				
-				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="grid" @click.native="navActive ? showCategory(categoryAll) : null" />
+				<ButtonDefault class="btn nav-item nav-next" :title="`Next project: ${ projectTitle(activeProject + 1) }`" font-icon="arrow-right" @click.native="navActive ? navigateProjects(1) : null" />
 			</nav>
 
 			<div class="project-list">
 				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="project.entryId" v-if="showProject(index)">
 					<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="project.heroImage.url" />
 
+					<button type="button" class="btn btn-enter-project" @click="projectClickHandler({ index, entryId: project.entryId })" :title="`View project '${ project.title }'`" tabindex="-1">
+						<div class="button-inner">
+							<div class="text">Enter project</div>
+						</div>
+					</button>
+					
 					<div class="mask-inner">
 						<div class="svg-container">
 							<div class="mask-svg">
-								<div class="svg-inner">
-									<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve">
+								<div class="svg-inner" :style="selectedProject >= 0 ? `transform: translateY(${ bannerTranslateY }%) translateZ(0);` : null">
+									<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve" tabindex="-1">
 								 		<defs>
 											<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="0%">
 												<stop v-for="(stop, stopIndex) in project.heroBackground.stops" :offset="`${ stop.position }%`" :key="stopIndex" :stop-color="stop.color"/>
@@ -41,7 +46,7 @@
 										</defs>
 
 										<g :style="`clip-path: url(#text-clip-${ index }); mask: url(#text-mask-${ index });`" class="svg-clipped">
-											<rect x="0" y="0" :width="svg.width" :height="svg.height" style="fill: white" />
+											<!-- <rect x="0" y="0" :width="svg.width" :height="svg.height" style="fill: white" class="gradient-backdrop" /> -->
 
 											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" r="800" :style="`fill: url(#gradient-bg-${ index });`" />
 
@@ -63,25 +68,15 @@
 						<h2 class="project-title">{{ project.title }}</h2>
 
 						<div class="project-tools">
-							<ul class="icon-list icon-list-website" v-if="index == 0">
-								<li class="list-item">
-									<ButtonDefault :tabindex="index === activeProject ? 0 : -1" button-color="reverse" title="Check me out on LinkedIn" font-icon="hand-peace" @click.native="enterAbout" text="About" :ref="index === activeProject ? 'activeButton' : null"/>
-								</li>
-							</ul>
+							<div class="tool-label">{{ index === 0 ? 'Such as' : 'Tags' }}</div>
 
-							<ul class="icon-list icon-list-website" v-else-if="project.website && project.website.length">
-								<li class="list-item">
-									<ButtonDefault tag="a" :title="`View website for ${ project.title }`" :href="project.website" :newTab="true" :tabindex="index === activeProject ? 0 : -1" :ref="index === activeProject ? 'activeButton' : null" text="View website" font-icon="link" button-color="reverse" />
-								</li>
-							</ul>
+							<CategoryButtons :categories="project.categories" class="icon-list icon-list-categories" :tabindex="tabindex(index)" />
 
-							<ul class="icon-list icon-list-collab" v-if="project.collaborators.length > 0">
-								<li v-for="(collaborator, i) in project.collaborators" class="list-item" :key="i">
-									<ButtonDefault tag="a":title="`View website for ${ collaborator.title }`" :href="collaborator.website" :newTab="true" :tabindex="index === activeProject ? 0 : -1" :label="`Credit: ${ collaborator.title }`" font-icon="heart" :icon-transform="{ x: 0, y: '5%' }" button-color="reverse" />
-								</li>
-							</ul>
+							<div class="project-buttons">
+								<ButtonDefault class="btn btn-enter" :tabindex="tabindex(index)" font-icon="eye" @click.native="projectClickHandler({ index, entryId: project.entryId })">{{ index === 0 ? 'Learn more' : 'View project' }}</ButtonDefault>
 
-							<CategoryButtons :categories="project.categories" class="icon-list icon-list-categories" :tabindex="index === activeProject ? 0 : -1" />
+								<ButtonDefault class="btn btn-exit" :tabindex="tabindex(index)" font-icon="grid" @click.native="projectClickHandler({ index, entryId: project.entryId })">All projects</ButtonDefault>
+							</div>
 						</div>
 					</div>
 
@@ -112,32 +107,42 @@ export default {
 		CategoryButtons,
 		ButtonDefault
 	},
+	data: function () {
+		return {
+			svg: { width: 2400, height: 1600 },
+			transitionClass: [ [ '-active' ] ],
+			bgCoords: { x: 0, y: 0 },
+			navActive: true,
+			projectReady: false,
+			bannerTranslateY: 0
+		};
+	},
 	created () {
 		this.getProjects();
 
 		window.addEventListener('keyup', this.keyupHandler);
 	},
-	data: function () {
-		return {
-			svg: { width: 2400, height: 1600 },
-			transitionClass: [ '-active' ],
-			bgCoords: { x: 0, y: 0 },
-			navActive: true,
-			projectReady: false
+	mounted () {
+		let ticking = false;
+
+		const scrollListener = () => {
+			ticking = false;
+
+			const BANNER_HEIGHT = 400;
+			const MAX_PERCENTAGE = 8;
+			this.bannerTranslateY = window.scrollY / BANNER_HEIGHT * MAX_PERCENTAGE;
 		};
+
+		window.addEventListener('scroll', (e) => {
+			this.scrollY = window.scrollY;
+
+			if (!ticking) {
+				requestAnimationFrame(scrollListener);
+			}
+			ticking = true;
+		});
 	},
 	methods: {
-		enterAbout () {
-			window.open('http://www.linkedin.com/in/will-fifer', '_blank');
-		},
-		enterProject (options) {
-			if (options.index === 0) {
-				this.enterAbout();
-			} else {
-				const project = this.projects[options.index];
-				window.open(project.website);
-			}
-		},
 		layerPosition (depth) {
 			const x = this.bgCoords.x * (-depth / Math.abs(depth));
 			const y = this.bgCoords.y * (-depth / Math.abs(depth));
@@ -200,10 +205,39 @@ export default {
 			// return (index >= (ap - range) && index <= (ap + range)) || (index >= (ap - range + total) && index <= (ap + range + total)) || (index >= (ap - range - total) && index <= (ap + range - total));
 			return true;
 		},
+		tabindex (index) {
+			return index === this.activeProject ? 0 : -1;
+		},
+		projectClickHandler (options) {
+			if (this.selectedProject > -1) {
+				window.scrollTo(0, 0);
+
+				this.exitProject();
+			} else {
+				this.enterProject(options);
+			}
+		},
+		getGradient (project) {
+			// let angle = project.heroBackground.angle;
+			let angle = '37deg';
+			let stops = project.heroBackground.stops.slice(0, 2);
+
+			let gradient = angle && angle.length
+				? angle
+				: 'to right';
+
+			stops.forEach((stop, i) => {
+				gradient += `, ${ stop.color } ${ 20 + i * 60 }%`;
+			});
+
+			return gradient;
+		},
 		...mapActions([
 			'navigateProjects',
 			'getProjects',
-			'showCategory'
+			'showCategory',
+			'enterProject',
+			'exitProject'
 		])
 	},
 	watch: {
@@ -231,7 +265,7 @@ export default {
 
 				this.navActive = true;
 
-				if (!document.activeElement.classList.contains('nav-item')) {
+				if (!document.activeElement.classList.contains('nav-item') && this.$refs.activeButton) {
 					this.$refs.activeButton[0].focus = true;
 				}
 			}, 2000);
@@ -252,10 +286,20 @@ export default {
 		},
 		projectClass () {
 			return this.projects.map((project, index) => {
-				let pClass = this.transitionClass[index];
+				let pClass = this.transitionClass[index]
+					? this.transitionClass[index]
+					: [];
+
+				let sIndex = pClass.indexOf('-selected');
+
 				if (index === this.selectedProject) {
-					pClass.push('-selected');
+					if (sIndex === -1) {
+						pClass.push('-selected');
+					}
+				} else if (sIndex >= 0) {
+					pClass.splice(sIndex, 1);
 				}
+
 				return pClass;
 			});
 		},
@@ -276,6 +320,13 @@ export default {
 				return cat.slug === 'all';
 			})[0];
 		},
+		headerClass () {
+			return this.selectedProject >= 0
+				? '-banner'
+				: this.currentCategory
+					? '-thumbnails-open'
+					: null;
+		},
 		...mapState({
 			activeProject: state => state.projects.active,
 			lastProject: state => state.projects.last,
@@ -292,20 +343,3 @@ export default {
 
 <style src="../styles/components/icon-list.scss" lang="scss"></style>
 <style src="../styles/components/projects.scss" lang="scss"></style>
-
-<style lang="scss" scoped>
-
-.fade-enter-active {
-	transition: opacity 1s;
-	will-change: opacity;
-}
-
-.fade-enter-to {
-	opacity: 1;
-}
-
-.fade-enter {
-	opacity: 0;
-}
-
-</style>

@@ -196,21 +196,18 @@ return [
 						}
 						$pageContent[] = $blockContent;
 					}
-					$categories = [];
-					foreach ($entry->projectCategory->all() as $category) {
-						$cat  = [
-							'slug' => $category->slug,
-							'title' => $category->title
-						];
 
-						if (sizeof($category->fontIcon)) {
-							$cat['fontIcon'] = $category->fontIcon;
-						}
-						
-						$categories[] = $cat;
+					$client = [];
+					if (sizeof($entry->client)) {
+						$entity = $entry->client->one();
+						$client = [
+							'title' => $entity->title,
+							'website' => $entity->website
+						];
 					}
+
 					return [
-						'categories' => $categories,
+						'client' => $client,
 						'intro' => $entry->intro,
 						'pageContent' => $pageContent
 					];

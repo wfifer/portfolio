@@ -1,12 +1,34 @@
 @import '../mixins/variables';
 
-$bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
+$project-scale: 0.625;
+
+@keyframes position-absolute {
+	0%, 99% {
+		position: fixed;
+	}
+
+	100% {
+		position: absolute;
+	}
+}
+
+@keyframes cursor {
+	0%, 99% {
+		cursor: url('~/assets/img/cursor-arrow-down.svg') -8 22, n-resize;
+	}
+
+	100% {
+		cursor: url('~/assets/img/cursor-arrow-up.svg') -8 -22, s-resize;
+	}
+}
 
 .site-header {
-	position: fixed;
+	position: absolute;
+	top: 0;
+	left: 0;
 	transform: translateZ(-1px);
 
-	height: 100%;
+	height: 100vh;
 	width: 100%;
 
 	background: $color-bg;
@@ -14,17 +36,79 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 	@include font-display-black;
 
 	transition: all $transition-thumbnails;
-	will-change: transform, filter;
+	will-change: transform;
 
 	&.-thumbnails-open {
 		transform: scale(0.9) translateZ(-1px);
-
-		// filter: blur(5px);
 
 		.project-shadow {
 			opacity: 0 !important;
 
 			transition: none !important;
+		}
+	}
+
+	&.-banner {
+		// animation: position-absolute $transition-enter forwards;
+
+		background: $color-bg--darker;
+
+		.btn-enter-project {
+			animation: cursor $transition-enter forwards;
+
+			_::-webkit-full-page-media, _:future, :root & {
+				cursor: url('~/assets/img/cursor-arrow-up.svg') -8 -22, s-resize;
+			}
+		}
+
+		.project-mask {
+			transform: translateY(-100%) translateY(#{ $body-padding-top }) translateZ(0);
+
+			&:not(.-active):not(.-animate-in):not(.-animate-out) {
+				display: none;
+			}
+
+			.mask-inner {
+				overflow: visible;
+
+				background: $color-bg--darker;
+			}
+
+			.mask-svg {
+				transform: translate3d(-50%, -50%, 0) translateY(30vh);
+
+				opacity: 0.8;
+			}
+
+			.project-info {
+				.project-tools {
+					.project-buttons {
+						.btn-enter {
+							transform: translateY(-80%);
+
+							opacity: 0;
+							visibility: hidden;
+						}
+
+						.btn-exit {
+							transform: translateY(0);
+
+							opacity: 1;
+							visibility: visible;
+						}
+					}
+				}
+			}
+		}
+
+		.project-nav {
+			// transform: scale(1.1) rotateZ(0);
+
+			// opacity: 0;
+
+			.nav-item {
+				transform: translate3d(0, -100%, 0) translateY(-50vh) translateY(98rem) !important;
+			}
 		}
 	}
 
@@ -39,12 +123,21 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		position:  absolute;
 		top: 0;
 		left: 0; 
+		transform: translateZ(0);
 
-		display: flex;
+		display: none;
 		justify-content: center;
 		align-items: center;
 		width: 100%;
 		height: 100%;
+
+		transition: all $transition-enter,
+			opacity 0s 2s;
+		will-change: transform; 
+
+		&.-active, &.-animate-out, &.-animate-in {
+			display: flex;
+		}
 
 		&.-active {
 			z-index: 5;
@@ -75,13 +168,6 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				}
 			}
 
-			.project-layer {
-				svg {
-					transform: scale(1) rotateZ(0) !important;
-					transition-duration: 2s !important;
-				}
-			}
-
 			.project-info {
 				opacity: 1;
 			}
@@ -100,26 +186,24 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 			.animate-mask & {
 				.text-mask {
-					transform: scale(0.5) rotateZ(0);
+					@media screen and (-webkit-min-device-pixel-ratio: 0) {
+						transform: scale($project-scale) rotateZ(0);
+					}
 				}
 			}
 
 			.no-animate-mask & {
 				.mask-svg {
 					.svg {
-						transform: translate(-50%, -50%) scale(0.5) rotateZ(0);
+						@media screen and (-webkit-min-device-pixel-ratio: 0) {
+							transform: translate(-50%, -50%) scale($project-scale) rotateZ(0);
+						}
 					}
 				}
 			}
 
-			.project-layer {
-				@for $i from -1 through 1 {
-					&[data-depth="#{ $i }"] {
-						svg {
-							transform: scale(#{ 0.5 + 0.25 * $i }) rotateZ(0) !important;
-						}
-					}
-				}
+			.mask-inner {
+				overflow: hidden !important;
 			}
 
 			.project-info {
@@ -186,7 +270,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				}
 			}
 
-			.animate-mask & .text-mask, .project-layer svg {
+			.animate-mask & .text-mask {
 				transform: scale(1) rotateZ(0) !important;
 			}
 
@@ -207,7 +291,9 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 			background: $color-bg;
 
-			transition: all $transition-reveal-delayed;
+			pointer-events: none;
+
+			transition: all $transition-enter, transform $transition-reveal-delayed;
 			will-change: transform;
 		}
 
@@ -223,7 +309,10 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 			position: absolute;
 			left: 50%;
 			top: 50%;
-			transform: translate(-50%, -50%);
+			transform: translate3d(-50%, -50%, 0);
+
+			transition: all $transition-enter;
+			will-change: transform;
 
 			.svg-inner {
 				position: relative;
@@ -235,7 +324,7 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				max-height: 100%;
 			}
 
-			.svg, .project-layer {
+			.svg {
 				position: absolute;
 				left: 50%;
 				top: 50%;
@@ -244,10 +333,6 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				width: 100%;
 				min-width: 150vh;
 				max-width: 1600px;
-			}
-
-			.project-layer {
-				pointer-events: none;
 			}
 
 			.no-animate-mask & {
@@ -267,11 +352,6 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				}
 			}
 
-			.btn-enter-project {
-				fill: transparent;
-				cursor: pointer;
-			}
-
 			text {
 				fill: white;
 
@@ -279,56 +359,43 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				font-size: 1000px;
 			}
 
-			.text-shadow {
-				opacity: 0.5;
-			}
-
-			.project-hero {
+			.project-hero {				
 				opacity: 0.35;
 				mix-blend-mode: multiply;
+
+				transition: all $transition;
 
 				image {
 					transform: translateZ(0);
 				}
 			}
+
+			.project-hero, .gradient-overlay {
+				pointer-events: none;
+
+				will-change: opacity;
+			}
+
+			.gradient-overlay, .gradient-backdrop {
+				transition: all $transition-enter;
+			}
 		}
 
 		.text-mask {
 			.animate-mask & {
-				transform: scale(0.1) rotateZ(0);
-				transform-origin: center;
+				@media screen and (-webkit-min-device-pixel-ratio: 0) {
+					transform: scale($project-scale) rotateZ(0);
+					transform-origin: center;
 
-				transition: all $transition-reveal;
-				will-change: transform;
+					transition: all $transition-reveal;
+					will-change: transform;
+				}
 			}
 
 			rect {
 				opacity: 0;
 
 				transition: opacity $transition-enter;
-			}
-		}
-
-		.project-layer {
-			svg {
-				transform-origin: center;
-
-				transition: all $transition-reveal;
-				will-change: transform;
-			}
-		
-			@for $i from -1 through 1 {
-				&[data-depth="#{ $i }"] {
-					svg {
-						transform: scale(#{ 0.1 + 0.05 * $i }) rotateZ(0);
-
-						transition-duration: #{ 2 - $i * 0.5 }s;
-					}
-				}
-			}
-
-			image {
-				transform: translate(-50%, -50%);
 			}
 		}
 
@@ -342,6 +409,54 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		}
 	}
 
+	.btn-enter-project {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 1;
+
+		height: calc(100vh - 30rem);
+		width: calc(#{ $max-width } - 30rem);
+		max-width: calc(100vw - 30rem);
+
+		text-align: center;
+
+		cursor: url('~/assets/img/cursor-arrow-down.svg') -8 22, n-resize;
+
+		.-show-focus &:focus {
+			z-index: 2;
+
+			.button-inner {
+				opacity: 1;
+				visibility: visible;
+			}
+		}
+
+		.button-inner {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100vw;
+			height: 100%;
+			padding: 2rem;
+
+			opacity: 0;
+			background: rgba(black, 0.5);
+			visibility: hidden;
+
+			text-transform: uppercase;
+			font-size: 8rem;
+
+			transition: all $transition;
+		}
+	}
+
 	.project-info {
 		position: absolute;
 		left: 0;
@@ -352,21 +467,21 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 		display: flex;
 		width: 100%;
-		max-width: 1024px;
+		max-width: $max-width;
 		height: 100%;
-		// max-height: 72vh;
-		max-height: 1024px;
+		max-height: $max-width;
 		flex-direction: column;
 		justify-content: flex-end;
 		align-items: flex-end;
 		margin: 0 auto;
-		padding: 15rem;
+		padding: 15rem 30rem;
 
 		color: $color-charcoal;
 
 		pointer-events: none;
 
 		transition: opacity 1s;
+		will-change: opacity;
 
 		.project-title {
 			width: 5.5em;
@@ -378,7 +493,9 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 			line-height: 0.875em;
 			text-align: right;
 
-			pointer-events: auto;
+			pointer-events: none;
+
+			transition: all $transition-reveal;
 
 			div {
 				overflow: hidden;
@@ -395,12 +512,89 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 
 		.project-tools {
 			display: flex;
-			margin-top: 2vh;
+			align-items: flex-end;
+			margin-top: 10rem;
+
+			transition: all $transition-enter;
+			will-change: opacity; 
+
+			pointer-events: all;
+
+			.tool-label {
+				opacity: 0.7;
+
+				text-transform: uppercase;
+				line-height: 1;
+				@include font-display-semibold;
+			}
+
+			.icon-list-collab {
+				display: flex;
+				align-items: center;
+
+				font-size: 5rem;
+				@include font-display-black;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+
+				a {
+					color: inherit;
+
+					.text {
+						border-bottom: 2px solid currentColor;
+					}
+				}
+			}
+
+			.project-buttons {
+				position: relative;
+
+				.btn {
+					min-width: 45rem;
+
+					transition: all $transition;
+
+					/deep/ .button-icon {
+						min-width: 100%;
+					}
+				}
+
+				.btn-exit {
+					position: absolute;
+					top: 0;
+					right: 0;
+					transform: translateY(100%);
+
+					opacity: 0;
+					visibility: hidden;
+				}
+			}
 
 			@media screen and (min-width: 577px) {
 				.icon-list {
 					&:not(:first-child) {
 						margin-left: 3rem;
+					}
+				}
+
+				.project-buttons {
+					&:not(:first-child) {
+						margin-left: 6rem;
+
+						&::after {
+							content: '';
+
+							position: absolute;
+							left: -3rem;
+							top: 50%;
+							transform: translateY(-50%);
+
+							display: block;
+							height: calc(100% - 3rem);
+							width: 2px;
+
+							background: $color-charcoal;
+						}
 					}
 				}
 			}
@@ -431,51 +625,76 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 		}
 
 		.shadow-left {
-			left: 0;
+			left: -1px;
 			transform: translate3d(-100%, 0, 0);
 
-			background: linear-gradient(to right, transparent 0%, rgba(black, 0.4) 80%, rgba(black, 0.4) 100%);
+			background: linear-gradient(to right, transparent 0%, rgba($color-charcoal, 0.1) 80%, rgba($color-charcoal, 0.1) 100%);
+			box-shadow: 1px 0 0 rgba($color-charcoal, 0.5);
 		}
 
 		.shadow-right {
-			right: 0;
+			right: -1px;
 			transform: translate3d(100%, 0, 0);
 
-			background: linear-gradient(to left, transparent 0%, rgba(black, 0.4) 80%, rgba(black, 0.4) 100%);
+			background: linear-gradient(to left, transparent 0%, rgba($color-charcoal, 0.1) 80%, rgba($color-charcoal, 0.1) 100%);
+			box-shadow: -1px 0 0 rgba($color-charcoal, 0.5);
 		}
 	}
 
 	.project-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100;
+		transform: rotateZ(0);
+
+		width: 100%;
+		height: 100vh;
+
+		transition: all $transition-enter;
+
+		pointer-events: none;
+
 		&.-disabled {
 			.nav-item, .btn-thumbnails {
 				opacity: 0.5;
+
+				@include hover {
+					.button-icon {
+						background: transparent !important;
+					}
+				}
 			}
 		}
 
+		.btn-thumbnails, .btn-exit, .nav-item, .btn-exit-project {
+			position: absolute;
+
+			pointer-events: all;
+		}
+
 		.btn-thumbnails {
-			position: fixed;
-			top: 2rem;
-			right: 2rem;
-			z-index: 100;
+			top: $control-padding;
+			right: $control-padding;
 		}
 
 		.nav-item {
-			position: fixed;
-			top: 50vh;
-			z-index: 100;
+			top: 50%;
 			transform: translateY(-50%);
+
+			transition: all $transition-enter;
 		}
 
 		.nav-prev {
-			left: 2rem;
+			left: $control-padding;
 		}
 
 		.nav-next {
-			right: 2rem;
+			right: $control-padding;
 		}
 	}
 
-	@media screen and (max-width: 1024px) {
+	@media screen and (max-width: $max-width) {
 		.project-info {
 			.project-title {
 				font-size: 30rem;
@@ -519,38 +738,20 @@ $bg-gradient: linear-gradient(to bottom, $color-bg 0%, white 100%);
 				> * {
 					margin-top: 3rem;
 				}
-
-				.icon-list-collab {
-					.button-icon {
-						width: auto;
-
-						border: 0;
-						border-radius: 0;
-
-						&::after {
-							position: relative;
-							left: auto;
-							bottom: auto;
-							top: auto;
-							transform: none !important;
-
-							padding: 0;
-
-							background: transparent;
-							color: $color-charcoal;
-							border-bottom: 2px solid $color-charcoal;
-							opacity: 1;
-							border-radius: 0;
-							visibility: visible;
-							box-shadow: none;
-						}
-
-						.fa-icon {
-							display: none;
-						}
-					}
-				}
 			}
 		}
 	}
+}
+
+.fade-enter-active {
+	transition: opacity 1s $transition-spinner-delay;
+	will-change: opacity;
+}
+
+.fade-enter-to {
+	opacity: 1;
+}
+
+.fade-enter {
+	opacity: 0;
 }

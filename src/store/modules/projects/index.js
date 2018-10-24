@@ -11,7 +11,8 @@ const state = {
 	projects: [],
 	featuredProjects: [],
 	currentProject: {},
-	currentCategory: null
+	currentCategory: null,
+	fetched: []
 };
 
 const mutations = {
@@ -20,14 +21,34 @@ const mutations = {
 		state.active = (state.active + action.direction + state.featuredProjects.length) % state.featuredProjects.length;
 		state.direction = action.direction;
 	},
+	[type.GO_TO_PROJECT] (state, action) {
+		state.last = state.active;
+		state.active = action.index;
+	},
 	[type.ENTER_PROJECT] (state, action) {
 		state.selected = action.index;
 	},
-	[type.SHOW_PROJECT] (state, action) {
-		state.currentProject = action.response.data;
+	[type.EXIT_PROJECT] (state, action) {
+		state.selected = -1;
+	},
+	[type.ADD_PROJECT] (state, action) {
+		let project = { ...state.projects[action.index], ...action.response.data };
+
+		state.projects = [ ...state.projects.slice(0, action.index), project, ...state.projects.slice(action.index + 1, state.projects.length) ];
+
+		let fetched = [ ...state.fetched, action.entryId ];
+
+		state.fetched = fetched;
 	},
 	[type.GET_PROJECTS] (state, action) {
-		let projects = action.response.data.data;
+		let projects = action.response.data.data.map((project) => {
+			return {
+				...project,
+				client: {},
+				intro: '',
+				pageContent: []
+			};
+		});
 
 		state.projects = projects;
 

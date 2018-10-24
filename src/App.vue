@@ -1,7 +1,8 @@
 <template>
 	<div id="app" class="portfolio" :class="appClass" @mousedown="clickHandler" @keyup="keyupHandler">
 		<router-view/>
-		<resize-observer @notify="resize"/>
+
+		<resize-observer @notify="resize" />
 	</div>
 </template>
 
@@ -46,8 +47,5 @@ export default {
 };
 </script>
 
-<style>
-	#app {
-		position: relative;
-	}
-</style>
+<style src="@/styles/global.scss" lang="scss"></style>
+<style src="@/styles/components/portfolio.scss" lang="scss"></style>
