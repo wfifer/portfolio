@@ -301,7 +301,7 @@ $project-scale: 0.625;
 
 			pointer-events: none;
 
-			transition: all $transition-enter, transform $transition-reveal-delayed;
+			transition: all $transition-reveal-delayed, background $transition-enter;
 			will-change: transform;
 		}
 
