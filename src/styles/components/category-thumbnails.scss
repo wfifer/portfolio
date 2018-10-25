@@ -140,6 +140,18 @@
 					}
 				}
 
+				.portfolio.-hide-hover & {
+					transform: none !important;
+					
+					.thumbnail-image, .thumbnail-background {
+						display: none !important;
+					}
+
+					.thumbnail-text {
+						opacity: 1 !important;
+					}
+				}
+
 				@include hover {
 					transform: scale(1.1) translateZ(0);
 
