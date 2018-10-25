@@ -214,6 +214,23 @@
 			}
 		}
 	}
+
+	@include bp($max-width) {
+		.btn-exit, .category-nav {
+			right: 10rem;
+		}
+
+		.btn-exit {
+			top: 10rem;
+		}
+
+		.thumbnails-inner {
+			.thumbnail-scroll {
+				padding: 10rem 20rem;
+				padding-right: calc(20rem + 20px);
+			}
+		}
+	}
 }
 
 .t-thumbnails-leave-active {

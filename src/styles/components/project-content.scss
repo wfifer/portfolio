@@ -93,14 +93,6 @@
 		}
 
 		.project-spec {
-			&:nth-child(2):not(:last-child), &:first-child:last-child {
-				text-align: center;
-			}
-
-			&:nth-child(3) {
-				text-align: right;
-			}
-
 			p {
 				position: relative;
 				max-width: 100%;
@@ -172,11 +164,21 @@
 				width: (100% / 3);
 				flex: 0 0 auto;
 				padding: $table-gutter;
+
+				&:nth-child(2):not(:last-child), &:first-child:last-child {
+					text-align: center;
+				}
+
+				&:nth-child(3) {
+					text-align: right;
+				}
 			}
 		}
 
 		@include bp(tablet) {
 			.project-spec {
+				text-align: center;
+
 				&:not(:first-child) {
 					margin-top: 10rem;
 				}
@@ -332,6 +334,10 @@
 
 .t-project-enter, .t-project-leave-to {
 	transform: translateY(100vh) translateY(#{ - $body-padding-top }) translateZ(0) !important;
+
+	@include bp($max-width) {
+		transform: translateY(100vh) translateY(#{ - 90rem }) translateZ(0) !important;
+	}
 }
 
 .t-project-content-leave-active, .t-projct-content-move {

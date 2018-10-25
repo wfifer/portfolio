@@ -703,7 +703,35 @@ $project-scale: 0.625;
 	}
 
 	@media screen and (max-width: $max-width) {
+		&.-banner {
+			.project-mask {
+				transform: translateY(-100%) translateY(90rem) translateZ(0);
+			}
+
+			.project-nav {
+				.nav-item {
+					transform: translate3d(0, -100%, 0) translateY(-50vh) translateY(80rem) !important;
+				}
+			}
+		}
+
+		.project-nav {
+			.nav-next, .btn-thumbnails {
+				right: 10rem;
+			}
+
+			.btn-thumbnails {
+				top: 10rem;
+			}
+
+			.nav-prev {
+				left: 10rem;
+			}
+		}
+
 		.project-info {
+			padding: 10rem 26rem;
+
 			.project-title {
 				font-size: 30rem;
 			}
