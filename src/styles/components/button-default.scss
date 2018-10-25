@@ -24,19 +24,8 @@
 	}
 
 	&.-with-label {
-		&:hover, .-show-focus &:focus {
+		.portfolio:not(.-hide-hover) & {
 			.button-icon {
-				&::after {
-					transform: translate3d(-50%, -100%, 0);
-
-					opacity: 1;
-					visibility: visible;
-				}
-			}
-		}
-
-		.button-icon {
-			.portfolio:not(.-hide-hover) & {
 				&::after {
 					content: attr(data-label);
 
@@ -60,6 +49,17 @@
 					pointer-events: none;
 
 					transition: all $transition;
+				}
+			}
+			
+			&:hover, .-show-focus &:focus {
+				.button-icon {
+					&::after {
+						transform: translate3d(-50%, -100%, 0);
+
+						opacity: 1;
+						visibility: visible;
+					}
 				}
 			}
 		}
