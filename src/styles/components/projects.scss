@@ -30,6 +30,7 @@ $project-scale: 0.625;
 
 	height: 100vh;
 	width: 100%;
+	overflow: hidden;
 
 	background: $color-bg;
 
@@ -519,6 +520,7 @@ $project-scale: 0.625;
 
 		.project-tools {
 			display: flex;
+			justify-content: flex-end;
 			align-items: flex-end;
 			margin-top: 10rem;
 

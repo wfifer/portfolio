@@ -1,13 +1,9 @@
 html {
 	overflow-y: scroll;
-}
-
-body, html {
+	overflow-x: hidden;
 	min-width: 100%;
 	min-height: 100vh;
-	overflow-x: hidden;
 }
-
 
 ul {
 	list-style-type: none;

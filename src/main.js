@@ -1,5 +1,6 @@
 'use strict';
 
+import 'es6-promise/auto';
 import Vue from 'vue';
 import router from './router';
 import store from './store/index';

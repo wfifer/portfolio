@@ -69,6 +69,18 @@
 	}
 }
 
+@mixin fallback-spinner () {
+	transform: translate3d(-50%, -50%, 0) !important;
+
+	.spinner-icon {
+		display: none;
+	}
+
+	.spinner-gif {
+		display: inline-block;
+	}
+}
+
 .spinner {
 	position: fixed;
 	top: 50%;
@@ -98,16 +110,25 @@
 		}
 	}
 
-	.spinner-icon {
+	.spinner-icon, .spinner-gif {
 		position: absolute;
 		top: 50%;
 		left: 50%;
 		transform: translate3d(-50%, -50%, 0);
+	}
 
+	.spinner-icon {
 		display: block;
 		width: 100%;
 		min-width: 150vh;
 		max-width: 1600px;
+	}
+
+	.spinner-gif {
+		display: none;
+		width: 50rem;
+		height: auto;
+		max-width: 75vw;
 	}
 
 	.text {
@@ -124,5 +145,13 @@
 
 		animation: outline 4s infinite;
 		transition: stroke-width $transition-spinner;
+	}
+	
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+		@include fallback-spinner;
+	}
+
+	@supports (-ms-ime-align: auto) {
+		@include fallback-spinner;
 	}
 }
