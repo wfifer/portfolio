@@ -477,7 +477,6 @@ $project-scale: 0.625;
 		width: 100%;
 		max-width: $max-width;
 		height: 100%;
-		max-height: $max-width;
 		flex-direction: column;
 		justify-content: flex-end;
 		align-items: flex-end;
@@ -738,26 +737,116 @@ $project-scale: 0.625;
 		}
 	}
 
-	@media screen and (max-width: 768px) {
+	@include bp(tablet) {
 		.project-info {
+			align-items: center;
+
 			.project-title {
 				font-size: 24rem;
+				text-align: center;
+			}
+
+			.project-tools {
+				width: 100%;
+				flex-wrap: wrap;
+				justify-content: center;
+				margin-top: 5rem;
+
+				.tool-label {
+					display: none;
+				}
+
+				.category-buttons {
+					&:not(:first-child) {
+						margin-left: 0;
+					}
+				}
+
+				.project-buttons {
+					display: flex;
+					justify-content: center;
+					width: 100%;
+					flex: 0 0 auto;
+
+					&:not(:first-child) {
+						margin-left: 0;
+						margin-top: 5rem;
+
+						&::after {
+							content: none;
+						}
+					}
+
+					.btn {
+						margin: 0 auto;
+					}
+
+					.btn-exit {
+						right: auto;
+					}
+				}
 			}
 		}
 	}
 
-	@media screen and (max-width: 576px) {
+	@include bp(mobile) {
 		.svg-inner {
-			transform: translateY(-25%);
+			transform: translateY(-25%) translateZ(0) !important;
+		}
+
+		.svg-inner, .project-info {
+			transition: transform $transition-enter;
+		}
+
+		&.-banner {
+			.project-mask {
+				// transform: translateY(-100%) translateY(80rem) translateZ(0);
+
+				.mask-svg {
+					opacity: 0.5;
+				}
+
+				.svg-inner {
+					transform: translateY(-10rem) translateZ(0) !important;
+				}
+			}
+
+			.project-nav {
+				.nav-item {
+					transform: translate3d(0, -100%, 0) translateY(-50vh) translateY(87rem) !important;
+				}
+			}
+
+			.project-info {
+				transform: translateY(-50%) translateY(-10rem) translateZ(0);
+			}
 		}
 		
 		.svg {
-			min-width: 120vh !important;
-			opacity: 0.9;
+			min-width: 150vh !important;
+		}
+
+		.project-nav {
+			$margin: 3rem;
+
+			.nav-prev {
+				left: $margin;
+			}
+
+			.nav-next, .btn-thumbnails {
+				right: $margin;
+			}
+
+			.btn-thumbnails {
+				top: $margin;
+			}
 		}
 
 		.project-info {
-			padding-bottom: 5rem;
+			padding: {
+				left: 0;
+				right: 0;
+			}
 			align-items: center;
 
 			.project-title {
@@ -773,6 +862,12 @@ $project-scale: 0.625;
 
 				> * {
 					margin-top: 3rem;
+				}
+
+				.project-buttons {
+					.btn {
+						min-width: 36rem;
+					}
 				}
 			}
 		}

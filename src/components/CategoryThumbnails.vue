@@ -11,6 +11,8 @@
 						<div class="scroll-inner">
 							<button type="button" class="btn btn-close-thumbnails" title="Close project list" tabindex="-1" @click="clearCategory"></button>
 
+							<div class="category-label">Projects in: <strong>{{ currentCategory.title }}</strong></div>
+
 							<transition-group name="t-thumbnail-item" class="thumbnail-list list" tag="ul">
 								<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project)" :key="`thumbnail-${ project.entryId }`">
 									<button class="btn thumbnail-inner" type="button" :aria-label="`View ${ project.title }`" @click="thumbnailClickHandler({ index, entryId: project.entryId })">

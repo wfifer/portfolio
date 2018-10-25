@@ -180,7 +180,7 @@
 				text-align: center;
 
 				&:not(:first-child) {
-					margin-top: 10rem;
+					margin-top: 5rem;
 				}
 			}
 		}
@@ -323,6 +323,29 @@
 
 				width: 100%;
 				height: 100%;
+			}
+		}
+	}
+
+	@include bp(mobile) {
+		font-size: 4rem;
+
+		.inner {
+			padding: 0 5rem;
+		}
+
+		.project-intro {
+			font-size: 5rem;
+
+			&:first-child {
+				padding-top: 0;
+			}
+		}
+
+		.project-intro, .project-body, .project-footer {
+			&:not(:first-child) {
+				padding-top: 7.5rem;
+				margin-top: 7.5rem;
 			}
 		}
 	}
