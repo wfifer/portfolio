@@ -3,7 +3,7 @@
 		<Spinner :class="projectReady ? '-loaded' : ''" :width="svg.width" :height="svg.height" :font-size="fontSize" />
 
 		<transition name="fade">
-		<v-touch @swipeleft="navActive ? navigate(1) : null" @swiperight="navActive ? navigate(-1) : null" class="inner" v-show="projectReady">
+		<div class="inner" v-show="projectReady">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
@@ -89,7 +89,7 @@
 					</div>
 				</div>
 			</div>
-		</v-touch>
+		</div>
 		</transition>
 	</section>
 </template>
@@ -148,22 +148,6 @@ export default {
 			const x = this.bgCoords.x * (-depth / Math.abs(depth));
 			const y = this.bgCoords.y * (-depth / Math.abs(depth));
 			return `transform: translate3d(${ x }px, ${ y }px, 0)`;
-		},
-		keyupHandler (e) {
-			if (this.navActive) {
-				switch (e.which) {
-					case 37:
-						this.navigate(-1);
-						break;
-
-					case 39:
-						this.navigate(1);
-						break;
-
-					default:
-						break;
-				}
-			}
 		},
 		svgImage (image) {
 			const BASE_WIDTH = 1720;
@@ -282,6 +266,7 @@ export default {
 			});
 
 			this.navActive = false;
+			this.$emit('navActive', false);
 
 			setTimeout(() => {
 				this.transitionClass = this.projects.map((project, index) => {
@@ -290,6 +275,7 @@ export default {
 				});
 
 				this.navActive = true;
+				this.$emit('navActive', true);
 
 				if (!document.activeElement.classList.contains('nav-item') && this.$refs.activeButton) {
 					this.$refs.activeButton[0].focus = true;

@@ -37,6 +37,18 @@
 	}
 }
 
+@keyframes outline-complete {
+	0% {
+		stroke-dasharray: 8px;
+		stroke-dashoffset: 0;
+	}
+
+	100% {
+		stroke-dasharray: 0;
+		stroke-dasharray: 0;
+	}
+}
+
 @keyframes fill-in {
 	0% {
 		fill: rgba($color-charcoal, 0);
@@ -106,7 +118,7 @@
 		.text-stroke {
 			stroke-width: 4px;
 
-			animation: outline 0.35s reverse !important;
+			animation: outline-complete 0.35s forwards !important;
 		}
 	}
 

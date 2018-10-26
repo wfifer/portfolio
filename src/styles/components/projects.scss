@@ -737,6 +737,10 @@ $project-scale: 0.625;
 	}
 
 	@include bp(tablet) {
+		.svg-inner {
+			transform: translateY(-25%) translateZ(0) !important;
+		}
+
 		.project-info {
 			align-items: center;
 
@@ -789,10 +793,6 @@ $project-scale: 0.625;
 	}
 
 	@include bp(mobile) {
-		.svg-inner {
-			transform: translateY(-25%) translateZ(0) !important;
-		}
-
 		.svg-inner, .project-info {
 			transition: transform $transition-enter;
 		}
