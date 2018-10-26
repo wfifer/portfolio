@@ -6,6 +6,6 @@
 	padding-top: $body-padding-top;
 
 	@media screen and (max-width: $max-width) {
-		padding-top: 90rem;
+		padding-top: $body-padding-top-desktop;
 	}
 }

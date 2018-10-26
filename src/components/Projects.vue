@@ -3,15 +3,15 @@
 		<Spinner :class="projectReady ? '-loaded' : ''" :width="svg.width" :height="svg.height" :font-size="fontSize" />
 
 		<transition name="fade">
-		<v-touch @swipeleft="navActive ? navigateProjects(1) : null" @swiperight="navActive ? navigateProjects(-1) : null" class="inner" v-show="projectReady">
+		<v-touch @swipeleft="navActive ? navigate(1) : null" @swiperight="navActive ? navigate(-1) : null" class="inner" v-show="projectReady">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
 				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
 
-				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-left" @click.native="navActive ? navigateProjects(-1) : null" />
+				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-left" @click.native="navActive ? navigate(-1) : null" />
 				
-				<ButtonDefault class="btn nav-item nav-next" :title="`Next project: ${ projectTitle(activeProject + 1) }`" font-icon="arrow-right" @click.native="navActive ? navigateProjects(1) : null" />
+				<ButtonDefault class="btn nav-item nav-next" :title="`Next project: ${ projectTitle(activeProject + 1) }`" font-icon="arrow-right" @click.native="navActive ? navigate(1) : null" />
 			</nav>
 
 			<div class="project-list">
@@ -152,11 +152,11 @@ export default {
 			if (this.navActive) {
 				switch (e.which) {
 					case 37:
-						this.navigateProjects(-1);
+						this.navigate(-1);
 						break;
 
 					case 39:
-						this.navigateProjects(1);
+						this.navigate(1);
 						break;
 
 					default:
@@ -231,6 +231,10 @@ export default {
 			});
 
 			return gradient;
+		},
+		navigate (direction) {
+			window.scrollTo(0, 0);
+			this.navigateProjects(direction);
 		},
 		...mapActions([
 			'navigateProjects',

@@ -26,7 +26,6 @@ $project-scale: 0.625;
 	position: absolute;
 	top: 0;
 	left: 0;
-	transform: translateZ(-1px);
 
 	height: 100vh;
 	width: 100%;
@@ -37,7 +36,21 @@ $project-scale: 0.625;
 	@include font-display-black;
 
 	transition: all $transition-thumbnails;
-	will-change: transform;
+
+	&::after {
+		content: '';
+
+		position: fixed;
+		bottom: 0;
+		transform: scaleY(0) translateZ(0);
+
+		width: 100%;
+		height: $body-padding-top;
+
+		background: $color-content-bg;
+
+		transition: transform $transition-enter;
+	}
 
 	&.-thumbnails-open {
 		transform: scale(0.9) translateZ(-1px);
@@ -52,7 +65,9 @@ $project-scale: 0.625;
 	&.-banner {
 		// animation: position-absolute $transition-enter forwards;
 
-		background: $color-bg--darker;
+		&::after {
+			transform: scaleY(1) translateZ(0);
+		}
 
 		.btn-enter-project {
 			animation: cursor $transition-enter forwards;
@@ -60,6 +75,10 @@ $project-scale: 0.625;
 			_::-webkit-full-page-media, _:future, :root & {
 				cursor: url('~/assets/img/cursor-arrow-up.svg') -8 -22, s-resize;
 			}
+		}
+
+		.project-list {
+			background: $color-bg--darker;
 		}
 
 		.project-mask {
@@ -120,6 +139,15 @@ $project-scale: 0.625;
 		height: 100%;
 	}
 
+	.project-list {
+		width: 100%;
+		height: 100%;
+
+		background: $color-bg;
+
+		transition: all $transition-enter;
+	}
+
 	.project-mask {
 		position:  absolute;
 		top: 0;
@@ -144,7 +172,7 @@ $project-scale: 0.625;
 			opacity: 1;
 		}
 
-		&.-animate-in {
+		&.-animate-in, &.-animate-out {
 			transition: all $transition-enter, opacity $transition 0.1s;
 		}
 
@@ -651,7 +679,7 @@ $project-scale: 0.625;
 	}
 
 	.project-nav {
-		position: fixed;
+		position: absolute;
 		top: 0;
 		left: 0;
 		z-index: 100;
@@ -706,12 +734,12 @@ $project-scale: 0.625;
 	@media screen and (max-width: $max-width) {
 		&.-banner {
 			.project-mask {
-				transform: translateY(-100%) translateY(90rem) translateZ(0);
+				transform: translateY(-100%) translateY($body-padding-top-desktop) translateZ(0);
 			}
 
 			.project-nav {
 				.nav-item {
-					transform: translate3d(0, -100%, 0) translateY(-50vh) translateY(80rem) !important;
+					transform: translate3d(0, -100%, 0) translateY(-50vh) translateY(#{ $body-padding-top-desktop - 10rem }) !important;
 				}
 			}
 		}
