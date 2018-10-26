@@ -130,7 +130,7 @@ export default {
 			ticking = false;
 
 			const BANNER_HEIGHT = 400;
-			const MAX_PERCENTAGE = 8;
+			const MAX_PERCENTAGE = 12;
 			this.bannerTranslateY = window.scrollY / BANNER_HEIGHT * MAX_PERCENTAGE;
 		};
 

@@ -1,5 +1,5 @@
 <template>
-	<v-touch @swipeleft="navActive ? navigate(1) : null" @swiperight="navActive ? navigate(-1) : null">
+	<v-touch @swipeleft="navActive ? navigate(1) : null" @swiperight="navActive ? navigate(-1) : null" :swipe-options="{ direction: 'horizontal' }">
 		<Projects @nav-active="updateNavActive" />
 
 		<CategoryThumbnails />
@@ -68,7 +68,7 @@ export default {
 			}
 		},
 		...mapActions([
-			'navigateProjects',
+			'navigateProjects'
 		])
 	}
 };

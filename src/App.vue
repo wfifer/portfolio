@@ -2,7 +2,9 @@
 	<div id="app" class="portfolio" :class="appClass" @mousedown="clickHandler" @keyup="keyupHandler">
 		<router-view/>
 
-		<resize-observer @notify="resize" />
+		<div style="position: relative">
+			<resize-observer @notify="resize" />
+		</div>
 	</div>
 </template>
 
