@@ -75,7 +75,7 @@
 							<div class="project-buttons">
 								<ButtonDefault class="btn btn-enter" :tabindex="tabindex(index)" :font-icon="index === 0 ? 'user-circle' : 'eye'" @click.native="projectClickHandler({ index, entryId: project.entryId })">{{ index === 0 ? 'About Will' : 'View project' }}</ButtonDefault>
 
-								<ButtonDefault class="btn btn-exit" :tabindex="tabindex(index)" font-icon="grid" @click.native="projectClickHandler({ index, entryId: project.entryId })">All projects</ButtonDefault>
+								<ButtonDefault class="btn btn-exit" :tabindex="tabindex(index)" font-icon="arrow-circle-up" @click.native="projectClickHandler({ index, entryId: project.entryId })">All projects</ButtonDefault>
 							</div>
 						</div>
 					</div>
