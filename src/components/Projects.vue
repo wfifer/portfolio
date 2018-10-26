@@ -149,6 +149,22 @@ export default {
 			const y = this.bgCoords.y * (-depth / Math.abs(depth));
 			return `transform: translate3d(${ x }px, ${ y }px, 0)`;
 		},
+		keyupHandler (e) {
+			if (this.navActive) {
+				switch (e.which) {
+					case 37:
+						this.navigate(-1);
+						break;
+
+					case 39:
+						this.navigate(1);
+						break;
+
+					default:
+						break;
+				}
+			}
+		},
 		svgImage (image) {
 			const BASE_WIDTH = 1720;
 
