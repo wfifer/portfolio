@@ -10,7 +10,7 @@ $color-charcoal: #F2F2F2;
 $color-text: #555;
 $color-content-bg: $color-charcoal;
 
-$color-body-bg: lighten($color-bg, 10);
+$color-body-bg: $color-bg;
 
 // FONTS
 

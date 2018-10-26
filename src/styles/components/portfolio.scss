@@ -9,3 +9,30 @@
 		padding-top: $body-padding-top-desktop;
 	}
 }
+
+.page-container {
+	&.-active {
+		&::after {
+			transform: scaleY(1) translateZ(0);
+
+			opacity: 1;
+		}
+	}
+
+	&::after {
+		content: '';
+
+		position: fixed;
+		bottom: 0;
+		transform: scaleY(0) translateZ(0);
+		transform-origin: center bottom;
+
+		width: 100%;
+		height: $body-padding-top;
+
+		background: $color-content-bg;
+		opacity: 0;
+
+		transition: all $transition-enter;
+	}
+}

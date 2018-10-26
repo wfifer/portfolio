@@ -96,6 +96,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import VueScrollTo from 'vue-scrollto';
 import Spinner from '@/components/Spinner';
 import CategoryButtons from '@/components/CategoryButtons';
 import ButtonDefault from '@/components/ButtonDefault';
@@ -210,9 +211,19 @@ export default {
 		},
 		projectClickHandler (options) {
 			if (this.selectedProject > -1) {
-				window.scrollTo(0, 0);
-
-				this.exitProject();
+				if (window.scrollY !== 0) {
+					VueScrollTo.scrollTo(document.documentElement, 350, {
+						onDone: () => {
+							this.exitProject();
+						},
+						onCancel: () => {
+							this.exitProject();
+						},
+						easing: 'ease-out'
+					});
+				} else {
+					this.exitProject();
+				}
 			} else {
 				this.enterProject(options);
 			}
@@ -233,8 +244,19 @@ export default {
 			return gradient;
 		},
 		navigate (direction) {
-			window.scrollTo(0, 0);
-			this.navigateProjects(direction);
+			if (window.scrollY !== 0) {
+				VueScrollTo.scrollTo(document.documentElement, 350, {
+					onDone: () => {
+						this.navigateProjects(direction);
+					},
+					onCancel: () => {
+						this.navigateProjects(direction);
+					},
+					easing: 'ease-out'
+				});
+			} else {
+				this.navigateProjects(direction);
+			}
 		},
 		...mapActions([
 			'navigateProjects',
