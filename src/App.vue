@@ -31,7 +31,7 @@ export default {
 	},
 	computed: {
 		appClass () {
-			let appClass = (!!window.chrome) ? 'animate-mask' : 'no-animate-mask';
+			let appClass = window.chrome ? 'animate-mask' : 'no-animate-mask';
 
 			appClass += this.userInteraction === 'click'
 				? ' -hide-focus'
