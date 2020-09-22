@@ -3,12 +3,12 @@
 @keyframes outline {
 	0% {
 		stroke-dashoffset: 1px;
-		stroke-dasharray: 8px;
+		stroke-dasharray: 48px;
 	}
 
 	30% {
 		stroke-dashoffset: 100px;
-		stroke-dasharray: 16px;
+		stroke-dasharray: 64px;
 	}
 
 	60% {
@@ -26,9 +26,14 @@
 	// 	stroke-dasharray: 7000px;
 	// }
 
-	90% {
-		stroke-dashoffset: -7000px;
-		stroke-dasharray: 8px;
+	// 90% {
+	// 	stroke-dashoffset: -7000px;
+	// 	stroke-dasharray: 24px;
+	// }
+
+	60% {
+		stroke-dasharray: -2000px;
+		stroke-dashoffset: 48px;
 	}
 
 	99% {
@@ -39,7 +44,7 @@
 
 @keyframes outline-complete {
 	0% {
-		stroke-dasharray: 8px;
+		stroke-dasharray: 48px;
 		stroke-dashoffset: 0;
 	}
 
@@ -108,7 +113,7 @@
 	transition: all 1s $transition-spinner-delay, transform $transition-spinner;
 	will-change: opacity, transform;
 
-	animation: fade-in 0.5s forwards;
+	// animation: fade-in 0.5s forwards;
 
 	&.-loaded {
 		transform: translate3d(-50%, -50%, 0) scale(1);
@@ -152,7 +157,7 @@
 
 	.text-stroke {
 		fill: rgba(black, 0);
-		stroke-width: 16px;
+		stroke-width: 12px;
 		stroke: $color-charcoal !important;
 
 		animation: outline 4s infinite;

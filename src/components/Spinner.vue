@@ -12,7 +12,7 @@
 				</clipPath>
 			</defs>
 
-			<text class="text text-stroke" :x="width / 2" :y="height / 2" style="stroke: url('#spinner-gradient'); clip-path: url(#spinner-clip)" :style="`font-size: ${ fontSize }px;`" text-anchor="middle">W</text>
+			<text class="text text-stroke" :x="width / 2" :y="height / 2" style="stroke: url('#spinner-gradient')" :style="`font-size: ${ fontSize }px;`" text-anchor="middle">W</text>
 		</svg>
 
 		<img class="spinner-gif" :src="require('@/assets/img/spinner.gif')" title="Loading..." alt="Loading" />
