@@ -4,13 +4,13 @@ import * as type from './types';
 import actions from './actions';
 
 const state = {
-	active: 0,
-	last: 0,
-	selected: -1,
+	active: null,
+	last: null,
+	selected: null,
 	direction: 0,
-	projects: [],
-	featuredProjects: [],
-	currentProject: {},
+	byId: {},
+	all: [],
+	featuredIds: [],
 	currentCategory: null,
 	fetched: []
 };
@@ -18,30 +18,38 @@ const state = {
 const mutations = {
 	[type.NAVIGATE_PROJECTS] (state, action) {
 		state.last = state.active;
-		state.active = (state.active + action.direction + state.featuredProjects.length) % state.featuredProjects.length;
+		const all = state.all.slice();
+		if (action.direction < 0) all.reverse();
+		const index = all.findIndex(p => p.entryId === state.last);
+		const next = all.slice(index + 1)
+			.find(p => p.featured);
+		state.active = next ? next.entryId : action.direction === 1 ? state.featuredIds[0] : state.featuredIds[state.featuredIds.length - 1];
 		state.direction = action.direction;
 	},
 	[type.GO_TO_PROJECT] (state, action) {
 		state.last = state.active;
-		state.active = action.index;
+		state.active = action.entryId;
 	},
 	[type.ENTER_PROJECT] (state, action) {
-		state.selected = action.index;
+		state.selected = action.entryId;
 	},
 	[type.EXIT_PROJECT] (state, action) {
-		state.selected = -1;
+		state.selected = null;
 	},
 	[type.ADD_PROJECT] (state, action) {
-		let project = { ...state.projects[action.index], ...action.response.data };
+		const project = { ...state.byId[action.entryId], ...action.response.data };
 
-		state.projects = [ ...state.projects.slice(0, action.index), project, ...state.projects.slice(action.index + 1, state.projects.length) ];
+		state.byId = { ...state.byId, [action.entryId]: project };
 
-		let fetched = [ ...state.fetched, action.entryId ];
+		const index = state.all.findIndex(project => project.entryId === action.entryId);
+		state.all = [...state.all.slice(0, index), project, ...state.all.slice(index + 1)];
+
+		const fetched = [ ...state.fetched, action.entryId ];
 
 		state.fetched = fetched;
 	},
 	[type.GET_PROJECTS] (state, action) {
-		let projects = action.response.data.data.map((project) => {
+		const projects = action.response.data.data.map((project) => {
 			return {
 				...project,
 				client: {},
@@ -49,20 +57,23 @@ const mutations = {
 				pageContent: []
 			};
 		});
+		const byId = projects.reduce((acc, project) => ({ ...acc, [project.entryId]: project }), {});
 
-		state.projects = projects;
+		state.byId = byId;
+		state.all = projects;
 
-		state.featuredProjects = projects.filter((project) => {
-			return project.featured;
-		});
+		state.featuredIds = projects
+			.filter(project => project.featured)
+			.map(project => project.entryId);
+		state.active = state.featuredIds[0];
 	},
 	[type.GET_CATEGORIES] (state, action) {
-		let all = {
+		const all = {
 			title: 'All projects',
 			slug: 'all',
 			id: '99999',
-			icon: null,
-			fontIcon: 'grid'
+			fontIcon: 'border-all',
+			fontIconStyle: 'far'
 		};
 
 		state.categories = [ all, ...action.response.data.data ];

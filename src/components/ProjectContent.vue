@@ -1,10 +1,10 @@
 <template>
 	<transition name="t-project">
-	<section v-if="selected > -1" class="project-content" :class="$wait.waiting('ADD_PROJECT') ? '-loading' : null">
+	<section v-if="selected !== null" class="project-content" :class="$wait.waiting('ADD_PROJECT') ? '-loading' : null">
 		<transition-group name="t-project-content">
-		<article class="content" v-for="(project, index) in projects" :ref='`project-${ project.entryId }`' :key="project.entryId" v-if="index === selected">
+		<article class="content" :ref='`project-${ project.entryId }`' :key="project.entryId">
 			<div class="content-inner">
-				<header class="project-header" v-if="index !== 0">
+				<header class="project-header">
 					<div class="inner">
 						<h1 class="project-title">{{ project.title }}</h1>
 
@@ -13,7 +13,15 @@
 								<h2>Client</h2>
 
 								<p>
-									<a v-if="project.client.website && project.client.website.length > 0" :href="project.client.website" :title="`View website for ${ project.client.title }`" target="_blank">{{ project.client.title }}</a>
+									<span v-if="project.client.website && project.client.website.length > 0">
+										<a :href="project.client.website" :title="`View website for ${ project.client.title }`" target="_blank">
+											<span class="text">{{ project.client.title }}</span>
+
+											<span class="link-icon">
+												<Icon :icon="['far', 'external-link']" />
+											</span>
+										</a>
+									</span>
 
 									<span v-else>{{ project.client.title }}</span>
 								</p>
@@ -25,6 +33,9 @@
 								<p>
 									<a :href="project.website" :title="`View website for ${ project.title }`" target="_blank" class="-overflow-ellipsis">
 										<span class="text">{{ displayUrl(project.website) }}</span>
+										<div class="link-icon">
+											<Icon :icon="['far', 'external-link']" />
+										</div>
 									</a>
 								</p>
 							</div>
@@ -32,8 +43,18 @@
 							<div class="project-spec" v-if="project.collaborators && project.collaborators.length > 0">
 								<h2>Credit</h2>
 
-								<p v-for="collab in project.collaborators">
-									<a :href="collab.website" :title="`View website for ${ collab.title }`" target="_blank">{{ collab.title }}</a>
+								<p v-for="(collab, index) in project.collaborators" :key="index">
+									<span v-if="collab.website && collab.website.length > 0">
+										<a :href="collab.website" :title="`View website for ${ collab.title }`" target="_blank">
+											<span class="text">{{ collab.title }}</span>
+
+											<span class="link-icon">
+												<Icon :icon="['far', 'external-link']" />
+											</span>
+										</a>
+									</span>
+
+									<span v-else>{{ collab.title }}</span>
 								</p>
 							</div>
 						</div>
@@ -58,15 +79,15 @@
 				<footer class="project-footer">
 					<ul class="social-list list">
 						<li class="list-item">
-							<ButtonDefault target="_blank" tag="a" href="https://www.linkedin.com/in/will-fifer/" :reverse="true" class="btn" font-icon="linkedin" />
+							<ButtonDefault target="_blank" tag="a" href="https://www.linkedin.com/in/will-fifer/" :reverse="true" class="btn" :icon="['fab', 'linkedin-in']" />
 						</li>
 
 						<li class="list-item">
-							<ButtonDefault target="_blank" tag="a" href="https://www.behance.net/wfifer" :reverse="true" class="btn" font-icon="behance" />
+							<ButtonDefault target="_blank" tag="a" href="https://www.behance.net/wfifer" :reverse="true" class="btn" :icon="['fab', 'behance']" />
 						</li>
 
 						<li class="list-item">
-							<ButtonDefault target="_blank" tag="a" href="mailto:wfifer@gmail.com" :reverse="true" class="btn" font-icon="envelope" />
+							<ButtonDefault target="_blank" tag="a" href="mailto:wfifer@gmail.com" :reverse="true" class="btn" icon="envelope" />
 						</li>
 					</ul>
 				</footer>
@@ -80,29 +101,35 @@
 <script>
 import { mapState } from 'vuex';
 import ButtonDefault from '@/components/ButtonDefault';
+import Icon from '@/components/Icon';
 
 export default {
 	name: 'ProjectContent',
 	components: {
-		ButtonDefault
+		ButtonDefault,
+		Icon
 	},
 	data: function () {
 		return {};
 	},
 	computed: {
+		project () {
+			return this.projectsById[this.selected];
+		},
 		pageContent () {
 			return this.project.pageContent;
 		},
 		...mapState({
 			selected: state => state.projects.selected,
-			projects: state => state.projects.projects
+			projectsById: state => state.projects.byId,
+			projects: state => state.projects.all
 		})
 	},
 	mounted () {
 	},
 	methods: {
 		updateLinkBorder () {
-			let project = this.projects[this.selected];
+			let project = this.projectsById[this.selected];
 
 			let $loaderStyle = document.getElementById('project-loader-style');
 			if ($loaderStyle) {
@@ -129,11 +156,11 @@ export default {
 				let stop = luminance > 0.5 ? 1 : 0;
 				let color = project.heroBackground.stops[stop].color;
 
-				let rule = `.portfolio:not(.-hide-hover) a:hover, .-show-focus a:focus, .-hide-hover a:active { border-bottom-color: ${ color } } .project-spec a::after { color: ${ color } }`;
+				let rule = `.portfolio:not(.-hide-hover) a:hover, .-show-focus a:focus, .-hide-hover a:active { border-bottom-color: ${ color } } .project-spec a .link-icon { color: ${ color } }`;
 				let $style = document.createElement('style');
 				let txtNode = document.createTextNode(rule);
 				$style.append(txtNode);
-				this.$refs[`project-${ project.entryId }`][0].append($style);
+				this.$refs[`project-${ project.entryId }`].append($style);
 			};
 
 			let createLoaderStyle = () => {
@@ -165,7 +192,7 @@ export default {
 	watch: {
 		selected: {
 			handler: function (newProject, oldProject) {
-				if (this.selected >= 0) {
+				if (this.selected) {
 					this.$nextTick()
 						.then(() => {
 							this.updateLinkBorder();

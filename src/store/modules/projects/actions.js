@@ -10,23 +10,23 @@ const actions = {
 			direction
 		});
 
-		if (state.selected >= 0) {
-			dispatch('enterProject', { index: state.active, entryId: state.projects[state.active].entryId });
+		if (state.selected !== null) {
+			dispatch('enterProject', { entryId: state.active });
 		}
 	},
-	goToProject ({ commit, state, dispatch }, index) {
+	goToProject ({ commit, state, dispatch }, entryId) {
 		commit(type.GO_TO_PROJECT, {
-			index
+			entryId
 		});
 
-		if (state.selected >= 0) {
-			dispatch('enterProject', { index: state.active, entryId: state.projects[state.active].entryId });
+		if (state.selected !== null) {
+			dispatch('enterProject', { entryId: state.active });
 		}
 	},
-	enterProject ({ commit, dispatch, state }, { index, entryId, delay = 0 }) {
+	enterProject ({ commit, dispatch, state }, { entryId, delay = 0 }) {
 		window.setTimeout(() => {
 			commit(type.ENTER_PROJECT, {
-				index
+				entryId
 			});
 		}, delay);
 
@@ -37,7 +37,6 @@ const actions = {
 				.then(response => {
 					commit(type.ADD_PROJECT, {
 						response,
-						index,
 						entryId
 					});
 				})

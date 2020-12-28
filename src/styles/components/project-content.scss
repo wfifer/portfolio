@@ -30,8 +30,8 @@
 	padding: 12rem 0 16rem;
 	min-height: calc(100vh - #{ $body-padding-top });
 
-	background: $color-content-bg;
-	color: $color-bg;
+	background: var(--color-content-bg);
+	color: var(--color-content-text);
 
 	&.-loading {
 		&::before {
@@ -110,16 +110,14 @@
 				}
 
 				@include hover {
-					&::after {
+					.link-icon {
 						transform: translate(100%, 0);
 
 						opacity: 1;
 					}
 				}
 
-				&::after {
-					content: '\f35d';
-
+				.link-icon {
 					position: absolute;
 					bottom: -1.5rem;
 					right: -3rem;
@@ -127,7 +125,6 @@
 
 					opacity: 0;
 
-					@include font-icon;
 					font-size: 1.2em;
 					font-weight: 900;
 
@@ -214,8 +211,6 @@
 					position: center;
 					repeat: no-repeat;
 				}
-
-				@include font-icon;
 			}
 		}
 	}
@@ -255,12 +250,12 @@
 		transition: all $transition;
 
 		@include hover {
-			color: $color-text;
+			color: var(--color-text);
 		}
 	}
 
 	h2, h3, h4, h5, h6 {
-		color: $color-text;
+		color: var(--color-text);
 	}
 
 	.project-intro {
@@ -304,7 +299,7 @@
 			figcaption {
 				margin-top: 3rem;
 
-				color: rgba($color-text, 0.6);
+				color: unquote('hsla(var(--color-text--hsl), 0.6)');
 
 				text-align: center;
 				font-size: 4rem;
@@ -329,6 +324,10 @@
 
 	@include bp($max-width) {
 		min-height: calc(100vh - #{ $body-padding-top-desktop });
+	}
+
+	@include bp(tablet) {
+		min-height: calc(100vh - #{ $body-padding-top-tablet });
 	}
 
 	@include bp(mobile) {
@@ -363,7 +362,11 @@
 	transform: translateY(100vh) translateY(#{ - $body-padding-top }) translateZ(0) !important;
 
 	@include bp($max-width) {
-		transform: translateY(100vh) translateY(#{ - 90rem }) translateZ(0) !important;
+		transform: translateY(100vh) translateY($body-padding-top-desktop) translateZ(0) !important;
+	}
+
+	@include bp(tablet) {
+		transform: translateY(100vh) translateY($body-padding-top-tablet) translateZ(0) !important;
 	}
 }
 

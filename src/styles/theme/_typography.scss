@@ -5,6 +5,7 @@ html {
 body {
 	@include font-body-regular();
 	font-size: 5rem;
+	font-display: swap;
 }
 
 p, h1, h2, h3, h4, h5, h6 {
@@ -12,7 +13,11 @@ p, h1, h2, h3, h4, h5, h6 {
 	padding: 0;
 }
 
-h1, h2, h3, h4 {
+h1, h2 {
+	@include font-headline;
+}
+
+h3, h4 {
 	@include font-display-black;
 	text-transform: uppercase;
 }

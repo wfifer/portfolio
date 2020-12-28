@@ -88,8 +88,6 @@ const header = (function () {
 		}).on('click', '.js-enter-project', function () {
 			$('html').addClass('-project');
 
-		}).on('click', '.js-about', function () {
-			$('html').addClass('-about');
 		});
 
 		requestAnimationFrame(parallax);

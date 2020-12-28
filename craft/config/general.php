@@ -24,13 +24,13 @@ return [
         // The secure key Craft will use for hashing and encrypting data
         'securityKey' => getenv('SECURITY_KEY'),
 
-        'siteUrl' => 'http://api.willfifer.com'
+        'siteUrl' => 'https://api.willfifer.com'
     ],
 
     // Dev environment settings
     'dev' => [
         // Base site URL
-        'siteUrl' => 'http://api.portfolio.local',
+        'siteUrl' => 'https://api.portfolio.local',
 
         // Dev Mode (see https://craftcms.com/support/dev-mode)
         'devMode' => true,
@@ -45,6 +45,6 @@ return [
     // Production environment settings
     'production' => [
         // Base site URL
-        'siteUrl' => 'http://api.willfifer.com',
+        'siteUrl' => 'https://api.willfifer.com',
     ],
 ];

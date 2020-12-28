@@ -7,15 +7,30 @@
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
-				<ButtonDefault class="btn-thumbnails" title="View all projects" font-icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
+				<div class="theme-selection">
+					<label for="theme">
+						<Icon :icon="['far', 'paint-brush']" />
+					</label>
+					<div class="select">
+						<select @change="setTheme" name="theme" id="theme" aria-label="Color scheme (accessibility)" :value="theme">
+							<option value="DEFAULT">Default Theme</option>
+							<option value="ACCESSIBLE">High Contrast</option>
+							<!-- <option value="LIGHT">Light Mode</option> -->
+						</select>
 
-				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" font-icon="arrow-left" @click.native="navActive ? navigate(-1) : null" />
-				
-				<ButtonDefault class="btn nav-item nav-next" :title="`Next project: ${ projectTitle(activeProject + 1) }`" font-icon="arrow-right" @click.native="navActive ? navigate(1) : null" />
+						<Icon class="icon" :icon="['far', 'chevron-down']" />
+					</div>
+				</div>
+
+				<ButtonDefault class="btn-thumbnails" title="View all projects" icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
+
+				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" icon="arrow-left" @click.native="navActive ? navigate(-1) : null" />
+
+				<ButtonDefault class="btn nav-item nav-next" :title="`Next project: ${ projectTitle(activeProject + 1) }`" icon="arrow-right" @click.native="navActive ? navigate(1) : null" />
 			</nav>
 
 			<div class="project-list">
-				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[index]" :key="project.entryId" v-if="showProject(index)">
+				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[project.entryId]" :key="project.entryId">
 					<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="project.heroImage.url" />
 
 					<button type="button" class="btn btn-enter-project" @click="projectClickHandler({ index, entryId: project.entryId })" :title="`View project '${ project.title }'`" tabindex="-1">
@@ -23,11 +38,11 @@
 							<div class="text">Enter project</div>
 						</div>
 					</button>
-					
+
 					<div class="mask-inner">
 						<div class="svg-container">
 							<div class="mask-svg">
-								<div class="svg-inner" :style="selectedProject >= 0 ? `transform: translateY(${ bannerTranslateY }%) translateZ(0);` : null">
+								<div class="svg-inner" :style="selectedProject !== null ? `transform: translateY(${ bannerTranslateY }%) translateZ(0);` : null">
 									<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve" tabindex="-1">
 								 		<defs>
 											<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -35,12 +50,20 @@
 											</linearGradient>
 
 											<clipPath clipPathUnits="userSpaceOnUse" :id="`text-clip-${ index }`">
-												<text class="text-mask" :x="svg.width / 2" :y="svg.height / 2" text-anchor="middle" :style="`font-size: ${fontSize}px; dominant-baseline: central;`" fill="#FFFFFF">{{ projectInitial[index] }}</text>
+												<text class="text-mask" :x="svg.width / 2" :y="svg.height / 2" text-anchor="middle" :style="`font-size: ${fontSize}px; dominant-baseline: central; letter-spacing: -0.125em;`" fill="#FFFFFF">
+													<tspan :style="`font-size: ${fontSize / 2}px; opacity: 0;`" class="initial-dot">.</tspan>
+													<tspan>{{ projectInitial[project.entryId] }}</tspan>
+													<tspan :dy="`${fontSize * 0.175}px`" :style="`font-size: ${fontSize / 2}px;`" class="initial-dot">.</tspan>
+												</text>
 											</clipPath>
 
 											<mask maskUnits="userSpaceOnUse" x="0" y="0" :width="svg.width" :height="svg.height" :id="`text-mask-${ index }`">
 												<g class="text-mask">
-													<text :transform="`matrix(1 0 0 1 ${ svg.width / 2 } ${ svg.height / 2 + fontSize / 2.8 })`" text-anchor="middle" :style="`font-size: ${fontSize}px`">{{ projectInitial[index] }}</text>
+													<text :transform="`matrix(1 0 0 1 ${ svg.width / 2 } ${ svg.height / 2 + fontSize / 2.8 })`" text-anchor="middle" :style="`font-size: ${fontSize}px`">
+														<tspan :style="`font-size: ${fontSize / 2}px; opacity: 0;`" class="initial-dot">.</tspan>
+														<tspan>{{ projectInitial[project.entryId] }}</tspan>
+														<tspan :dy="`${fontSize * 0.175}px`" :style="`font-size: ${fontSize / 2}px;`" class="initial-dot">.</tspan>
+													</text>
 												</g>
 											</mask>
 										</defs>
@@ -68,14 +91,14 @@
 						<h2 class="project-title">{{ project.title }}</h2>
 
 						<div class="project-tools">
-							<div class="tool-label">{{ index === 0 ? 'Such as' : 'Tags' }}</div>
+							<div class="label">{{ index === 0 ? 'Like' : 'Tags' }}</div>
 
-							<CategoryButtons :categories="project.categories" class="icon-list icon-list-categories" :tabindex="tabindex(index)" />
+							<CategoryButtons :categories="project.categories" class="icon-list icon-list-categories" :tabindex="tabindex(project.entryId)" />
 
 							<div class="project-buttons">
-								<ButtonDefault class="btn btn-enter" :tabindex="tabindex(index)" :font-icon="index === 0 ? 'user-circle' : 'eye'" @click.native="projectClickHandler({ index, entryId: project.entryId })">{{ index === 0 ? 'About Will' : 'View project' }}</ButtonDefault>
+								<ButtonDefault class="btn btn-enter" :tabindex="tabindex(project.entryId)" :icon="['far', index === 0 ? 'user-circle' : 'eye']" @click.native="projectClickHandler({ index, entryId: project.entryId })">{{ index === 0 ? 'About Will' : 'View project' }}</ButtonDefault>
 
-								<ButtonDefault class="btn btn-exit" :tabindex="tabindex(index)" font-icon="arrow-circle-up" @click.native="projectClickHandler({ index, entryId: project.entryId })">All projects</ButtonDefault>
+								<ButtonDefault class="btn btn-exit" :tabindex="tabindex(project.entryId)" :icon="['far', 'arrow-circle-up']" @click.native="projectClickHandler({ entryId: project.entryId })">All projects</ButtonDefault>
 							</div>
 						</div>
 					</div>
@@ -98,6 +121,7 @@
 import { mapState, mapActions } from 'vuex';
 import VueScrollTo from 'vue-scrollto';
 import Spinner from '@/components/Spinner';
+import Icon from '@/components/Icon';
 import CategoryButtons from '@/components/CategoryButtons';
 import ButtonDefault from '@/components/ButtonDefault';
 
@@ -106,7 +130,12 @@ export default {
 	components: {
 		Spinner,
 		CategoryButtons,
-		ButtonDefault
+		ButtonDefault,
+		Icon
+	},
+	props: {
+		setTheme: Function,
+		theme: String
 	},
 	data: function () {
 		return {
@@ -198,19 +227,11 @@ export default {
 		imageLoaded () {
 			this.projectReady = true;
 		},
-		showProject (index) {
-			// let total = this.projects.length;
-			// let ap = this.activeProject;
-			// let range = 2;
-
-			// return (index >= (ap - range) && index <= (ap + range)) || (index >= (ap - range + total) && index <= (ap + range + total)) || (index >= (ap - range - total) && index <= (ap + range - total));
-			return true;
-		},
-		tabindex (index) {
-			return index === this.activeProject ? 0 : -1;
+		tabindex (entryId) {
+			return entryId === this.activeProject ? 0 : -1;
 		},
 		projectClickHandler (options) {
-			if (this.selectedProject > -1) {
+			if (this.selectedProject !== null) {
 				if (window.scrollY !== 0) {
 					VueScrollTo.scrollTo(document.documentElement, 350, {
 						onDone: () => {
@@ -268,27 +289,27 @@ export default {
 	},
 	watch: {
 		activeProject: function (newValue, oldValue) {
-			this.transitionClass = this.projects.map((project, index) => {
+			this.transitionClass = Object.keys(this.projectsById).reduce((acc, entryId) => {
 				let pClass = [];
 
-				if (this.activeProject === index) {
+				if (this.activeProject === entryId) {
 					pClass.push('-animate-in');
-				} else if (this.lastProject === index) {
+				} else if (this.lastProject === entryId) {
 					pClass.push('-active', '-animate-out');
 
 					pClass.push(this.direction === 1 ? '-left' : '-right');
 				}
-				return pClass;
-			});
+				return { ...acc, [entryId]: pClass };
+			}, {});
 
 			this.navActive = false;
 			this.$emit('navActive', false);
 
 			setTimeout(() => {
-				this.transitionClass = this.projects.map((project, index) => {
-					let pClass = this.activeProject === index ? ['-active'] : [];
-					return pClass;
-				});
+				this.transitionClass = Object.keys(this.projectsById).reduce((acc, entryId) => {
+					let pClass = this.activeProject === entryId ? ['-active'] : [];
+					return { ...acc, [entryId]: pClass };
+				}, {});
 
 				this.navActive = true;
 				this.$emit('navActive', true);
@@ -300,27 +321,16 @@ export default {
 		}
 	},
 	computed: {
-		gradientTransform () {
-			return this.projects.map((project, index) => {
-				let bg = `fill: url(#gradient-bg-${ index }); transform: translate(${ this.svg.width / 2 }px, ${ this.svg.height / 2 }px)`;
-
-				if (this.selectedProject >= 0) {
-					bg += ' scale(3)';
-				}
-
-				bg += project.heroBackground.angle.length ? ' rotate(' + project.heroBackground.angle + ')' : '';
-				return bg;
-			});
+		projects () {
+			return Object.keys(this.projectsById).map(id => this.projectsById[id]);
 		},
 		projectClass () {
-			return this.projects.map((project, index) => {
-				let pClass = this.transitionClass[index]
-					? this.transitionClass[index]
-					: [];
+			const p = Object.keys(this.projectsById).reduce((acc, entryId) => {
+				let pClass = this.transitionClass[entryId] || [];
 
 				let sIndex = pClass.indexOf('-selected');
 
-				if (index === this.selectedProject) {
+				if (entryId === this.selectedProject) {
 					if (sIndex === -1) {
 						pClass.push('-selected');
 					}
@@ -328,13 +338,14 @@ export default {
 					pClass.splice(sIndex, 1);
 				}
 
-				return pClass;
-			});
+				return { ...acc, [entryId]: pClass };
+			}, {});
+			return p;
 		},
 		projectInitial () {
-			return this.projects.map(function (project) {
-				return project.title.replace(/the /i, '').slice(0, 1);
-			});
+			return Object.keys(this.projectsById).reduce((acc, entryId) => {
+				return { ...acc, [entryId]: this.projectsById[entryId].title.replace(/the /i, '').slice(0, 1) };
+			}, {});
 		},
 		fontSize () {
 			const BASE_SIZE = 1350;
@@ -349,7 +360,7 @@ export default {
 			})[0];
 		},
 		headerClass () {
-			return this.selectedProject >= 0
+			return this.selectedProject !== null
 				? '-banner'
 				: this.currentCategory
 					? '-thumbnails-open'
@@ -360,7 +371,7 @@ export default {
 			lastProject: state => state.projects.last,
 			selectedProject: state => state.projects.selected,
 			direction: state => state.projects.direction,
-			projects: state => state.projects.featuredProjects,
+			projectsById: state => state.projects.byId,
 			viewport: state => state.app.window,
 			currentCategory: state => state.projects.currentCategory,
 			categories: state => state.projects.categories

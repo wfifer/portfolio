@@ -1,22 +1,14 @@
 // COLORS
 
-// $color-charcoal: #1A1A1A;
-// $color-bg: #E9E9E9;
-
-$color-bg: #757575;
-$color-bg--darker: darken($color-bg, 10);
-$color-charcoal: #F2F2F2;
-
-$color-text: #555;
-$color-content-bg: $color-charcoal;
-
-$color-body-bg: $color-bg;
+// var(--color-light): #1A1A1A;
+// var(--color-bg): #E9E9E9;
 
 // FONTS
 
 $font-display: 'korolev-condensed', 'Arial', sans-serif;
+$font-headline: 'reklame-script', 'Arial', sans-serif;
 $font-mask: 'korolev', 'Arial', sans-serif;
-$font-body: 'Open Sans', 'Arial', sans-serif;
+$font-body: 'Varta', 'Arial', sans-serif;
 $font-icon: 'FontAwesome', 'Arial', sans-serif;
 
 @mixin font-display-black() {
@@ -30,14 +22,14 @@ $font-icon: 'FontAwesome', 'Arial', sans-serif;
 	letter-spacing: 0.035em;
 }
 
+@mixin font-headline() {
+	font-family: $font-headline;
+	font-weight: 500;
+}
+
 @mixin font-display-light() {
 	font-family: $font-display;
 	font-weight: 300;
-}
-
-@mixin font-headline-bold() {
-	font-family: $font-mask;
-	font-weight: 700;
 }
 
 @mixin font-mask() {
@@ -78,6 +70,7 @@ $table-gutter: 7.5rem;
 
 $body-padding-top: 113rem;
 $body-padding-top-desktop: 90rem;
+$body-padding-top-tablet: 120rem;
 $control-padding: 15rem;
 
 $bp: (

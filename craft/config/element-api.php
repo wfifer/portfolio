@@ -97,7 +97,8 @@ return [
 							'slug' => $category->slug,
 							'title' => $category->title,
 							'id' => $category->id,
-							'fontIcon' => $category->fontIcon
+							'fontIcon' => $category->fontIcon,
+							'fontIconStyle' => $category->fontIconStyle->value
 						];
 						$categories[] = $cat;
 					}
@@ -164,7 +165,8 @@ return [
 						'slug' => $category->slug,
 						'title' => $category->title,
 						'id' => $category->id,
-						'fontIcon' => $category->fontIcon
+						'fontIcon' => $category->fontIcon,
+						'fontIconStyle' => $category->fontIconStyle->value
 					];
 					
 					return $cat;

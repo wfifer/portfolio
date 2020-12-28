@@ -11,11 +11,11 @@
 						<div class="scroll-inner">
 							<button type="button" class="btn btn-close-thumbnails" title="Close project list" tabindex="-1" @click="clearCategory"></button>
 
-							<div class="category-label">Projects in: <strong>{{ currentCategory.title }}</strong></div>
+							<div class="category-label"><strong>{{ currentCategory.title }}</strong></div>
 
 							<transition-group name="t-thumbnail-item" class="thumbnail-list list" tag="ul">
-								<li v-for="(project, index) in projects" class="thumbnail" v-if="isActive(project)" :key="`thumbnail-${ project.entryId }`">
-									<button class="btn thumbnail-inner" type="button" :aria-label="`View ${ project.title }`" @click="thumbnailClickHandler({ index, entryId: project.entryId })">
+								<li v-for="project in activeProjects" class="thumbnail" :key="`thumbnail-${ project.entryId }`">
+									<button class="btn thumbnail-inner" type="button" :aria-label="`View ${ project.title }`" @click="thumbnailClickHandler({ entryId: project.entryId })">
 										<div class="thumbnail-text">{{ project.title }}</div>
 
 										<div class="thumbnail-background" :style="`background-image: linear-gradient(${ getGradient(project) });`">
@@ -34,7 +34,7 @@
 						<span class="title">{{ currentCategory.title }}</span>
 					</h2> -->
 
-					<ButtonDefault class="btn btn-exit" title="Exit category thumbnail view" font-icon="times" @click.native="clearCategory" />
+					<ButtonDefault class="btn btn-exit" title="Exit category thumbnail view" icon="times" @click.native="clearCategory" />
 
 					<div class="category-nav">
 						<CategoryButtons :categories="categories" class="icon-list icon-list-categories" :active-category="currentCategory.id" />
@@ -48,14 +48,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import CategoryButtons from '@/components/CategoryButtons';
-import CategoryIcon from '@/components/CategoryIcon';
+import Icon from '@/components/Icon';
 import ButtonDefault from '@/components/ButtonDefault';
 
 export default {
 	name: 'CategoryThumbnails',
 	components: {
 		CategoryButtons,
-		CategoryIcon,
+		Icon,
 		ButtonDefault
 	},
 	mounted () {
@@ -66,9 +66,12 @@ export default {
 		});
 	},
 	computed: {
+		activeProjects () {
+			return this.projects.filter(project => this.isActive(project));
+		},
 		...mapState({
 			currentCategory: state => state.projects.currentCategory,
-			projects: state => state.projects.projects,
+			projects: state => state.projects.all,
 			activeProject: state => state.projects.active,
 			categories: state => state.projects.categories
 		})
@@ -107,12 +110,12 @@ export default {
 			this.clearCategory();
 
 			let delay = 350;
-			delay += options.index === this.activeProject
+			delay += options.entryId === this.activeProject
 				? 350
 				: 1500;
 
 			window.setTimeout(() => {
-				this.goToProject(options.index);
+				this.goToProject(options.entryId);
 			}, 350);
 
 			this.enterProject({ ...options, delay });

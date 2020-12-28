@@ -1,7 +1,7 @@
 <template>
 	<component :is="tag" class="button-default" :class="buttonClass" :type="isButton ? 'button' : null" :tabindex="tabindex" :aria-label="isButton ? title : null" :title="isButton ? null : title" :href="isButton ? null : href" :target="newTab && !isButton ? '_blank' : null">
 		<div class="button-icon" :data-label="label">
-			<CategoryIcon :fontIcon="fontIcon" :style="getIconTransform" />
+			<Icon :icon="icon" :style="getIconTransform" />
 
 			<div class="text"><slot></slot></div>
 		</div>
@@ -9,22 +9,26 @@
 </template>
 
 <script>
-import CategoryIcon from '@/components/CategoryIcon';
+import Icon from '@/components/Icon';
 
 export default {
 	name: 'ButtonDefault',
 	components: {
-		CategoryIcon
+		Icon
 	},
 	props: {
 		label: String,
 		title: String,
 		href: String,
+		round: {
+			type: Boolean,
+			default: false
+		},
 		newTab: {
 			type: Boolean,
 			default: false
 		},
-		fontIcon: String,
+		icon: String | Array,
 		tag: {
 			type: String,
 			default: 'button'
@@ -63,6 +67,10 @@ export default {
 
 			classString += this.reverse
 				? ' -reverse'
+				: '';
+
+			classString += this.round
+				? ' -round'
 				: '';
 
 			classString += ` -color-${ this.buttonColor }`;

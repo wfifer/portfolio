@@ -56,11 +56,11 @@
 
 @keyframes fill-in {
 	0% {
-		fill: rgba($color-charcoal, 0);
+		fill: unquote('hsla(var(--color-light--hsl), 0)');
 	}
 
 	100% {
-		fill: $color-charcoal;
+		fill: var(--color-light);
 	}
 }
 
@@ -158,7 +158,7 @@
 	.text-stroke {
 		fill: rgba(black, 0);
 		stroke-width: 12px;
-		stroke: $color-charcoal !important;
+		stroke: var(--color-light) !important;
 
 		animation: outline 4s infinite;
 		transition: stroke-width $transition-spinner;

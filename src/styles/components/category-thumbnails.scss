@@ -41,7 +41,7 @@
 		width: 100%;
 		overflow: hidden;
 
-		background: $color-bg;
+		background: var(--color-bg);
 
 		transition: all $transition-thumbnails;
 		will-change: transform, opacity, visibility;
@@ -62,11 +62,11 @@
 	}
 
 	.category-label {
-		display: none;
+		padding-left: 3rem;
 
 		text-transform: uppercase;
 		@include font-display-light;
-		text-align: center;
+		text-align: left;
 
 		strong {
 			@include font-display-semibold;
@@ -87,7 +87,7 @@
 		width: 100%;
 		margin: 0 auto;
 		height: 100%;
-		padding: 5rem;
+		padding: 3rem;
 
 		pointer-events: none;
 
@@ -97,22 +97,29 @@
 
 			display: block;
 
-			text-align: center;
+			// text-align: center;
 
 			// $transition: 0.65 map-get($ease, out-quad);
+
+			&:nth-child(odd) {
+				.thumbnail-inner {
+					@include font-headline;
+					text-transform: none;
+				}
+			}
 
 			.thumbnail-inner {
 				position: relative;
 				transform: rotateZ(0);
 
 				display: inline-block;
-				padding: 0.15em 0;
+				padding: 0;
 
 				text-transform: uppercase;
-				text-align: center;
+				text-align: left;
 				font-size: 20rem;
 				@include font-display-black;
-				line-height: 1;
+				line-height: 1.5;
 
 				transition: all $transition;
 
@@ -125,13 +132,15 @@
 				.thumbnail-image, .thumbnail-background {
 					transform: translateZ(0);
 					position: absolute;
-					top: 0.15em;
-					left: 0;
+					top: 0;
+					left: -1rem;
 
+					padding: 0 1rem;
 					display: none;
-					width: 100%;
+					width: calc(100% + 2rem);
 
 					opacity: 0;
+					background-clip: text;
 					-webkit-background-clip: text;
 					-webkit-text-fill-color: rgba(black, 0);
 
@@ -153,18 +162,16 @@
 				}
 
 				@include hover {
-					transform: scale(1.1) translateZ(0);
-
 					.thumbnail-text {
 						opacity: 0;
 
 						// @supports (-webkit-text-stroke-color: white) {
 						// 	transform: rotate(67deg) scale(1.1);
 
-						// 	color: rgba($color-charcoal, 0);
+						// 	color: get_hsla(var(--color-light), 0);
 						// 	opacity: 0;
 						// 	-webkit-text-stroke-width: 1px;
-						// 	-webkit-text-stroke-color: $color-charcoal;
+						// 	-webkit-text-stroke-color: var(--color-light);
 						// }
 					}
 
@@ -231,6 +238,7 @@
 
 		/deep/ .category-buttons {
 			display: block;
+			margin-right: -1rem;
 
 			.list-item {
 				&:not(:first-child) {
@@ -288,8 +296,7 @@
 
 		.thumbnails-inner {
 			.thumbnail-scroll {
-				padding: 3rem 12rem;
-				padding-right: calc(12rem + 20px);
+				padding: 3rem calc(12rem + 20px) 3rem 0;
 			}
 		}
 	}

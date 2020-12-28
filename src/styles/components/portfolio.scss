@@ -3,8 +3,12 @@
 .portfolio {
 	padding-top: $body-padding-top;
 
-	@media screen and (max-width: $max-width) {
+	@include bp($max-width) {
 		padding-top: $body-padding-top-desktop;
+	}
+
+	@include bp(tablet) {
+		padding-top: $body-padding-top-tablet;
 	}
 }
 
@@ -28,7 +32,7 @@
 // 		width: 100%;
 // 		height: $body-padding-top;
 
-// 		background: $color-content-bg;
+// 		background: var(--color-light);
 // 		opacity: 0;
 
 // 		transition: all $transition-enter;
