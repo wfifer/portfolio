@@ -1,21 +1,24 @@
 <template>
 	<div id="app" class="portfolio" :class="appClass" @mousedown="clickHandler" @keyup="keyupHandler">
-		<router-view/>
-
-		<div style="position: relative">
-			<resize-observer @notify="resize" />
-		</div>
+		<Home />
 	</div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import Home from '@/pages/Home';
 
 export default {
 	name: 'app',
+	components: { Home },
 	mounted () {
 		window.addEventListener('touchstart', () => {
 			this.touchHandler();
+		});
+
+		this.resize();
+		window.addEventListener('resize', () => {
+			this.resize();
 		});
 
 		this.getCategories();
@@ -25,8 +28,8 @@ export default {
 			'clickHandler',
 			'touchHandler',
 			'keyupHandler',
-			'resize',
-			'getCategories'
+			'getCategories',
+			'resize'
 		])
 	},
 	computed: {
@@ -42,9 +45,15 @@ export default {
 			return appClass;
 		},
 		...mapState({
-			viewport: state => state.app.window,
-			userInteraction: state => state.app.userInteraction
+			userInteraction: state => state.app.userInteraction,
+			viewport: state => state.app.window
 		})
+	},
+	watch: {
+		viewport (_, newValue) {
+			let vh = newValue.height * 0.01;
+			document.documentElement.style.setProperty('--vh', `${ vh }px`);
+		}
 	}
 };
 </script>

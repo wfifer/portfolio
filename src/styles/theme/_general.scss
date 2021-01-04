@@ -9,6 +9,8 @@ html {
 	--color-text--hsl: 0, 0%, 30%;
 	--color-text--darker--hsl: 0, 0%, 25%; 
 
+	--color-highlight--hsl: 0, 0%, 80%;
+
 	&.--accessible {
 		--color-bg--hsl: 0, 0%, 10%;
 		--color-bg--darker--hsl: 0, 0%, 0%;
@@ -20,18 +22,18 @@ html {
 	--color-content-bg--hsl: var(--color-light--hsl);
 	--color-content-text--hsl: var(--color-text--hsl);
 
-	&.--light {
-		--color-bg--hsl: 0, 0%, 90%;
-		--color-bg--darker--hsl: 0, 0%, 95%;
-		--color-light--hsl: 0, 0%, 10%;
-		--color-light--darker--hsl: 0, 0%, 0%;
+	// &.--light {
+	// 	--color-bg--hsl: 0, 0%, 90%;
+	// 	--color-bg--darker--hsl: 0, 0%, 95%;
+	// 	--color-light--hsl: 0, 0%, 10%;
+	// 	--color-light--darker--hsl: 0, 0%, 0%;
 
-		--color-text--hsl: 0, 0%, 95%;
-		--color-text--darker--hsl: 0, 0%, 100%;
+	// 	--color-text--hsl: 0, 0%, 95%;
+	// 	--color-text--darker--hsl: 0, 0%, 100%;
 
-		--color-content-bg--hsl: 0, 0, 100%;
-		--color-content-text--hsl: 0, 0%, 15%;
-	}
+	// 	--color-content-bg--hsl: 0, 0, 100%;
+	// 	--color-content-text--hsl: 0, 0%, 15%;
+	// }
 
 	--color-bg: hsl(var(--color-bg--hsl));
 	--color-bg--darker: hsl(var(--color-bg--darker--hsl));
@@ -43,6 +45,8 @@ html {
 
 	--color-content-bg: white;
 	--color-content-text: #444;
+
+	--color-highlight: hsl(var(--color-highlight--hsl));
 
 	background: var(--color-bg);
 	color: var(--color-light);

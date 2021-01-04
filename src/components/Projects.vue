@@ -12,21 +12,24 @@
 						<Icon :icon="['far', 'paint-brush']" />
 					</label>
 					<div class="select">
-						<select @change="setTheme" name="theme" id="theme" aria-label="Color scheme (accessibility)" :value="theme">
-							<option value="DEFAULT">Default Theme</option>
-							<option value="ACCESSIBLE">High Contrast</option>
-							<!-- <option value="LIGHT">Light Mode</option> -->
-						</select>
-
-						<Icon class="icon" :icon="['far', 'chevron-down']" />
+						<v-select 
+							@option:selected="setTheme" 
+							name="theme" 
+							id="theme" 
+							aria-label="Color scheme (accessibility)" 
+							:value="themeOptions.find(t => t.value === theme)"
+							:options="themeOptions"
+							:components="{OpenIndicator}"
+							:clearable="false"
+						></v-select>
 					</div>
 				</div>
 
 				<ButtonDefault class="btn-thumbnails" title="View all projects" icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
 
-				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ projectTitle(activeProject - 1) }`" icon="arrow-left" @click.native="navActive ? navigate(-1) : null" />
+				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ prevProject.title }`" icon="arrow-left" @click.native="navActive ? navigate(-1) : null" />
 
-				<ButtonDefault class="btn nav-item nav-next" :title="`Next project: ${ projectTitle(activeProject + 1) }`" icon="arrow-right" @click.native="navActive ? navigate(1) : null" />
+				<ButtonDefault class="btn nav-item nav-next" :title="`Next project: ${ nextProject.title }`" icon="arrow-right" @click.native="navActive ? navigate(1) : null" />
 			</nav>
 
 			<div class="project-list">
@@ -144,7 +147,18 @@ export default {
 			bgCoords: { x: 0, y: 0 },
 			navActive: true,
 			projectReady: false,
-			bannerTranslateY: 0
+			bannerTranslateY: 0,
+			OpenIndicator: {
+				render: createElement => createElement(Icon, {
+					props: {
+						icon: ['far', 'chevron-down']
+					}
+				})
+			},
+			themeOptions: [
+				{ value: 'DEFAULT', label: 'Default Theme' },
+				{ value: 'ACCESSIBLE', label: 'High Contrast' }
+			]
 		};
 	},
 	created () {
@@ -166,7 +180,7 @@ export default {
 		window.addEventListener('scroll', (e) => {
 			this.scrollY = window.scrollY;
 
-			if (!ticking) {
+			if (!ticking && this.viewport.width > 768) {
 				requestAnimationFrame(scrollListener);
 			}
 			ticking = true;
@@ -213,17 +227,6 @@ export default {
 				y: y
 			};
 		},
-		projectTitle (index) {
-			if (index < 0) {
-				index += this.projects.length;
-			}
-
-			let project = this.projects[index % this.projects.length];
-
-			let title = project ? project.title : '';
-
-			return title;
-		},
 		imageLoaded () {
 			this.projectReady = true;
 		},
@@ -248,21 +251,6 @@ export default {
 			} else {
 				this.enterProject(options);
 			}
-		},
-		getGradient (project) {
-			// let angle = project.heroBackground.angle;
-			let angle = '37deg';
-			let stops = project.heroBackground.stops.slice(0, 2);
-
-			let gradient = angle && angle.length
-				? angle
-				: 'to right';
-
-			stops.forEach((stop, i) => {
-				gradient += `, ${ stop.color } ${ 20 + i * 60 }%`;
-			});
-
-			return gradient;
 		},
 		navigate (direction) {
 			if (window.scrollY !== 0) {
@@ -289,7 +277,7 @@ export default {
 	},
 	watch: {
 		activeProject: function (newValue, oldValue) {
-			this.transitionClass = Object.keys(this.projectsById).reduce((acc, entryId) => {
+			this.transitionClass = this.projects.reduce((acc, { entryId }) => {
 				let pClass = [];
 
 				if (this.activeProject === entryId) {
@@ -306,7 +294,7 @@ export default {
 			this.$emit('navActive', false);
 
 			setTimeout(() => {
-				this.transitionClass = Object.keys(this.projectsById).reduce((acc, entryId) => {
+				this.transitionClass = this.projects.reduce((acc, { entryId }) => {
 					let pClass = this.activeProject === entryId ? ['-active'] : [];
 					return { ...acc, [entryId]: pClass };
 				}, {});
@@ -321,11 +309,22 @@ export default {
 		}
 	},
 	computed: {
-		projects () {
-			return Object.keys(this.projectsById).map(id => this.projectsById[id]);
+		nextProject () {
+			const all = this.projects.slice();
+			const index = all.findIndex(p => p.entryId === this.activeProject);
+			const next = all.slice(index + 1)
+				.find(p => p.featured);
+			return next || this.projectsById[this.featuredIds[0]] || { title: '' };
+		},
+		prevProject () {
+			const all = this.projects.slice().reverse();
+			const index = all.findIndex(p => p.entryId === this.activeProject);
+			const prev = all.slice(index + 1)
+				.find(p => p.featured);
+			return prev || this.projectsById[this.featuredIds[this.featuredIds.length - 1]] || { title: '' };
 		},
 		projectClass () {
-			const p = Object.keys(this.projectsById).reduce((acc, entryId) => {
+			const p = this.projects.reduce((acc, { entryId }) => {
 				let pClass = this.transitionClass[entryId] || [];
 
 				let sIndex = pClass.indexOf('-selected');
@@ -343,8 +342,8 @@ export default {
 			return p;
 		},
 		projectInitial () {
-			return Object.keys(this.projectsById).reduce((acc, entryId) => {
-				return { ...acc, [entryId]: this.projectsById[entryId].title.replace(/the /i, '').slice(0, 1) };
+			return this.projects.reduce((acc, { entryId, title }) => {
+				return { ...acc, [entryId]: title.replace(/the /i, '').slice(0, 1) };
 			}, {});
 		},
 		fontSize () {
@@ -372,9 +371,11 @@ export default {
 			selectedProject: state => state.projects.selected,
 			direction: state => state.projects.direction,
 			projectsById: state => state.projects.byId,
-			viewport: state => state.app.window,
+			projects: state => state.projects.all,
+			featuredIds: state =>state.projects.featuredIds,
 			currentCategory: state => state.projects.currentCategory,
-			categories: state => state.projects.categories
+			categories: state => state.projects.categories,
+			viewport: state => state.app.window
 		})
 	}
 };

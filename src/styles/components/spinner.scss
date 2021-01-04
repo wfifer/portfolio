@@ -171,4 +171,12 @@
 	@supports (-ms-ime-align: auto) {
 		@include fallback-spinner;
 	}
+
+	@include bp(tablet) {
+		transform: translate3d(-50%, -50%, 0) translateY(-10%) scale(0.25);
+
+		&.-loaded {
+			transform: translate3d(-50%, -50%, 0) translateY(-10%) scale(1);
+		}
+	}
 }

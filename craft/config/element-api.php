@@ -183,15 +183,51 @@ return [
 				'transformer' => function(craft\elements\Entry $entry) {
 					$pageContent = [];
 					foreach ($entry->pageContent->all() as $block) {
-						$blockContent = [
-							'type' => $block->type->handle
-						];
+						$data = [];
 						switch ($block->type->handle) {
 							case 'wysiwyg':
-								$blockContent['body'] = $block->body->getParsedContent();
+								$data = [
+									'body' => $block->body->getParsedContent()
+								];
+								break;
+							case 'projects':
+								$projects = [];
+								foreach ($block->entry->all() as $project) {
+									$heroImage = [];
+									if (sizeof($project->heroImage)) {
+										$image = $project->heroImage[0];
+										$heroImage = [
+											'url' =>  $image->getUrl('masked'),
+											'width' => $image->getWidth('masked'),
+											'height' => $image->getHeight('masked')
+										];
+									}
+									$heroBackground = [];
+									if (sizeof($project->heroBackground)) {
+										$bgBlock = $project->heroBackground[0];
+										if ($bgBlock->type == 'background') {
+											$heroBackground = [
+												'stops' => $bgBlock->stops,
+												'angle' => $bgBlock->angle
+											];
+										}
+									}
+									$projects[] = [
+										'title' => $project->title,
+										'heroImage' => $heroImage,
+										'heroBackground' => $heroBackground,
+										'entryId' => $project->id
+									];
+								}
+								$data = [
+									'projects' => $projects
+								];
 								break;
 						}
-						$pageContent[] = $blockContent;
+						$pageContent[] = [
+							'type' => $block->type->handle,
+							'data' => $data
+						];
 					}
 
 					$client = [];

@@ -9,6 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const env = require('../config/prod.env')
 
@@ -31,6 +32,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
+    new VueLoaderPlugin(),
     // UglifyJs do not support ES6+, you can also use babel-minify for better treeshaking: https://github.com/babel/minify
     new webpack.optimize.UglifyJsPlugin({
       compress: {

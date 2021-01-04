@@ -7,14 +7,36 @@
 				<header class="project-header">
 					<div class="inner">
 						<h1 class="project-title">{{ project.title }}</h1>
+						
+						<div class="project-intro" v-if="project.intro && project.intro.length > 0">
+							<div v-html="typogrify(project.intro)"></div>
+						</div>
 
-						<div class="project-specs">
-							<div class="project-spec" v-if="project.client && Object.keys(project.client).length > 0">
-								<h2>Client</h2>
+						<div class="project-specs"
+							 v-if="project.client && Object.keys(project.client).length > 0
+							 || project.website && project.website.length > 0
+							 || project.collaborators && project.collaborators.length > 0">
+							<div class="project-spec" v-if="project.website && project.website.length > 0" aria-label="Website">
+								<Icon :icon="['far', 'browser']" class="icon" title="Website" />
+
+								<p>
+									<span>
+										<a :href="project.website" :title="`View website for ${ project.title }`" target="_blank" class="-overflow-ellipsis">
+											<span class="text">Website</span>
+											<div class="link-icon">
+												<Icon :icon="['far', 'external-link']" />
+											</div>
+										</a>
+									</span>
+								</p>
+							</div>
+
+							<div class="project-spec" v-if="project.client && Object.keys(project.client).length > 0" aria-label="for">
+								<Icon :icon="['far', 'building']" class="icon" title="Client" />
 
 								<p>
 									<span v-if="project.client.website && project.client.website.length > 0">
-										<a :href="project.client.website" :title="`View website for ${ project.client.title }`" target="_blank">
+										<a :href="project.client.website" :title="`View website for ${ project.client.title }`" target="_blank" class="-overflow-ellipsis">
 											<span class="text">{{ project.client.title }}</span>
 
 											<span class="link-icon">
@@ -27,25 +49,12 @@
 								</p>
 							</div>
 
-							<div class="project-spec" v-if="project.website && project.website.length > 0">
-								<h2>Website</h2>
-
-								<p>
-									<a :href="project.website" :title="`View website for ${ project.title }`" target="_blank" class="-overflow-ellipsis">
-										<span class="text">{{ displayUrl(project.website) }}</span>
-										<div class="link-icon">
-											<Icon :icon="['far', 'external-link']" />
-										</div>
-									</a>
-								</p>
-							</div>
-
-							<div class="project-spec" v-if="project.collaborators && project.collaborators.length > 0">
-								<h2>Credit</h2>
+							<div class="project-spec" v-if="project.collaborators && project.collaborators.length > 0" aria-label="in collaboration with">
+								<Icon :icon="['far', 'hands-helping']" class="icon" title="Collaborator" />
 
 								<p v-for="(collab, index) in project.collaborators" :key="index">
 									<span v-if="collab.website && collab.website.length > 0">
-										<a :href="collab.website" :title="`View website for ${ collab.title }`" target="_blank">
+										<a :href="collab.website" :title="`View website for ${ collab.title }`" target="_blank" class="-overflow-ellipsis">
 											<span class="text">{{ collab.title }}</span>
 
 											<span class="link-icon">
@@ -58,25 +67,50 @@
 								</p>
 							</div>
 						</div>
+
+						<!-- <hr /> -->
 					</div>
 				</header>
+				
 
-				<div class="project-intro" v-if="project.intro && project.intro.length > 0">
-					<div class="inner">
-						<div v-html="project.intro"></div>
-					</div>
-				</div>
-
-				<div class="project-body" v-if="project.pageContent && project.pageContent.length > 0">
+				<div class="project-body" v-if="project.intro && project.intro.length || project.pageContent && project.pageContent.length">
 					<div class="inner">
 						<div v-for="(block, index) in project.pageContent" class="content-block" :key="index">
-							<div v-if="block.type === 'wysiwyg'" v-html="block.body" class="block">
+							<div v-if="block.type === 'wysiwyg'" v-html="block.data.body" class="block wysiwyg">
+							</div>
+							<div v-else-if="block.type === 'projects'" class="block block-projects">
+								<div v-for="entry in block.data.projects" :key="entry.entryId" 
+									class="block-project"
+									:style="{ background: getGradient(entry.heroBackground.stops )}"
+								>
+									<div class="project-bg" 
+										:style="{
+											backgroundImage: `url('${entry.heroImage.url}')`
+										}"
+									/>
+									<h2 class="text">{{ entry.title }}</h2>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 
+				<div class="project-tags">
+					<div class="inner">
+						<span class="label">Tags</span>
+						<CategoryButtons 
+							:categories="project.categories" 
+							class="icon-list icon-list-categories"
+							:asText="true"
+						/>
+					</div>
+				</div>
+
 				<footer class="project-footer">
+					<div class="dots">
+						<div v-for="i in 5" :style="{ background: color }" :key="i" class="dot" />
+					</div>
+
 					<ul class="social-list list">
 						<li class="list-item">
 							<ButtonDefault target="_blank" tag="a" href="https://www.linkedin.com/in/will-fifer/" :reverse="true" class="btn" :icon="['fab', 'linkedin-in']" />
@@ -100,13 +134,35 @@
 
 <script>
 import { mapState } from 'vuex';
+import CategoryButtons from '@/components/CategoryButtons';
 import ButtonDefault from '@/components/ButtonDefault';
 import Icon from '@/components/Icon';
+
+const typogrify = text => {
+	const parts = text.split(' ');
+	return parts.reduce((acc, part, index) => `${ acc }${ index >= parts.length - 1 ? '&nbsp;' : ' ' }${ part }`, '');
+};
+
+const getLuminanceFromHex = color => {
+	let rgb = parseInt(color.replace('#', ''), 16);
+	let r = rgb >> 16 & 255;
+	let g = rgb >> 8 & 255;
+	let b = rgb & 255;
+
+	let a = [r, g, b].map(function (v) {
+		v /= 255;
+		return v <= 0.03928
+			? v / 12.92
+			: Math.pow((v + 0.055) / 1.055, 2.4);
+	});
+	return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+};
 
 export default {
 	name: 'ProjectContent',
 	components: {
 		ButtonDefault,
+		CategoryButtons,
 		Icon
 	},
 	data: function () {
@@ -119,6 +175,11 @@ export default {
 		pageContent () {
 			return this.project.pageContent;
 		},
+		color () {
+			let luminance = getLuminanceFromHex(this.project.heroBackground.stops[0].color);
+			let stop = luminance > 0.5 ? 1 : 0;
+			return this.project.heroBackground.stops[stop].color;
+		},
 		...mapState({
 			selected: state => state.projects.selected,
 			projectsById: state => state.projects.byId,
@@ -128,6 +189,25 @@ export default {
 	mounted () {
 	},
 	methods: {
+		typogrify (text) {
+			return typogrify(text);
+		},
+		getGradient (stops) {
+			// let angle = project.heroBackground.angle;
+			let angle = '37deg';
+
+			let gradient = angle && angle.length
+				? angle
+				: 'to right';
+
+			console.log(stops);
+
+			stops.forEach((stop, i) => {
+				gradient += `, ${ stop.color } ${ stop.position }%`;
+			});
+
+			return `linear-gradient(${ gradient }`;
+		},
 		updateLinkBorder () {
 			let project = this.projectsById[this.selected];
 
@@ -137,26 +217,27 @@ export default {
 			}
 
 			let createLinkStyle = () => {
-				const getLuminanceFromHex = (color) => {
-					let rgb = parseInt(color.replace('#', ''), 16);
-					let r = rgb >> 16 & 255;
-					let g = rgb >> 8 & 255;
-					let b = rgb & 255;
-
-					let a = [r, g, b].map(function (v) {
-						v /= 255;
-						return v <= 0.03928
-							? v / 12.92
-							: Math.pow((v + 0.055) / 1.055, 2.4);
-					});
-					return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
-				};
-
-				let luminance = getLuminanceFromHex(project.heroBackground.stops[0].color);
-				let stop = luminance > 0.5 ? 1 : 0;
-				let color = project.heroBackground.stops[stop].color;
-
-				let rule = `.portfolio:not(.-hide-hover) a:hover, .-show-focus a:focus, .-hide-hover a:active { border-bottom-color: ${ color } } .project-spec a .link-icon { color: ${ color } }`;
+				let rule = 
+					`.portfolio:not(.-hide-hover) a:hover,
+					.-show-focus a:focus, 
+					.-hide-hover a:active { 
+						border-bottom-color: ${ this.color } 
+					} 
+					.project-spec a .link-icon { 
+						color: ${ this.color } 
+					}
+					.project-content hr {
+						border-color: ${ this.color }
+					}
+					.wysiwyg ul li::before {
+						background: ${ this.color };
+					}
+					.project-tags .btn:hover {
+						background: ${ this.color };
+						box-shadow: 0 0 0 1px ${ this.color } inset;
+						color: white;
+					}
+					`;
 				let $style = document.createElement('style');
 				let txtNode = document.createTextNode(rule);
 				$style.append(txtNode);

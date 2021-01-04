@@ -1,7 +1,6 @@
 'use strict';
 
 import * as type from './types';
-import axios from 'axios';
 import helpers from '@/store/helpers';
 
 const actions = {
@@ -33,7 +32,8 @@ const actions = {
 		if (state.fetched.indexOf(entryId) < 0) {
 			dispatch('wait/start', type.ADD_PROJECT, { root: true });
 
-			axios.get(helpers.getApiUrl(`project/${ entryId }.json`))
+			fetch(helpers.getApiUrl(`project/${ entryId }.json`))
+				.then(response => response.json())
 				.then(response => {
 					commit(type.ADD_PROJECT, {
 						response,
@@ -49,7 +49,8 @@ const actions = {
 		commit(type.EXIT_PROJECT);
 	},
 	getProjects ({ commit }) {
-		axios.get(helpers.getApiUrl('projects.json'))
+		fetch(helpers.getApiUrl('projects.json'))
+			.then(response => response.json())
 			.then(response => {
 				commit(type.GET_PROJECTS, {
 					response
@@ -58,7 +59,8 @@ const actions = {
 		);
 	},
 	getCategories ({ commit }) {
-		axios.get(helpers.getApiUrl('categories.json'))
+		fetch(helpers.getApiUrl('categories.json'))
+			.then(response => response.json())
 			.then(response => {
 				commit(type.GET_CATEGORIES, {
 					response

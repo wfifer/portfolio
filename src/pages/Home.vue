@@ -16,7 +16,8 @@ import CategoryThumbnails from '@/components/CategoryThumbnails';
 import ProjectContent from '@/components/ProjectContent';
 
 const saveTheme = value => {
-	switch (value) {
+	const theme = !['DEFAULT', 'ACCESSIBLE', 'LIGHT'].includes(value) ? 'DEFAULT' : value;
+	switch (theme) {
 		case 'ACCESSIBLE':
 			document.documentElement.classList.add('--accessible');
 			document.documentElement.classList.remove('--light');
@@ -29,7 +30,7 @@ const saveTheme = value => {
 		default:
 			document.documentElement.classList.remove('--accessible', '--light');
 	}
-	window.localStorage.setItem('theme', value);
+	window.localStorage.setItem('theme', theme);
 };
 
 export default {
@@ -46,7 +47,7 @@ export default {
 		};
 	},
 	mounted () {
-		const theme = window.localStorage.getItem('theme');
+		const theme = window.localStorage.getItem('theme') || 'DEFAULT';
 		saveTheme(theme);
 		this.theme = theme;
 	},
@@ -57,8 +58,8 @@ export default {
 	},
 	methods: {
 		setTheme (e) {
-			saveTheme(e.target.value);
-			this.theme = e.target.value;
+			saveTheme(e.value);
+			this.theme = e.value;
 		},
 		keyupHandler (e) {
 			if (this.navActive) {

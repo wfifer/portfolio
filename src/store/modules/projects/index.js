@@ -37,7 +37,7 @@ const mutations = {
 		state.selected = null;
 	},
 	[type.ADD_PROJECT] (state, action) {
-		const project = { ...state.byId[action.entryId], ...action.response.data };
+		const project = { ...state.byId[action.entryId], ...action.response };
 
 		state.byId = { ...state.byId, [action.entryId]: project };
 
@@ -49,7 +49,7 @@ const mutations = {
 		state.fetched = fetched;
 	},
 	[type.GET_PROJECTS] (state, action) {
-		const projects = action.response.data.data.map((project) => {
+		const projects = action.response.data.map((project) => {
 			return {
 				...project,
 				client: {},
@@ -76,7 +76,7 @@ const mutations = {
 			fontIconStyle: 'far'
 		};
 
-		state.categories = [ all, ...action.response.data.data ];
+		state.categories = [ all, ...action.response.data ];
 	},
 	[type.SHOW_CATEGORY] (state, action) {
 		state.currentCategory = action.category;

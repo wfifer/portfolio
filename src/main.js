@@ -2,12 +2,11 @@
 
 import 'es6-promise/auto';
 import Vue from 'vue';
-import router from './router';
-import store from './store/index';
-import { sync } from 'vuex-router-sync';
-import VueResize from 'vue-resize';
+import store from '@/store';
 import VueTouch from 'vue-touch';
 import VueWait from 'vue-wait';
+import VueSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
 	faFingerprint,
@@ -31,7 +30,10 @@ import {
 	faBorderAll,
 	faStreetView,
 	faChevronDown,
-	faPaintBrush
+	faPaintBrush,
+	faHandsHelping,
+	faBrowser,
+	faBuilding
 } from '@fortawesome/pro-regular-svg-icons';
 import { 
 	faBehance,
@@ -39,12 +41,9 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App';
-import 'babel-polyfill';
 
-Vue.use(VueResize);
 Vue.use(VueTouch);
 Vue.use(VueWait);
-
 
 library.add(
 	faExternalLink,
@@ -68,14 +67,16 @@ library.add(
 	faArrowCircleUp,
 	faStreetView,
 	faChevronDown,
-	faPaintBrush
+	faPaintBrush,
+	faHandsHelping,
+	faBrowser,
+	faBuilding
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('v-select', VueSelect);
 
 // Vue.config.productionTip = false;
-
-sync(store, router);
 
 new Vue({
 	el: '#app',
@@ -83,7 +84,6 @@ new Vue({
 	wait: new VueWait({
 		useVuex: true
 	}),
-	router,
 	template: '<App/>',
 	components: { App }
 });

@@ -1,7 +1,11 @@
 <template>
 	<ul class="category-buttons">
 		<li v-for="(cat, i) in categories" class="list-item" :key="i">
-			<ButtonDefault :round="true" :tabindex="tabindex" :label="cat.title" :title="`View projects in ${ cat.title }`" :icon="[cat.fontIconStyle || 'fas', cat.fontIcon]" @click.native="showCategory(cat)" :active="activeCategory && activeCategory === cat.id" />
+			<button v-if="asText" class="btn text-button" role="button" :tabindex="tabindex" :label="cat.title" :title="`View projects in ${ cat.title }`" @click="showCategory(cat)" :active="activeCategory && activeCategory === cat.id">
+				{{cat.title}}
+			</button>
+
+			<ButtonDefault v-else role="button" :round="true" :tabindex="tabindex" :label="cat.title" :title="`View projects in ${ cat.title }`" :icon="[cat.fontIconStyle || 'fas', cat.fontIcon]" @click.native="showCategory(cat)" :active="activeCategory && activeCategory === cat.id" />
 		</li>
 	</ul>
 </template>
@@ -25,8 +29,12 @@ export default {
 			default: 0
 		},
 		activeCategory: {
-			type: String,
+			type: Number,
 			default: null
+		},
+		asText: {
+			type: Boolean,
+			default: false
 		}
 	},
 	methods: {
@@ -36,5 +44,3 @@ export default {
 	}
 };
 </script>
-
-<style src="../styles/components/projects.scss" lang="scss"></style>
