@@ -149,8 +149,8 @@ html {
         left: 50%;
         transform: translate(-50%, -50%);
 
-        width: calc(100vw - 16em);
-        height: calc(100vh - 16em);
+        width: calc(100vw - 80rem);
+        height: calc(100vh - 80rem);
 
         opacity: 0.66;
         mix-blend-mode: soft-light;
@@ -979,6 +979,11 @@ html {
                 font-size: 12rem;
             }
         }
+
+        .hero-image {
+            width: calc(100vw - 60rem);
+            height: calc(100vh - 60rem);
+        }
     }
 
     @include bp(desktop) {
@@ -1003,6 +1008,11 @@ html {
                 margin-left: 0;
                 margin-top: 7.5rem;
             }
+        }
+
+        .hero-image {
+            width: calc(100vw - 10rem);
+            height: calc(100vh - 10rem);
         }
     }
 
@@ -1037,7 +1047,8 @@ html {
         }
 
         .svg {
-            min-width: 250vw !important;
+            min-width: 200vw !important;
+            max-width: 120vh !important;
         }
 
         .initial-dot {
