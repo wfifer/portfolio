@@ -1,0 +1,65 @@
+fieldLayouts:
+  b20c17fa-2461-4eb2-98c4-7f40b8d94417:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: Title
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: 28ad0220-2985-4dd6-b69c-d2bba848f18c
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: dd3b32a6-93ce-42ad-9d56-f42364868459
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: e92faebe-fac6-4f3d-94c5-98416b9596fe
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 50b5a7ca-6355-4c94-bc52-14eb2ba78593
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 3017f74c-e2c5-4e6b-960e-c8296b8e86f1
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: f8eddcec-a7b6-4d31-b3f1-ecfbbe5172cb
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: a6bdea55-c12e-4a2b-bef4-8db5348d162c
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: a430daeb-1368-4cb9-996c-f43a38b978b1
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: b5088f1a-7338-47ec-83a8-64e2b5873b29
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: Project
+        sortOrder: 1
+      -
+        elements:
+          -
+            fieldUid: ad268a11-e70c-4b59-a8db-5ba3121b2268
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: a3097e79-2eca-45a0-9de1-532129638764
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: Details
+        sortOrder: 2
+handle: projects
+hasTitleField: true
+name: Projects
+section: 04258b8a-06cf-4637-a5a5-0d201b72dbd6
+sortOrder: 1
+titleFormat: null

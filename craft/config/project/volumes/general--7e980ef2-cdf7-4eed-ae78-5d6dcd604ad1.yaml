@@ -1,0 +1,8 @@
+handle: general
+hasUrls: true
+name: General
+settings:
+  path: assets/uploads
+sortOrder: 1
+type: craft\volumes\Local
+url: 'https://api.willfifer.com/assets/uploads'

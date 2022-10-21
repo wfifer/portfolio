@@ -1,0 +1,96 @@
+field: dd3b32a6-93ce-42ad-9d56-f42364868459
+fieldLayouts:
+  d6ebade8-f5dd-4ed1-8539-584aa0c083cd:
+    tabs:
+      -
+        fields:
+          11b64d24-f280-458c-a5f0-8832a3e9331d:
+            required: false
+            sortOrder: 2
+          eda0bb13-fa15-4fd1-be40-93113a86ebb9:
+            required: false
+            sortOrder: 1
+        name: Content
+        sortOrder: 1
+fields:
+  11b64d24-f280-458c-a5f0-8832a3e9331d:
+    contentColumnType: text
+    fieldGroup: null
+    handle: stops
+    instructions: ''
+    name: Stops
+    searchable: true
+    settings:
+      addRowLabel: 'Add a row'
+      columnType: text
+      columns:
+        __assoc__:
+          -
+            - col1
+            -
+              __assoc__:
+                -
+                  - handle
+                  - position
+                -
+                  - heading
+                  - Position
+                -
+                  - type
+                  - number
+                -
+                  - width
+                  - ''
+          -
+            - col2
+            -
+              __assoc__:
+                -
+                  - handle
+                  - color
+                -
+                  - heading
+                  - Color
+                -
+                  - type
+                  - singleline
+                -
+                  - width
+                  - ''
+      defaults:
+        __assoc__:
+          -
+            - row1
+            -
+              __assoc__:
+                -
+                  - col1
+                  - ''
+                -
+                  - col2
+                  - ''
+      maxRows: ''
+      minRows: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\Table
+  eda0bb13-fa15-4fd1-be40-93113a86ebb9:
+    contentColumnType: text
+    fieldGroup: null
+    handle: angle
+    instructions: ''
+    name: Angle
+    searchable: true
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: background
+name: Background
+sortOrder: 1

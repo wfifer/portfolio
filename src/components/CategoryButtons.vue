@@ -1,11 +1,11 @@
 <template>
 	<ul class="category-buttons">
-		<li v-for="(cat, i) in categories" class="list-item" :key="i">
-			<button v-if="asText" class="btn text-button" role="button" :tabindex="tabindex" :label="cat.title" :title="`View projects in ${ cat.title }`" @click="showCategory(cat)" :active="activeCategory && activeCategory === cat.id">
+		<li v-for="(cat, i) in categories" class="list-item" :key="i" @mouseenter="$emit('rollover', cat)">
+			<button v-if="asText" class="btn text-button" role="button" :tabindex="tabindex" :label="cat.title" :title="`View projects in ${ cat.title }`" @click="showCategory(cat)" :active="activeCategory === cat.id">
 				{{cat.title}}
 			</button>
 
-			<ButtonDefault v-else role="button" :round="true" :tabindex="tabindex" :label="cat.title" :title="`View projects in ${ cat.title }`" :icon="[cat.fontIconStyle || 'fas', cat.fontIcon]" @click.native="showCategory(cat)" :active="activeCategory && activeCategory === cat.id" />
+			<ButtonDefault v-else role="button" :round="true" :tabindex="tabindex" :label="emitOnly ? null : cat.title" :title="`View projects in ${ cat.title }`" :icon="[cat.fontIconStyle || 'fas', cat.fontIcon]" @click.native="showCategory(cat)" :active="activeCategory && activeCategory === cat.id" />
 		</li>
 	</ul>
 </template>
@@ -33,6 +33,10 @@ export default {
 			default: null
 		},
 		asText: {
+			type: Boolean,
+			default: false
+		},
+		emitOnly: {
 			type: Boolean,
 			default: false
 		}

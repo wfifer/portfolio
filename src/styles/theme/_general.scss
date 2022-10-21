@@ -1,57 +1,43 @@
 @import '../mixins/variables';
 
 html {
-	--color-bg--hsl: 0, 0%, 45%;
-	--color-bg--darker--hsl: 0, 0%, 40%;
-	--color-light--hsl: 0, 0%, 95%;
-	--color-light--darker--hsl: 0, 0%, 90%;
+    --color-bg--hsl: 0, 0%, 95%;
+    --color-bg--highlight--hsl: 0, 0%, 90%;
+    --color-fg--hsl: 0, 0%, 5%;
+    --color-fg--highlight--hsl: 0, 0%, 10%;
 
-	--color-text--hsl: 0, 0%, 30%;
-	--color-text--darker--hsl: 0, 0%, 25%; 
+    --color-text--hsl: var(--color-fg--hsl);
+    --color-text--hsl: var(--color-fg--highlight--hsl);
 
-	--color-highlight--hsl: 0, 0%, 80%;
+    --color-ui--hsl: var(--color-fg--hsl);
 
-	&.--accessible {
-		--color-bg--hsl: 0, 0%, 10%;
-		--color-bg--darker--hsl: 0, 0%, 0%;
-	
-		--color-text--hsl: 0, 0%, 10%;
-		--color-text--darker--hsl: 0, 0%, 0%;
-	}
+    --color-highlight--hsl: 0, 0%, 20%;
 
-	--color-content-bg--hsl: var(--color-light--hsl);
-	--color-content-text--hsl: var(--color-text--hsl);
+    // &.--accessible {
+    // }
 
-	// &.--light {
-	// 	--color-bg--hsl: 0, 0%, 90%;
-	// 	--color-bg--darker--hsl: 0, 0%, 95%;
-	// 	--color-light--hsl: 0, 0%, 10%;
-	// 	--color-light--darker--hsl: 0, 0%, 0%;
+    --color-content-bg--hsl: var(--color-fg--hsl);
+    --color-content-text--hsl: var(--color-text--hsl);
 
-	// 	--color-text--hsl: 0, 0%, 95%;
-	// 	--color-text--darker--hsl: 0, 0%, 100%;
+    --color-bg: hsl(var(--color-bg--hsl));
+    --color-bg--highlight: hsl(var(--color-bg--highlight--hsl));
+    --color-fg: hsl(var(--color-fg--hsl));
+    --color-fg--highlight: hsl(var(--color-fg--highlight--hsl));
 
-	// 	--color-content-bg--hsl: 0, 0, 100%;
-	// 	--color-content-text--hsl: 0, 0%, 15%;
-	// }
+    --color-text: hsl(var(--color-text--hsl));
+    --color-text--highlight: hsl(var(--color-text--highlight--hsl));
 
-	--color-bg: hsl(var(--color-bg--hsl));
-	--color-bg--darker: hsl(var(--color-bg--darker--hsl));
-	--color-light: hsl(var(--color-light--hsl));
-	--color-light--darker: hsl(var(--color-light--darker--hsl));
+    --color-ui: hsl(var(--color-ui--hsl));
 
-	--color-text: hsl(var(--color-text--hsl));
-	--color-text--darker: hsl(var(--color-text--darker--hsl));
+    --color-content-bg: white;
+    --color-content-text: #444;
 
-	--color-content-bg: white;
-	--color-content-text: #444;
+    --color-highlight: hsl(var(--color-highlight--hsl));
 
-	--color-highlight: hsl(var(--color-highlight--hsl));
-
-	background: var(--color-bg);
-	color: var(--color-light);
+    background: var(--color-ui);
+    color: var(--color-fg);
 }
 
 .resize-observer {
-	visibility: hidden;
+    visibility: hidden;
 }

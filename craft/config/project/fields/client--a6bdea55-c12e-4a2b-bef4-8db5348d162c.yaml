@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: 3a27efe0-652c-4a93-afc7-755455810a60
+handle: client
+instructions: ''
+name: Client
+searchable: true
+settings:
+  branchLimit: ''
+  limit: null
+  localizeRelations: false
+  selectionLabel: ''
+  source: 'group:492f2972-c006-463a-bc0a-e5c717b071ad'
+  sources: '*'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Categories

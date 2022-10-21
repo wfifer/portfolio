@@ -1,13 +1,13 @@
 <template>
 	<section class="site-header" :class="headerClass" @mousemove="/*onMouseMove*/">
-		<Spinner :class="projectReady ? '-loaded' : ''" :width="svg.width" :height="svg.height" :font-size="fontSize" />
+		<Spinner :class="projects && projects.length > 0 ? '-loaded' : ''" :width="svg.width" :height="svg.height" :font-size="fontSize" />
 
 		<transition name="fade">
-		<div class="inner" v-show="projectReady">
+		<div class="inner" v-show="projects && projects.length > 0" :style="`--color-project-bg: ${projectBackgroundColor}`">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
-				<div class="theme-selection">
+				<!-- <div class="theme-selection">
 					<label for="theme">
 						<Icon :icon="['far', 'paint-brush']" />
 					</label>
@@ -23,7 +23,7 @@
 							:clearable="false"
 						></v-select>
 					</div>
-				</div>
+				</div> -->
 
 				<ButtonDefault class="btn-thumbnails" title="View all projects" icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
 
@@ -33,7 +33,7 @@
 			</nav>
 
 			<div class="project-list">
-				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[project.entryId]" :key="project.entryId">
+				<div v-for="(project, index) in projects" class="project-mask" :class="projectClass[project.entryId]" :key="project.entryId" :style="`--color-project-bg: ${project.backgroundColor}; --color-project-accent: ${project.heroBackground.stops[1].color};`">
 					<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="project.heroImage.url" />
 
 					<button type="button" class="btn btn-enter-project" @click="projectClickHandler({ index, entryId: project.entryId })" :title="`View project '${ project.title }'`" tabindex="-1">
@@ -43,29 +43,45 @@
 					</button>
 
 					<div class="mask-inner">
+						<div class="hero-image-container">
+							<div class="hero-image">
+								<img :src="project.heroImage.url" />
+							</div>
+							
+							<div class="hero-image">
+								<img :src="project.heroImage.url" />
+							</div>
+						</div>
+
 						<div class="svg-container">
 							<div class="mask-svg">
 								<div class="svg-inner" :style="selectedProject !== null ? `transform: translateY(${ bannerTranslateY }%) translateZ(0);` : null">
+									<!-- <svg class="svg hero-image-svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve" tabindex="-1">
+										<filter id="desaturate">
+											<feColorMatrix in="SourceGraphic" type="multiply" values="0" />
+										</filter>
+
+										<g class="project-hero">
+											<image :width="svgImage(project.heroImage).width" :height="svgImage(project.heroImage).height" style="overflow:visible;" :xlink:href="project.heroImage.url" :x="svgImage(project.heroImage).x" :y="svgImage(project.heroImage).y"></image>
+										</g>
+									</svg> -->
+
 									<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve" tabindex="-1">
 								 		<defs>
-											<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="0%">
+											<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="100%">
 												<stop v-for="(stop, stopIndex) in project.heroBackground.stops" :offset="`${ stop.position }%`" :key="stopIndex" :stop-color="stop.color"/>
 											</linearGradient>
 
 											<clipPath clipPathUnits="userSpaceOnUse" :id="`text-clip-${ index }`">
-												<text class="text-mask" :x="svg.width / 2" :y="svg.height / 2" text-anchor="middle" :style="`font-size: ${fontSize}px; dominant-baseline: central; letter-spacing: -0.125em;`" fill="#FFFFFF">
-													<tspan :style="`font-size: ${fontSize / 2}px; opacity: 0;`" class="initial-dot">.</tspan>
+												<text class="text-mask" :x="svg.width / 2" :y="svg.height * 0.8" text-anchor="middle" :style="`font-size: ${fontSize}px; dominant-baseline: central;`" fill="#FFFFFF">
 													<tspan>{{ projectInitial[project.entryId] }}</tspan>
-													<tspan :dy="`${fontSize * 0.175}px`" :style="`font-size: ${fontSize / 2}px;`" class="initial-dot">.</tspan>
 												</text>
 											</clipPath>
 
 											<mask maskUnits="userSpaceOnUse" x="0" y="0" :width="svg.width" :height="svg.height" :id="`text-mask-${ index }`">
 												<g class="text-mask">
 													<text :transform="`matrix(1 0 0 1 ${ svg.width / 2 } ${ svg.height / 2 + fontSize / 2.8 })`" text-anchor="middle" :style="`font-size: ${fontSize}px`">
-														<tspan :style="`font-size: ${fontSize / 2}px; opacity: 0;`" class="initial-dot">.</tspan>
 														<tspan>{{ projectInitial[project.entryId] }}</tspan>
-														<tspan :dy="`${fontSize * 0.175}px`" :style="`font-size: ${fontSize / 2}px;`" class="initial-dot">.</tspan>
 													</text>
 												</g>
 											</mask>
@@ -74,15 +90,15 @@
 										<g :style="`clip-path: url(#text-clip-${ index }); mask: url(#text-mask-${ index });`" class="svg-clipped">
 											<!-- <rect x="0" y="0" :width="svg.width" :height="svg.height" style="fill: white" class="gradient-backdrop" /> -->
 
-											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" r="800" :style="`fill: url(#gradient-bg-${ index });`" />
+											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" r="1600" :style="`fill: url(#gradient-bg-${ index });`" />
 
-											<g>
+											<!-- <g>
 												<g class="project-hero">
-													<image :width="svgImage(project.heroImage).width" :height="svgImage(project.heroImage).height" style="overflow:visible;" :xlink:href="project.heroImage.url" :x="svgImage(project.heroImage).x" :y="svgImage(project.heroImage).y"></image>
+													<image filter="url(#desaturate)" :width="svgImage(project.heroImage).width" :height="svgImage(project.heroImage).height" style="overflow:visible;" :xlink:href="project.heroImage.url" :x="svgImage(project.heroImage).x" :y="svgImage(project.heroImage).y"></image>
 												</g>
-											</g>
+											</g> -->
 
-											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" r="800" :style="`fill: url(#gradient-bg-${ index }); mix-blend-mode: hue; opacity: 0.5;`" />
+											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" r="1600" :style="`fill: url(#gradient-bg-${ index }); mix-blend-mode: hue; opacity: 0.5;`" />
 										</g>
 									</svg>
 								</div>
@@ -91,17 +107,19 @@
 					</div>
 
 					<div class="project-info">
-						<h2 class="project-title">{{ project.title }}</h2>
+						<h3 v-if="index == 0" class="project-subtitle">Hi, my name is</h3>
+
+						<h2 class="project-title">{{ index === 0 && selectedProject === null ? categoryTitle : project.title }}</h2>
 
 						<div class="project-tools">
-							<div class="label">{{ index === 0 ? 'Like' : 'Tags' }}</div>
+							<!-- <div class="label">{{ index === 0 ? 'Like' : 'Tags' }}</div> -->
 
-							<CategoryButtons :categories="project.categories" class="icon-list icon-list-categories" :tabindex="tabindex(project.entryId)" />
+							<CategoryButtons :emitOnly="index === 0 && selectedProject === null" @rollover="updateCategoryTitle" :categories="project.categories" class="icon-list icon-list-categories" :tabindex="tabindex(project.entryId)" />
 
 							<div class="project-buttons">
-								<ButtonDefault class="btn btn-enter" :tabindex="tabindex(project.entryId)" :icon="['far', index === 0 ? 'user-circle' : 'eye']" @click.native="projectClickHandler({ index, entryId: project.entryId })">{{ index === 0 ? 'About Will' : 'View project' }}</ButtonDefault>
+								<ButtonDefault class="btn btn-enter" :tabindex="tabindex(project.entryId)" :icon="['far', index === 0 ? 'user-circle' : 'eye']" @click.native="projectClickHandler({ index, entryId: project.entryId })" @mouseenter.native="updateCategoryTitle({ slug: null })">{{ index === 0 ? 'About' : 'Info' }}</ButtonDefault>
 
-								<ButtonDefault class="btn btn-exit" :tabindex="tabindex(project.entryId)" :icon="['far', 'arrow-circle-up']" @click.native="projectClickHandler({ entryId: project.entryId })">All projects</ButtonDefault>
+								<ButtonDefault class="btn btn-exit" :tabindex="tabindex(project.entryId)" :icon="['far', 'arrow-circle-up']" @click.native="projectClickHandler({ entryId: project.entryId })">All</ButtonDefault>
 							</div>
 						</div>
 					</div>
@@ -155,6 +173,8 @@ export default {
 					}
 				})
 			},
+			categoryTitle: 'Will Fifer',
+			categoryTitleTimeout: null,
 			themeOptions: [
 				{ value: 'DEFAULT', label: 'Default Theme' },
 				{ value: 'ACCESSIBLE', label: 'High Contrast' }
@@ -187,6 +207,21 @@ export default {
 		});
 	},
 	methods: {
+		updateCategoryTitle (category) {
+			this.categoryTitle = this.mapCategoryToTitle(category.slug);
+		},
+		mapCategoryToTitle (slug) {
+			const titleMap = {
+				'product-design': 'Designer',
+				'ui-design': 'UI Designer',
+				'development': 'Developer',
+				'graphic-design': 'Graphic Designer',
+				'illustration': 'Illustrator', 
+				'identity': 'Identi...fier?',
+				'chef': 'Home Cook'
+			};
+			return titleMap[slug] || 'Will Fifer';
+		},
 		layerPosition (depth) {
 			const x = this.bgCoords.x * (-depth / Math.abs(depth));
 			const y = this.bgCoords.y * (-depth / Math.abs(depth));
@@ -209,7 +244,7 @@ export default {
 			}
 		},
 		svgImage (image) {
-			const BASE_WIDTH = 1720;
+			const BASE_WIDTH = 1200;
 
 			let aspectRatio = image.width / image.height;
 
@@ -347,7 +382,7 @@ export default {
 			}, {});
 		},
 		fontSize () {
-			const BASE_SIZE = 1350;
+			const BASE_SIZE = 1080;
 
 			let fontSize = BASE_SIZE;
 
@@ -364,6 +399,10 @@ export default {
 				: this.currentCategory
 					? '-thumbnails-open'
 					: null;
+		},
+		projectBackgroundColor () {
+			const currentProject = this.projects.find(p => p.entryId === this.activeProject);
+			return currentProject ? currentProject.backgroundColor : '#fffff';
 		},
 		...mapState({
 			activeProject: state => state.projects.active,

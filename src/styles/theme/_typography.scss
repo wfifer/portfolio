@@ -1,66 +1,71 @@
 html {
-	font-size: $rem-size;
+    font-size: $rem-size;
 }
 
 body {
-	@include font-body-regular();
-	font-size: 5rem;
-	font-display: swap;
+    @include font-body-regular();
+    font-size: 5rem;
+    font-ui: swap;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
-	margin: 0;
-	padding: 0;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
 }
 
-h1, h2 {
-	@include font-headline;
+h1,
+h2 {
+    @include font-headline;
 }
 
-h3, h4 {
-	@include font-display-black;
-	text-transform: uppercase;
+h3,
+h4 {
+    @include font-ui-black;
+    text-transform: uppercase;
 }
 
 h1 {
-	font-size: 16rem;
-
+    font-size: 16rem;
 }
 
 h2 {
-	font-size: 10rem;
+    font-size: 10rem;
 
-	@include bp(mobile) {
-		font-size: 7.5rem;
-	}
-
+    @include bp(mobile) {
+        font-size: 7.5rem;
+    }
 }
 
 h3 {
-	font-size: 8rem;
-
+    font-size: 8rem;
 }
 
 h4 {
-	font-size: 6rem;
-
+    font-size: 6rem;
 }
 
-p, .body {
-	@include font-body-regular;
-	line-height: 1.75em;
+p,
+.body {
+    @include font-body-regular;
+    line-height: 1.75em;
 }
 
 a {
-	text-decoration: inherit;
-	font-weight: inherit;
+    text-decoration: inherit;
+    font-weight: inherit;
 }
 
 .link {
-	@include font-body-bold;
-	text-decoration: underline;
+    @include font-body-bold;
+    text-decoration: underline;
 }
 
 .-strike {
-	text-decoration: line-through; 
+    text-decoration: line-through;
 }

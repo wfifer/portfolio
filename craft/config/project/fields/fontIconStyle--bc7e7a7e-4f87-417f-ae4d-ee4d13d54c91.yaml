@@ -1,0 +1,66 @@
+contentColumnType: string
+fieldGroup: 1601ca5d-3aa7-42f2-a898-540bbb721690
+handle: fontIconStyle
+instructions: ''
+name: 'Font Icon Style'
+searchable: true
+settings:
+  options:
+    -
+      __assoc__:
+        -
+          - default
+          - '1'
+        -
+          - label
+          - Solid
+        -
+          - value
+          - fas
+    -
+      __assoc__:
+        -
+          - default
+          - ''
+        -
+          - label
+          - Regular
+        -
+          - value
+          - far
+    -
+      __assoc__:
+        -
+          - default
+          - ''
+        -
+          - label
+          - Light
+        -
+          - value
+          - fal
+    -
+      __assoc__:
+        -
+          - default
+          - ''
+        -
+          - label
+          - Duotone
+        -
+          - value
+          - fad
+    -
+      __assoc__:
+        -
+          - default
+          - ''
+        -
+          - label
+          - Brands
+        -
+          - value
+          - fab
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

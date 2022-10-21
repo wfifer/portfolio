@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: 3a27efe0-652c-4a93-afc7-755455810a60
+handle: projectCategory
+instructions: ''
+name: 'Project Category'
+searchable: true
+settings:
+  branchLimit: ''
+  limit: null
+  localizeRelations: false
+  selectionLabel: ''
+  source: 'group:b1044122-fed0-47d2-ad0e-ac24c940dcb6'
+  sources: '*'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Categories

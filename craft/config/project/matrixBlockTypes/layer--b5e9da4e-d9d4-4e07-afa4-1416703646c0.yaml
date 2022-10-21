@@ -1,0 +1,60 @@
+field: e92faebe-fac6-4f3d-94c5-98416b9596fe
+fieldLayouts:
+  d7b35595-a2d6-4f58-8642-de0487518ecd:
+    tabs:
+      -
+        fields:
+          5f203469-9c0d-4c6b-9bfd-1e70bb80095e:
+            required: false
+            sortOrder: 2
+          37957ba4-44c0-455f-acb8-9a018e7bcf53:
+            required: false
+            sortOrder: 1
+        name: Content
+        sortOrder: 1
+fields:
+  5f203469-9c0d-4c6b-9bfd-1e70bb80095e:
+    contentColumnType: smallint(2)
+    fieldGroup: null
+    handle: depth
+    instructions: 'Negative will appear behind project hero. '
+    name: Depth
+    searchable: true
+    settings:
+      decimals: 0
+      defaultValue: null
+      max: '10'
+      min: '-10'
+      size: null
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\Number
+  37957ba4-44c0-455f-acb8-9a018e7bcf53:
+    contentColumnType: string
+    fieldGroup: null
+    handle: image
+    instructions: ''
+    name: Image
+    searchable: true
+    settings:
+      allowedKinds:
+        - image
+      defaultUploadLocationSource: null
+      defaultUploadLocationSubpath: ''
+      limit: '1'
+      localizeRelations: false
+      restrictFiles: '1'
+      selectionLabel: ''
+      singleUploadLocationSource: null
+      singleUploadLocationSubpath: ''
+      source: null
+      sources: '*'
+      targetSiteId: null
+      useSingleFolder: ''
+      viewMode: list
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Assets
+handle: layer
+name: Layer
+sortOrder: 1

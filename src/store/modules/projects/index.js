@@ -69,9 +69,9 @@ const mutations = {
 	},
 	[type.GET_CATEGORIES] (state, action) {
 		const all = {
-			title: 'All projects',
+			title: 'All',
 			slug: 'all',
-			id: '99999',
+			id: 99999,
 			fontIcon: 'border-all',
 			fontIconStyle: 'far'
 		};

@@ -1,62 +1,28 @@
 @import '../mixins/variables';
 
 .portfolio {
-	padding-top: $body-padding-top;
+    padding-top: $body-padding-top;
 
-	@include bp($max-width) {
-		padding-top: $body-padding-top-desktop;
-	}
+    @include bp($max-width) {
+        padding-top: $body-padding-top-desktop;
+    }
 
-	@include bp(tablet) {
-		padding-top: $body-padding-top-tablet;
-	}
+    @include bp(tablet) {
+        padding-top: $body-padding-top-tablet;
+    }
 
-	@include bp(mobile) {
-		padding-top: $body-padding-top-mobile;
-	}
+    @include bp(mobile) {
+        padding-top: $body-padding-top-mobile;
+    }
 
-
-	.resize-observer {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		pointer-events: none;
-		visibility: hidden;
-	}
+    .resize-observer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        visibility: hidden;
+    }
 }
-
-// .page-container {
-// 	&.-active {
-// 		&::after {
-// 			transform: scaleY(1) translateZ(0);
-
-// 			opacity: 1;
-// 		}
-// 	}
-
-// 	&::after {
-// 		content: '';
-
-// 		position: fixed;
-// 		bottom: 0;
-// 		transform: scaleY(0) translateZ(0);
-// 		transform-origin: center bottom;
-
-// 		width: 100%;
-// 		height: $body-padding-top;
-
-// 		background: var(--color-light);
-// 		opacity: 0;
-
-// 		transition: all $transition-enter;
-// 	}
-
-// 	@include bp($max-width) {
-// 		&::after {
-// 			height: calc(100vh - #{ $body-padding-top-desktop });
-// 		}
-// 	}
-// }

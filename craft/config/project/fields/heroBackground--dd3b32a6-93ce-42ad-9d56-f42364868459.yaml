@@ -1,0 +1,14 @@
+contentColumnType: string
+fieldGroup: 3a27efe0-652c-4a93-afc7-755455810a60
+handle: heroBackground
+instructions: ''
+name: 'Hero Background'
+searchable: true
+settings:
+  contentTable: '{{%matrixcontent_herobackground}}'
+  localizeBlocks: false
+  maxBlocks: '1'
+  minBlocks: ''
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

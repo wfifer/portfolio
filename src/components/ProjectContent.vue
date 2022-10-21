@@ -16,6 +16,21 @@
 							 v-if="project.client && Object.keys(project.client).length > 0
 							 || project.website && project.website.length > 0
 							 || project.collaborators && project.collaborators.length > 0">
+							<div class="project-spec" v-if="project.app && project.app.length > 0" aria-label="App">
+								<Icon :icon="['far', 'mobile-screen-button']" class="icon" title="App" />
+
+								<p>
+									<span>
+										<a :href="project.app" :title="`View app for ${ project.title }`" target="_blank" class="-overflow-ellipsis">
+											<span class="text">App</span>
+											<div class="link-icon">
+												<Icon :icon="['far', 'external-link']" />
+											</div>
+										</a>
+									</span>
+								</p>
+							</div>
+
 							<div class="project-spec" v-if="project.website && project.website.length > 0" aria-label="Website">
 								<Icon :icon="['far', 'browser']" class="icon" title="Website" />
 
@@ -116,9 +131,9 @@
 							<ButtonDefault target="_blank" tag="a" href="https://www.linkedin.com/in/will-fifer/" :reverse="true" class="btn" :icon="['fab', 'linkedin-in']" />
 						</li>
 
-						<li class="list-item">
+						<!-- <li class="list-item">
 							<ButtonDefault target="_blank" tag="a" href="https://www.behance.net/wfifer" :reverse="true" class="btn" :icon="['fab', 'behance']" />
-						</li>
+						</li> -->
 
 						<li class="list-item">
 							<ButtonDefault target="_blank" tag="a" href="mailto:wfifer@gmail.com" :reverse="true" class="btn" icon="envelope" />

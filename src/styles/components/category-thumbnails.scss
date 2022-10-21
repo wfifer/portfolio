@@ -1,381 +1,377 @@
 @import '../mixins/variables';
 
 .category-thumbnails {
-	.thumbnails-view {
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 100;
-		transform: translateZ(0);
+    .thumbnails-view {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        transform: translateZ(0);
 
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
 
-	.btn {
-		pointer-events: all;
-	}
+    .btn {
+        pointer-events: all;
+    }
 
-	.btn-close-thumbnails {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
+    .btn-close-thumbnails {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
 
-		width: calc(100% - 24rem);
-		height: 100%;
-		min-height: calc(var(--vh, 1vh) * 100);
+        width: calc(100% - 24rem);
+        height: 100%;
+        min-height: calc(var(--vh, 1vh) * 100);
 
-		cursor: url('~/assets/img/cursor-close.svg'), auto;
-	}
+        cursor: url('~/assets/img/cursor-close.svg'), auto;
+    }
 
-	.thumbnails-inner {
-		position: relative;
-		transform: translateZ(0);
+    .thumbnails-inner {
+        position: relative;
+        transform: translateZ(0);
 
-		display: flex;
-		align-items: center;
-		align-content: center;
-		height: 100%;
-		width: 100%;
-		overflow: hidden;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
 
-		background: var(--color-bg);
+        background: var(--color-bg);
 
-		transition: all $transition-thumbnails;
-		will-change: transform, opacity, visibility;
+        transition: all $transition-thumbnails;
+        will-change: transform, opacity, visibility;
 
-		.thumbnail-scroll {
-			max-height: 100%;
-			width: calc(100% + 20px);
-			padding: 15rem;
-			padding-right: calc(15rem + 20px);
-			flex: 0 0 auto;
-			overflow-y: auto;
+        .thumbnail-scroll {
+            max-height: 100%;
+            width: calc(100% + 20px);
+            padding: 15rem;
+            padding-right: calc(15rem + 20px);
+            flex: 0 0 auto;
+            overflow-y: auto;
 
-			@supports (-webkit-overflow-scrolling: touch) {
-				overflow-y: scroll;
-				-webkit-overflow-scrolling: touch;
-			}
-		}
-	}
+            @supports (-webkit-overflow-scrolling: touch) {
+                overflow-y: scroll;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    }
 
-	.category-label {
-		padding-left: 3rem;
+    .category-label {
+        padding-left: 3rem;
 
-		text-transform: uppercase;
-		@include font-display-light;
-		text-align: left;
+        text-transform: uppercase;
+        @include font-ui-light;
+        text-align: left;
 
-		strong {
-			@include font-display-semibold;
-		}
+        strong {
+            @include font-ui-semibold;
+        }
 
-		@include bp(tablet) {
-			display: block;
-		}
+        @include bp(tablet) {
+            display: block;
+        }
 
-		.portfolio.-hide-hover & {
-			display: block;
-		}
-	}
+        .portfolio.-hide-hover & {
+            display: block;
+        }
+    }
 
-	.thumbnail-list {
-		position: relative;
+    .thumbnail-list {
+        position: relative;
 
-		width: 100%;
-		margin: 0 auto;
-		height: 100%;
-		padding: 3rem;
+        width: 100%;
+        margin: 0 auto;
+        height: 100%;
+        padding: 3rem;
 
-		pointer-events: none;
+        pointer-events: none;
 
-		.thumbnail {
-			position: relative;
-			transform: translateZ(0);
+        .thumbnail {
+            position: relative;
+            transform: translateZ(0);
 
-			display: block;
+            display: block;
 
-			// text-align: center;
+            // text-align: center;
 
-			// $transition: 0.65 map-get($ease, out-quad);
+            // $transition: 0.65 map-get($ease, out-quad);
 
-			&:nth-child(odd) {
-				.thumbnail-inner {
-					@include font-headline;
-					text-transform: none;
-				}
-			}
+            // &:nth-child(odd) {
+            //     .thumbnail-inner {
+            //         @include font-headline;
+            //         text-transform: none;
+            //     }
+            // }
 
-			.thumbnail-inner {
-				position: relative;
-				transform: rotateZ(0);
+            .thumbnail-inner {
+                position: relative;
+                transform: rotateZ(0);
 
-				display: inline-block;
-				padding: 0;
+                display: inline-block;
+                padding: 0;
 
-				text-transform: uppercase;
-				text-align: left;
-				font-size: 20rem;
-				@include font-display-black;
-				line-height: 1.5;
+                @include font-headline;
+                text-align: left;
+                font-size: 20rem;
+                line-height: 1.5;
 
-				transition: all $transition;
+                transition: all $transition;
 
-				pointer-events: all;
+                pointer-events: all;
 
-				.thumbnail-image, .thumbnail-background, .thumbnail-text {
-					transition: all $transition;
-				}
+                .thumbnail-image,
+                .thumbnail-background,
+                .thumbnail-text {
+                    transition: all $transition;
+                }
 
-				.thumbnail-image, .thumbnail-background {
-					transform: translateZ(0);
-					position: absolute;
-					top: 0;
-					left: -1rem;
+                .thumbnail-image,
+                .thumbnail-background {
+                    transform: translateZ(0);
+                    position: absolute;
+                    top: 0;
+                    left: -1rem;
 
-					padding: 0 1rem;
-					display: none;
-					width: calc(100% + 2rem);
+                    padding: 0 1rem;
+                    display: none;
+                    width: calc(100% + 2rem);
 
-					opacity: 0;
-					background-clip: text;
-					-webkit-background-clip: text;
-					-webkit-text-fill-color: rgba(black, 0);
+                    opacity: 0;
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: rgba(black, 0);
 
-					@supports (-webkit-background-clip: text) {
-						display: block;
-					}
-				}
+                    @supports (-webkit-background-clip: text) {
+                        display: block;
+                    }
+                }
 
-				.portfolio.-hide-hover & {
-					transform: none !important;
-					
-					.thumbnail-image, .thumbnail-background {
-						display: none !important;
-					}
+                .portfolio.-hide-hover & {
+                    transform: none !important;
 
-					.thumbnail-text {
-						opacity: 1 !important;
-					}
-				}
+                    .thumbnail-image,
+                    .thumbnail-background {
+                        display: none !important;
+                    }
 
-				@include hover {
-					.thumbnail-text {
-						opacity: 0;
+                    .thumbnail-text {
+                        opacity: 1 !important;
+                    }
+                }
 
-						// @supports (-webkit-text-stroke-color: white) {
-						// 	transform: rotate(67deg) scale(1.1);
+                @include hover {
+                    .thumbnail-text {
+                        opacity: 0;
+                    }
 
-						// 	color: get_hsla(var(--color-light), 0);
-						// 	opacity: 0;
-						// 	-webkit-text-stroke-width: 1px;
-						// 	-webkit-text-stroke-color: var(--color-light);
-						// }
-					}
+                    .thumbnail-background {
+                        opacity: 1;
+                    }
 
-					.thumbnail-background {
-						opacity: 1;
-					}
+                    .thumbnail-image {
+                        opacity: 0.2;
+                    }
+                }
 
-					.thumbnail-image {
-						opacity: 0.2;
-					}
-				}
+                @include bp($max-width) {
+                    font-size: 16rem;
+                }
 
-				@include bp($max-width) {
-					font-size: 16rem;
-				}
+                @include bp(tablet) {
+                    font-size: 12rem;
+                }
 
-				@include bp(tablet) {
-					font-size: 12rem;
-				}
+                @include bp(mobile) {
+                    font-size: 8rem;
+                }
+            }
+        }
+    }
 
-				@include bp(mobile) {
-					font-size: 8rem;
-				}
-			}
-		}
-	}
+    .btn-exit {
+        position: absolute;
+        top: $control-padding;
+        right: $control-padding;
+        z-index: 10;
+    }
 
-	.btn-exit {
-		position: absolute;
-		top: $control-padding;
-		right: $control-padding;
-		z-index: 10;
-	}
+    .category-heading {
+        position: absolute;
+        top: 7rem;
+        width: 100%;
+        transform: translateY(-50%);
+        z-index: 10;
 
-	.category-heading {
-		position: absolute;
-		top: 7rem;
-		width: 100%;
-		transform: translateY(-50%);
-		z-index: 10;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 6rem;
 
-		text-align: center;
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-		font-size: 6rem;
+        transition: all $transition;
 
-		transition: all $transition;
+        * {
+            position: relative;
+        }
 
-		* {
-			position: relative;
-		}
+        .label {
+            opacity: 0.6;
+        }
+    }
 
-		.label {
-			opacity: 0.6;
-		}
-	}
+    .category-nav {
+        position: absolute;
+        top: 50%;
+        right: $control-padding;
+        transform: translateY(-50%);
+        z-index: 10;
 
-	.category-nav {
-		position: absolute;
-		top: 50%;
-		right: $control-padding;
-		transform: translateY(-50%);
-		z-index: 10;
+        ::v-deep .category-buttons {
+            display: block;
+            margin-right: -1rem;
 
-		::v-deep .category-buttons {
-			display: block;
-			margin-right: -1rem;
+            .list-item {
+                &:not(:first-child) {
+                    margin-left: 0;
+                    margin-top: 3rem;
+                }
+            }
 
-			.list-item {
-				&:not(:first-child) {
-					margin-left: 0;
-					margin-top: 3rem;
-				}
-			}
+            .button-default {
+                .button-icon {
+                    &::after {
+                        top: 50%;
+                        left: -4rem;
 
-			.button-default {
-				.button-icon {
-					&::after {
-						top: 50%;
-						left: -4rem;
+                        transform: translate3d(-80%, -50%, 0);
+                    }
+                }
 
-						transform: translate3d(-80%, -50%, 0);
-					}
-				}
+                @include hover {
+                    .button-icon {
+                        &::after {
+                            transform: translate3d(-100%, -50%, 0);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-				@include hover {
-					.button-icon {
-						&::after {
-							transform: translate3d(-100%, -50%, 0);
-						}
-					}
-				}
-			}
-		}
-	}
+    @include bp($max-width) {
+        .btn-exit,
+        .category-nav {
+            right: 10rem;
+        }
 
-	@include bp($max-width) {
-		.btn-exit, .category-nav {
-			right: 10rem;
-		}
+        .btn-exit {
+            top: 10rem;
+        }
 
-		.btn-exit {
-			top: 10rem;
-		}
+        .thumbnails-inner {
+            .thumbnail-scroll {
+                padding: 10rem 20rem;
+                padding-right: calc(20rem + 20px);
+            }
+        }
+    }
 
-		.thumbnails-inner {
-			.thumbnail-scroll {
-				padding: 10rem 20rem;
-				padding-right: calc(20rem + 20px);
-			}
-		}
-	}
+    @include bp(mobile) {
+        .btn-exit,
+        .category-nav {
+            right: 3rem;
+        }
 
-	@include bp(mobile) {
-		.btn-exit, .category-nav {
-			right: 3rem;
-		}
+        .btn-exit {
+            top: 3rem;
+        }
 
-		.btn-exit {
-			top: 3rem;
-		}
-
-		.thumbnails-inner {
-			.thumbnail-scroll {
-				padding: 3rem calc(12rem + 20px) 3rem 0;
-			}
-		}
-	}
+        .thumbnails-inner {
+            .thumbnail-scroll {
+                padding: 3rem calc(12rem + 20px) 3rem 0;
+            }
+        }
+    }
 }
 
 .t-thumbnails-leave-active {
-	transition: all $transition-thumbnails;
+    transition: all $transition-thumbnails;
 
-	.thumbnails-inner {
-		transform: scale(1.1) translateZ(0);
-	}
+    .thumbnails-inner {
+        transform: scale(1.1) translateZ(0);
+    }
 }
 
 .t-thumbnails-leave {
-	transform: scale(1) translateZ(0);
+    transform: scale(1) translateZ(0);
 
-	opacity: 1;
+    opacity: 1;
 
-	.thumbnail-list {
-		.thumbnail {
-			.thumbnail-inner {
-				transform: translateY(0) translateZ(0);
+    .thumbnail-list {
+        .thumbnail {
+            .thumbnail-inner {
+                transform: translateY(0) translateZ(0);
 
-				opacity: 1;
-			}
-		}
-	}
+                opacity: 1;
+            }
+        }
+    }
 }
 
 .t-thumbnails-leave-to {
-	transform: scale(1.1) translateZ(0);
+    transform: scale(1.1) translateZ(0);
 
-	opacity: 0;
+    opacity: 0;
 }
 
 .t-thumbnails-enter {
-	.thumbnails-inner {
-		transform: scale(1.1) translateZ(0);
+    .thumbnails-inner {
+        transform: scale(1.1) translateZ(0);
 
-		opacity: 0;
-	}
+        opacity: 0;
+    }
 
-	.thumbnail-list {
-		.thumbnail {
-			.thumbnail-inner {
-				// transform: translateY(50%);
+    .thumbnail-list {
+        .thumbnail {
+            .thumbnail-inner {
+                // transform: translateY(50%);
 
-				opacity: 0;
-			}
-		}
-	}
+                opacity: 0;
+            }
+        }
+    }
 }
 
-.t-thumbnail-item-enter-active, .t-thumbnail-item-move {
-	transition: all 0.35s map-get($ease, out-quad);
+.t-thumbnail-item-enter-active,
+.t-thumbnail-item-move {
+    transition: all 0.35s map-get($ease, out-quad);
 }
 
 .t-thumbnail-item-leave-active {
-	transition: all 0.35s map-get($ease, out-quad),
-		opacity 0.1s;
+    transition: all 0.35s map-get($ease, out-quad), opacity 0.1s;
 }
 
 .t-thumbnail-item-enter {
-	opacity: 0;
+    opacity: 0;
 
-	transform: translateY(50%) translateZ(0) !important;
+    transform: translateY(50%) translateZ(0) !important;
 }
 
 .t-thumbnail-item-leave-to {
-	transform: translateY(-50%) translateZ(0) !important;
+    transform: translateY(-50%) translateZ(0) !important;
 
-	opacity: 0;
+    opacity: 0;
 }
 
 .t-thumbnail-item-leave-active {
-	position: absolute !important;
-	z-index: -1;
+    position: absolute !important;
+    z-index: -1;
 
-	height: 0;
+    height: 0;
 
-	width: calc(100% - 10rem);
+    width: calc(100% - 10rem);
 }

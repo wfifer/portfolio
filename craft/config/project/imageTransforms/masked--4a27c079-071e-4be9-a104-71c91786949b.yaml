@@ -1,0 +1,9 @@
+format: null
+handle: masked
+height: 800
+interlace: none
+mode: crop
+name: Masked
+position: center-center
+quality: 30
+width: 1200

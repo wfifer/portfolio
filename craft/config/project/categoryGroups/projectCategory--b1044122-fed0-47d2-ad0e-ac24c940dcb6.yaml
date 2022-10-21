@@ -1,0 +1,23 @@
+fieldLayouts:
+  16ef1415-8834-46a5-b62e-dc0f7ef198c3:
+    tabs:
+      -
+        fields:
+          5a963a89-7fa0-4b36-a2a2-41b8c32576d0:
+            required: false
+            sortOrder: 1
+          bc7e7a7e-4f87-417f-ae4d-ee4d13d54c91:
+            required: false
+            sortOrder: 2
+        name: Common
+        sortOrder: 1
+handle: projectCategory
+name: 'Project Category'
+siteSettings:
+  1ca609a1-4ff3-4e3c-9780-72a3e090292b:
+    hasUrls: true
+    template: project-category/_category
+    uriFormat: 'project-category/{slug}'
+structure:
+  maxLevels: null
+  uid: bf223d46-0591-4ea2-bbc4-9e73d73d77f7

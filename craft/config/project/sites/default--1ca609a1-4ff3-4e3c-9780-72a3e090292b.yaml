@@ -1,0 +1,8 @@
+baseUrl: '@web/'
+handle: default
+hasUrls: true
+language: en-US
+name: Portfolio
+primary: true
+siteGroup: c0689416-79ae-4ca4-815a-d892be24323f
+sortOrder: 1

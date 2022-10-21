@@ -1,0 +1,32 @@
+dateModified: 1666201184
+email:
+  fromEmail: wfifer@gmail.com
+  fromName: Portfolio
+  transportType: craft\mail\transportadapters\Sendmail
+graphql:
+  publicToken:
+    enabled: false
+    expiryDate: null
+plugins:
+  element-api:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings: null
+  redactor:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 2.3.0
+    settings: null
+system:
+  edition: solo
+  live: true
+  name: Portfolio
+  schemaVersion: 3.7.33
+  timeZone: America/New_York
+users:
+  allowPublicRegistration: false
+  defaultGroup: null
+  photoSubpath: null
+  photoVolumeUid: null
+  requireEmailVerification: true

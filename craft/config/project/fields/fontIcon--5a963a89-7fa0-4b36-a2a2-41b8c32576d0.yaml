@@ -1,0 +1,16 @@
+contentColumnType: text
+fieldGroup: 1601ca5d-3aa7-42f2-a898-540bbb721690
+handle: fontIcon
+instructions: ''
+name: 'Font Icon'
+searchable: true
+settings:
+  charLimit: ''
+  code: ''
+  columnType: text
+  initialRows: '4'
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

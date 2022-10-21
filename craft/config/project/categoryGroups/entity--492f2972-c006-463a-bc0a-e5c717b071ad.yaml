@@ -1,0 +1,20 @@
+fieldLayouts:
+  3e70a6a8-9132-4444-8f9d-c8f7bb539fef:
+    tabs:
+      -
+        fields:
+          3017f74c-e2c5-4e6b-960e-c8296b8e86f1:
+            required: false
+            sortOrder: 1
+        name: Content
+        sortOrder: 1
+handle: entity
+name: Entity
+siteSettings:
+  1ca609a1-4ff3-4e3c-9780-72a3e090292b:
+    hasUrls: true
+    template: entity/_category
+    uriFormat: 'entity/{slug}'
+structure:
+  maxLevels: 1
+  uid: ed75a22a-57ca-4501-9529-4cd9bca26fbc

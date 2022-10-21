@@ -110,15 +110,21 @@ return [
 							'website' => $collab->website
 						];
 					}
+					$backgroundColor = '#ffffff';
+					if ($entry->backgroundColor) {
+						$backgroundColor = $entry->backgroundColor->getHex();
+					}
 					
 					return [
 						'title' => $entry->title,
 						'url' => $entry->url,
 						'heroImage' => $heroImage,
 						'heroBackground' => $heroBackground,
+						'backgroundColor' => $backgroundColor,
 						'thumbnail' => $thumbnail,
 						'entryId' => $entry->id,
 						'website' => $entry->website,
+						'app' => $entry->app,
 						'categories' => $categories,
 						'collaborators' => $collaborators,
 						'layers' => $layers,
