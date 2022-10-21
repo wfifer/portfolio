@@ -799,19 +799,6 @@ html {
 
         pointer-events: none;
 
-        &.-disabled {
-            .nav-item,
-            .btn-thumbnails {
-                opacity: 0.5;
-
-                @include hover {
-                    .button-icon {
-                        background: transparent !important;
-                    }
-                }
-            }
-        }
-
         .theme-selection,
         .btn-thumbnails,
         .btn-exit,

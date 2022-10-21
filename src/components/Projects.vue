@@ -25,11 +25,11 @@
 					</div>
 				</div> -->
 
-				<ButtonDefault class="btn-thumbnails" title="View all projects" icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
+				<ButtonDefault :disabled="!navActive" class="btn-thumbnails" title="View all projects" icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
 
-				<ButtonDefault class="btn nav-item nav-prev" :title="`Previous project: ${ prevProject.title }`" icon="arrow-left" @click.native="navActive ? navigate(-1) : null" />
+				<ButtonDefault :disabled="!navActive" class="btn nav-item nav-prev" :title="`Previous project: ${ prevProject.title }`" icon="arrow-left" @click.native="navActive ? navigate(-1) : null" />
 
-				<ButtonDefault class="btn nav-item nav-next" :title="`Next project: ${ nextProject.title }`" icon="arrow-right" @click.native="navActive ? navigate(1) : null" />
+				<ButtonDefault :disabled="!navActive" class="btn nav-item nav-next" :title="`Next project: ${ nextProject.title }`" icon="arrow-right" @click.native="navActive ? navigate(1) : null" />
 			</nav>
 
 			<div class="project-list">

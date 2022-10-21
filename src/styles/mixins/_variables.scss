@@ -148,6 +148,8 @@ $transition-spinner: 0.625s map-get($ease, out-quad);
     .portfolio:not(.-hide-hover) &:hover,
     .-show-focus &:focus,
     .-hide-hover &:active {
-        @content;
+        &:not([disabled]) {
+            @content;
+        }
     }
 }

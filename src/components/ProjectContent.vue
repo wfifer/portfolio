@@ -15,7 +15,8 @@
 						<div class="project-specs"
 							 v-if="project.client && Object.keys(project.client).length > 0
 							 || project.website && project.website.length > 0
-							 || project.collaborators && project.collaborators.length > 0">
+							 || project.app && project.app.length > 0
+							 || project.collaborators && project.collaborators.length > 0" :style="`--color-project: ${color}`">
 							<div class="project-spec" v-if="project.app && project.app.length > 0" aria-label="App">
 								<Icon :icon="['far', 'mobile-screen-button']" class="icon" title="App" />
 
@@ -128,7 +129,7 @@
 
 					<ul class="social-list list">
 						<li class="list-item">
-							<ButtonDefault target="_blank" tag="a" href="https://www.linkedin.com/in/will-fifer/" :reverse="true" class="btn" :icon="['fab', 'linkedin-in']" />
+							<ButtonDefault target="_blank" tag="a" href="https://www.linkedin.com/in/will-fifer/" class="btn" :icon="['fab', 'linkedin-in']" />
 						</li>
 
 						<!-- <li class="list-item">
@@ -136,7 +137,7 @@
 						</li> -->
 
 						<li class="list-item">
-							<ButtonDefault target="_blank" tag="a" href="mailto:wfifer@gmail.com" :reverse="true" class="btn" icon="envelope" />
+							<ButtonDefault target="_blank" tag="a" href="mailto:wfifer@gmail.com" class="btn" icon="envelope" />
 						</li>
 					</ul>
 				</footer>

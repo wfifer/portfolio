@@ -1,5 +1,5 @@
 <template>
-	<component :is="tag" class="button-default" :class="buttonClass" :type="isButton ? 'button' : null" :tabindex="tabindex" :aria-label="isButton ? title : null" :title="isButton ? null : title" :href="isButton ? null : href" :target="newTab && !isButton ? '_blank' : null">
+	<component :disabled="disabled" :is="tag" class="button-default" :class="buttonClass" :type="isButton ? 'button' : null" :tabindex="tabindex" :aria-label="isButton ? title : null" :title="isButton ? null : title" :href="isButton ? null : href" :target="newTab && !isButton ? '_blank' : null">
 		<div class="button-icon" :data-label="label">
 			<Icon :icon="icon" :style="getIconTransform" />
 
@@ -43,6 +43,10 @@ export default {
 		},
 		iconTransform: Object,
 		active: {
+			type: Boolean,
+			default: false
+		},
+		disabled: {
 			type: Boolean,
 			default: false
 		},

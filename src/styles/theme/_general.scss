@@ -1,7 +1,7 @@
 @import '../mixins/variables';
 
 html {
-    --color-bg--hsl: 0, 0%, 95%;
+    --color-bg--hsl: 0, 0%, 98%;
     --color-bg--highlight--hsl: 0, 0%, 90%;
     --color-fg--hsl: 0, 0%, 5%;
     --color-fg--highlight--hsl: 0, 0%, 10%;
@@ -29,8 +29,8 @@ html {
 
     --color-ui: hsl(var(--color-ui--hsl));
 
-    --color-content-bg: white;
-    --color-content-text: #444;
+    --color-content-bg: var(--color-bg);
+    --color-content-text: var(--color-text);
 
     --color-highlight: hsl(var(--color-highlight--hsl));
 

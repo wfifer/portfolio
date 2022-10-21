@@ -24,7 +24,7 @@
     }
 
     &.-with-label {
-        .portfolio:not(.-hide-hover) & {
+        .portfolio:not(.-hide-hover) &:not([disabled]) {
             .button-icon {
                 &::after {
                     content: attr(data-label);
@@ -100,6 +100,10 @@
         }
     }
 
+    &[disabled] {
+        opacity: 0.33;
+    }
+
     &::before {
         content: '';
 
@@ -117,20 +121,6 @@
         border-radius: 5rem;
 
         transition: all $transition;
-    }
-
-    &.-reverse {
-        .button-icon {
-            background: var(--color-bg);
-        }
-
-        @include hover {
-            .button-icon {
-                box-shadow: 0 0 0 2px var(--color-bg) inset;
-                background: transparent;
-                color: var(--color-bg);
-            }
-        }
     }
 
     &.-round {
@@ -168,23 +158,6 @@
         .fa-icon {
             width: auto;
             height: 60%;
-        }
-    }
-
-    &.-color-reverse {
-        .button-icon {
-            background: var(--color-ui);
-            color: var(--color-bg);
-            border: 2px solid var(--color-bg);
-        }
-
-        &:not(.-with-label) {
-            @include hover {
-                .button-icon {
-                    background: var(--color-bg);
-                    color: var(--color-ui);
-                }
-            }
         }
     }
 
