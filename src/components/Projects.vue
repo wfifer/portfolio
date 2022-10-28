@@ -1,29 +1,14 @@
 <template>
 	<section class="site-header" :class="headerClass" @mousemove="/*onMouseMove*/">
 		<Spinner :class="projects && projects.length > 0 ? '-loaded' : ''" :width="svg.width" :height="svg.height" :font-size="fontSize" />
-
+		
+		<!-- <v-touch style="height: 100%" @swipeup="navActive ? enterProject() : null" :swipe-options="{ direction: 'vertical' }"> -->
 		<transition name="fade">
 		<div class="inner" v-show="projects && projects.length > 0" :style="`--color-project-bg: ${projectBackgroundColor}`">
 			<img style="opacity: 0; visibility: hidden; position: absolute; z-index: -10; width: 1px" :src="projects && projects.length > 0 ? projects[0].heroImage.url : ''" @load="imageLoaded" />
 
 			<nav class="project-nav" :class="navActive ? null: '-disabled'">
-				<!-- <div class="theme-selection">
-					<label for="theme">
-						<Icon :icon="['far', 'paint-brush']" />
-					</label>
-					<div class="select">
-						<v-select 
-							@option:selected="setTheme" 
-							name="theme" 
-							id="theme" 
-							aria-label="Color scheme (accessibility)" 
-							:value="themeOptions.find(t => t.value === theme)"
-							:options="themeOptions"
-							:components="{OpenIndicator}"
-							:clearable="false"
-						></v-select>
-					</div>
-				</div> -->
+				<ButtonDefault :disabled="!navActive" class="btn-home" title="Home" :icon="['far', 'house']" @click.native="navActive ? goToProject(projects[0].entryId) : null" />
 
 				<ButtonDefault :disabled="!navActive" class="btn-thumbnails" title="View all projects" icon="list" @click.native="navActive ? showCategory(categoryAll) : null" />
 
@@ -56,16 +41,6 @@
 						<div class="svg-container">
 							<div class="mask-svg">
 								<div class="svg-inner" :style="selectedProject !== null ? `transform: translateY(${ bannerTranslateY }%) translateZ(0);` : null">
-									<!-- <svg class="svg hero-image-svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve" tabindex="-1">
-										<filter id="desaturate">
-											<feColorMatrix in="SourceGraphic" type="multiply" values="0" />
-										</filter>
-
-										<g class="project-hero">
-											<image :width="svgImage(project.heroImage).width" :height="svgImage(project.heroImage).height" style="overflow:visible;" :xlink:href="project.heroImage.url" :x="svgImage(project.heroImage).x" :y="svgImage(project.heroImage).y"></image>
-										</g>
-									</svg> -->
-
 									<svg class="svg" x="0px" y="0px" :viewBox="`0 0 ${ svg.width } ${ svg.height }`" :style="`enable-background: new 0 0 ${ svg.width } ${ svg.height };`" xml:space="preserve" tabindex="-1">
 								 		<defs>
 											<linearGradient :id="`gradient-bg-${ index }`" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -88,17 +63,7 @@
 										</defs>
 
 										<g :style="`clip-path: url(#text-clip-${ index }); mask: url(#text-mask-${ index });`" class="svg-clipped">
-											<!-- <rect x="0" y="0" :width="svg.width" :height="svg.height" style="fill: white" class="gradient-backdrop" /> -->
-
 											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" r="1600" :style="`fill: url(#gradient-bg-${ index });`" />
-
-											<!-- <g>
-												<g class="project-hero">
-													<image filter="url(#desaturate)" :width="svgImage(project.heroImage).width" :height="svgImage(project.heroImage).height" style="overflow:visible;" :xlink:href="project.heroImage.url" :x="svgImage(project.heroImage).x" :y="svgImage(project.heroImage).y"></image>
-												</g>
-											</g> -->
-
-											<circle class="gradient-overlay" :cx="svg.width / 2" :cy="svg.height / 2" r="1600" :style="`fill: url(#gradient-bg-${ index }); mix-blend-mode: hue; opacity: 0.5;`" />
 										</g>
 									</svg>
 								</div>
@@ -109,7 +74,7 @@
 					<div class="project-info">
 						<h3 v-if="index == 0" class="project-subtitle">Hi, my name is</h3>
 
-						<h2 class="project-title">{{ index === 0 && selectedProject === null ? categoryTitle : project.title }}</h2>
+						<h2 class="project-title"><ScrambledText :text="index === 0 && selectedProject === null ? categoryTitle : project.title" /></h2>
 
 						<div class="project-tools">
 							<!-- <div class="label">{{ index === 0 ? 'Like' : 'Tags' }}</div> -->
@@ -135,6 +100,7 @@
 			</div>
 		</div>
 		</transition>
+		<!-- </v-touch> -->
 	</section>
 </template>
 
@@ -145,6 +111,7 @@ import Spinner from '@/components/Spinner';
 import Icon from '@/components/Icon';
 import CategoryButtons from '@/components/CategoryButtons';
 import ButtonDefault from '@/components/ButtonDefault';
+import ScrambledText from '@/components/ScrambledText';
 
 export default {
 	name: 'Projects',
@@ -152,7 +119,8 @@ export default {
 		Spinner,
 		CategoryButtons,
 		ButtonDefault,
-		Icon
+		Icon,
+		ScrambledText
 	},
 	props: {
 		setTheme: Function,
@@ -304,6 +272,7 @@ export default {
 		},
 		...mapActions([
 			'navigateProjects',
+			'goToProject',
 			'getProjects',
 			'showCategory',
 			'enterProject',

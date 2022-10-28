@@ -35,7 +35,8 @@ import {
     faBrowser,
     faBuilding,
     faPanFood,
-    faMobileScreenButton
+    faMobileScreenButton,
+    faHouse
 } from '@fortawesome/pro-regular-svg-icons';
 import { faBehance, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -71,7 +72,8 @@ library.add(
     faBrowser,
     faBuilding,
     faPanFood,
-    faMobileScreenButton
+    faMobileScreenButton,
+    faHouse
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
